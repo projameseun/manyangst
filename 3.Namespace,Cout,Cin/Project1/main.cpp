@@ -125,7 +125,8 @@ int main()
 
 	std::cout << "cName ==> " << cName << std::endl;
 
-	//std::cin.ignore(256, '\n');
+	//std::cin.ignore(256, '\n');  개행문자나 공백문자가 입력 버퍼에 남아있을수 있는데 이걸 지운다 
+	//std::cin.ignore(); 한 문자를 읽어서 제거한다.
 	
 
 	std::cout << "<=================>" << std::endl;
