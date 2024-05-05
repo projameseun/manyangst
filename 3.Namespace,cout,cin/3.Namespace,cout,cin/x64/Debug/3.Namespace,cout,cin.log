@@ -1,0 +1,4 @@
+﻿  main.cpp
+D:\c++Study\manyangst\3.Namespace,cout,cin\3.Namespace,cout,cin\main.cpp(183,48): warning C4311: '형식 캐스트': 'const char *'에서 'int'(으)로 포인터가 잘립니다.
+D:\c++Study\manyangst\3.Namespace,cout,cin\3.Namespace,cout,cin\main.cpp(183,48): warning C4302: '형식 캐스트': 'const char *'에서 'int'(으)로 잘립니다.
+  3.Namespace,cout,cin.vcxproj -> D:\c++Study\manyangst\3.Namespace,cout,cin\x64\Debug\3.Namespace,cout,cin.exe

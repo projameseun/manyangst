@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 /*
 	namespace란
@@ -65,7 +66,28 @@
 	istream 라이브러리에 속한 cin.getline()
 	string 라이브러리에 속한 getline()
 
+	istream에속한 getline()함수는 문자열 버퍼(char배열)로 읽어 들인다
+	string에속한 getline()함수는 문자열로 저장한다.
 
+	문자열 과 문자열버퍼의 차이점..
+	string같은경우에는 동적으로 크기가 조절되는 문자열
+	문자열 버퍼같은경우에는 크기가 정적으로 정해져있다. 선언할때 크기를 정확히 지정해주어야 한다.
+
+	결론적으로 
+	문자열은 동적을 크기가 조절되는 문자열을 표현하고
+	문자열버퍼는 정적으로 크기가 고정된 문자열 나타낸다.
+
+
+	리터럴이란?
+	소스코드의 고정된 값을 나태는 표기법이다.
+	거의 모든 프로그래밍 언어는 정수,부동소수점,숫자,문자열,bool의 자료형과 같은 기본적인 값에 대한 표기법이다.
+
+	 a 문자 리터럴
+	'abcd' 다중문자 리터럴
+	"abcd" 문자열 리터럴
+	'a'와 같이 ' '로 한 문자를 표현 것의 자료형은 char이다.
+	"abcd" 와 같이 " " 로 여러 문자를 표현것의 자료형은 const char*이다.
+	
 
 */
 
@@ -75,6 +97,7 @@ namespace Bard
 	int iMP = 12333;
 	char cSkill[25] = "";
 
+	
 	void Info()
 	{
 		std::cout << "저의 직업은 바드입니다." << std::endl;
@@ -92,6 +115,7 @@ namespace Bard
 
 int main()
 {
+	
 	int iNumber = 0;
 	float fNumber = 0.f;
 
@@ -107,29 +131,29 @@ int main()
 
 	//입력..
 
-	std::cin >> iNumber;
+	//std::cin >> iNumber;
 
-	std::cout << "iNumber ==> " << iNumber << std::endl;
+	//std::cout << "iNumber ==> " << iNumber << std::endl;
 
-	std::cin.ignore(256, '\n');
+	//std::cin.ignore(256, '\n');
 
-	char cName[25] = "";
+	char cName[25] = ""; //값의 크기를 미리 정하는 방식
 
 
 
 	//std::cin >> cName;
 
 
-	std::cin.getline(cName, 25);
+	//std::cin.getline(cName, 25);
+	//std::getline(std::cin, sName);
 
-
-	std::cout << "cName ==> " << cName << std::endl;
+	//std::cout << "cName ==> " << cName << std::endl;
 
 	//std::cin.ignore(256, '\n');  개행문자나 공백문자가 입력 버퍼에 남아있을수 있는데 이걸 지운다 
 	//std::cin.ignore(); 한 문자를 읽어서 제거한다.
 
 
-	std::cout << "<=================>" << std::endl;
+	//std::cout << "<=================>" << std::endl;
 
 
 	char cSkill[25] = "";
@@ -138,6 +162,36 @@ int main()
 	std::cout << "스킬을 입력해주세요:" << std::endl;
 	std::cin >> cSkill;
 	Bard::cout(cSkill);
+
+	char c[] = "";  //값의 크기가 사용자가 값을 입력했을때 정해지는
+
+	std::cout << c << std::endl;
+	
+	//std::string sName = "";
+
+	//std::getline(std::cin, sName);
+
+	//std::cin.ignore();
+
+
+	//std::cout << "sName :" << sName << std::endl;
+
+	//char* pName 는 예전에는 오류가 나지 않앗어 근데 이게 아주 치명적이야 test라는건 리터럴이야 ...
+	//코드영역 결국은 런타임에서 수정하면 에러가 발생한다 치명적인것이다. 그러므로 visual에서 버전이 업글 되면서 이부분을 const붙이지 않으면 에러가 나게 된것이다.
+	const char* pName = "test";
+	
+	std::cout << "pName에 주소 " << (int)pName << std::endl; //문자열 주소를 int로 변환하는방법
+	std::cout << sizeof(pName) << std::endl;
+	std::cout << *(pName + 2) << std::endl;
+
+	pName = "ffff";
+
+	std::cout << "pName에 주소 " << (int)pName << std::endl; //문자열 주소를 int로 변환하는방법
+	std::cout << sizeof(pName) << std::endl;
+	std::cout << *(pName + 2) << std::endl;
+	
+	 
+	
 
 
 	return 0;
