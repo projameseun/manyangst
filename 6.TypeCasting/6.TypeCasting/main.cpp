@@ -52,8 +52,8 @@ int main()
 	//const_cast
 	//상수성을 변경할때 사용한다 포인터나 참조(레펀런스)를 통해서 사용함
 
-	const int conValue = 100;
-	const int* ptr = &conValue;
+	const volatile int conValue = 100;
+	const volatile int* ptr = &conValue;
 	
 	int* ptr2 = const_cast<int*>(ptr);
 	
