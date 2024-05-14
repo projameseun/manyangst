@@ -1,7 +1,7 @@
 #include <iostream>
 
 #define MAXHP 10000
-
+#define ASPITO 1.6655
 
 
 
@@ -31,9 +31,30 @@ int main()
 
 	dNumber = 1.7444;
 
-	const int conValue = 0;
-
 	
+
+	//1. const 위치가 맨 앞에 있으면 포인터 변수가 가리키는 값에 대하여 상수화를 시키는 경우 이다.
+
+	int iNum = 100;
+
+	const  int* ptr= &iNum;
+	
+	//*ptr = 200; 값이 변깅이 안된다
+
+	iNum = 300;
+
+	//2. const 위치가 type과 변수 이름 사이에 있으면서 포인터 변수 자체를 상수화 시키는 경우 이다.
+
+	int iNum2 = 1100;
+
+	int* const ptr2 = &iNum2; //ptr2주소를 상수화 
+
+	//ptr2 = &iNum;
+	
+	const int* const ptr3 = &iNum; //값과 주소를 모두 상수화 
+
+
+
 	
 	
 
