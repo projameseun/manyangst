@@ -13,7 +13,10 @@ int main()
 	int iMax = 1000;
 	int iAttack = 0;
 
-	iAttack = rand() % 500 + 500;
+
+	iAttack = rand() % (1000- 500 +1) + 500;
+	
+	//iAttack = rand() % 500 + 500;
 
 	std::cout << "데미지 :" << iAttack << std::endl;
 	std::cout << "최소데미지 :" << iMin << std::endl;
