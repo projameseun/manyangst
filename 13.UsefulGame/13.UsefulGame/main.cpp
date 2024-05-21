@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <Windows.h>
+#include <conio.h>
 
 
 //구조체..
@@ -13,11 +14,55 @@ typedef float MyFloat;
 //구조체라는게 있는데 구조체를 편하게 사용하기 위해서이다.
 
 
+//키보드
+enum class Key
+{
+	UP = 72,
+	DOWN = 80,
+	LEFT = 75,
+	RIGHT = 77,
+	ENTER = 13,
+	ESC = 27,
+};
+
+//비동기방식키보드
+
+enum class KeyWASD
+{
+	W = 87,
+	A = 65,
+	S = 83,
+	D = 68,
+	ESC = 27,
+};
+
+
+
+//UP키 아스키코드 값 = 72;
+//DOWN키 아스키 코드 값 = 80;
+//LEFT키 아스키 코드 값 = 75;
+//RIGHT키 아스키 코드 값 = 77;
+//출처: https://dev-with-precious-dreams.tistory.com/7 [더 가치있는 나를 위해. Almost there "dev":티스토리]
+
+
 void gotoxy(int x, int y)
 {
 	COORD _pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), _pos);
+
 	
+	
+}
+
+
+void Clear()
+{
+	system("cls");
+}
+
+void Pause()
+{
+	system("pause");
 }
 
 typedef struct _Student
@@ -49,55 +94,55 @@ int main()
 		
 	*/
 	
-	for (int i = 0; i < 10; ++i)
-	{
-		std::cout << i << std::endl;
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	std::cout << i << std::endl;
 
-		std::cout << i << std::endl;
-		std::cout << i << std::endl;
+	//	std::cout << i << std::endl;
+	//	std::cout << i << std::endl;
 
-		std::cout << i << std::endl;
-		std::cout << i << std::endl;
-		Sleep(100);
-	}
+	//	std::cout << i << std::endl;
+	//	std::cout << i << std::endl;
+	//	Sleep(100);
+	//}
 
 	
-	gotoxy(50, 5);
-	std::cout << "로그인 중입니다....";
-	Sleep(1000);
+	//gotoxy(50, 5);
+	//std::cout << "로그인 중입니다....";
+	//Sleep(1000);
 
-	//Sleep함수와 gotoxy를 이용하여 역동적인걸 만들어보자.
-	for (int i = 0; i < 5; ++i)
-	{
-		system("cls");
+	////Sleep함수와 gotoxy를 이용하여 역동적인걸 만들어보자.
+	//for (int i = 0; i < 5; ++i)
+	//{
+	//	system("cls");
 
-		gotoxy(50, 7);
-	
-		if (i == 0)
-		{
-			std::cout << "■□□□□";
-		}
-		else if (i == 1)
-		{
-			std::cout << "■■□□□";
-		}
-		else if (i == 2)
-		{
-			std::cout << "■■■□□";
-		}
-		else if (i == 3)
-		{
-			std::cout << "■■■■□";
-		}
-		else if (i == 4)
-		{
-			std::cout << "■■■■■";
-		}
+	//	gotoxy(50, 7);
+	//
+	//	if (i == 0)
+	//	{
+	//		std::cout << "■□□□□";
+	//	}
+	//	else if (i == 1)
+	//	{
+	//		std::cout << "■■□□□";
+	//	}
+	//	else if (i == 2)
+	//	{
+	//		std::cout << "■■■□□";
+	//	}
+	//	else if (i == 3)
+	//	{
+	//		std::cout << "■■■■□";
+	//	}
+	//	else if (i == 4)
+	//	{
+	//		std::cout << "■■■■■";
+	//	}
 
-		Sleep(1000);
+	//	Sleep(1000);
 
 
-	}
+	//}
 
 	//콘솔에서 색깔표현하는거 
 	//첫번째 인자는 핸들을 꼭 얻어야되서 GetstdHandle(STD_OUTPUT_HANDLE)를 꼭 넣어주기
@@ -129,8 +174,98 @@ int main()
 	//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
 	//std::cout << "색깔 확인해 볼까요?" << std::endl;
 
+	//키보드를 움직이다....
 	
+	
+	Clear();
 
+	int iStart = 1;
+
+	int iXpos = 1;
+	int iYpos = 1;
+
+	gotoxy(iXpos, iYpos);
+	
+	while (iStart)
+	{
+		//_kbhit()함수는 키가 눌렀느지 체크를 해준다 만약에 키를 눌르지 않으면 0이 들어가게 되고
+		//키를 만약에 눌렀을 경우 0이외의 값을 리턴한다.
+		
+		//if (_kbhit())
+		//{
+		//	char c = _getch();	//키보드로 하나의 키를 입력받는 함수이다. 아스키코드값을 반환한다.
+
+
+		//	switch (c)
+		//	{
+		//	case (int)Key::UP:
+		//		std::cout << "UP 키를 입력하였습니다" << std::endl;
+		//		break;
+		//	case (int)Key::DOWN:
+		//		std::cout << "DOWN 키를 입력하였습니다" << std::endl;
+		//		break;
+		//	case (int)Key::LEFT:
+		//		std::cout << "LEFT 키를 입력하였습니다" << std::endl;
+		//		break;
+		//	case (int)Key::RIGHT:
+		//		std::cout << "RIGTH 키를 입력하였습니다" << std::endl;
+		//		break;
+		//	case (int)Key::ENTER:
+		//		std::cout << "ENTER 키를 입력하였습니다" << std::endl;
+		//		break;
+		//	case (int)Key::ESC:
+		//	{
+		//		std::cout << "ESC 키를 입력하였습니다" << std::endl;
+		//		std::cout << "게임종료" << std::endl;
+		//		iStart = 0;
+		//	}
+		//		
+		//		
+		//		break;
+		//
+		//	}
+		//	
+		//	Sleep(500);
+		//	
+		//}
+
+
+		if (GetAsyncKeyState((int)KeyWASD::W) & 0x8000)
+		{
+			iYpos--;
+		}
+		else if (GetAsyncKeyState((int)KeyWASD::S) & 0x8000)
+		{
+			iYpos++;
+		}
+		else if (GetAsyncKeyState((int)KeyWASD::D) & 0x8000)
+		{
+			iXpos++;
+
+		}
+		else if (GetAsyncKeyState((int)KeyWASD::A) & 0x8000)
+		{
+			iXpos--;
+		}
+		else if (GetAsyncKeyState((int)KeyWASD::ESC) & 0x8000)
+		{
+			iStart = 0;//종료 
+			std::cout << std::endl;
+			
+			break;
+		}
+		
+		Clear();
+
+		gotoxy(iXpos, iYpos);
+
+		std::cout << "★";
+		
+	}
+	
+	Clear();
+	std::cout << "수고 하셨습니다 Enter를 누르면 게임이 종료 됩니다" << std::endl;
+	Pause();
 
 
 	return 0;
