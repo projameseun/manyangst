@@ -1,5 +1,2 @@
-﻿  main.cpp
-D:\c++Study\manyangst\18.Array\18.Array\main.cpp(42,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\c++Study\manyangst\18.Array\18.Array\main.cpp(47,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\c++Study\manyangst\18.Array\18.Array\main.cpp(16,6): warning C4101: 'iStudent' :참조되지 않은 지역 변수입니다.
+﻿  main3.cpp
   18.Array.vcxproj -> D:\c++Study\manyangst\18.Array\Debug\18.Array.exe

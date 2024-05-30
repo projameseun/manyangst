@@ -1,4 +1,13 @@
 #include <iostream>
+#include <time.h>
+#include <algorithm>
+
+bool iCompare(int a, int b)
+{
+	return a > b;  //오름차순
+	//return a > b;  //내림차순
+
+}
 
 int main()
 {
@@ -48,6 +57,90 @@ int main()
 	{
 		std::cout << "iArray[";
 		std::cout << i << "] " << iAraay[i] << std::endl;
+	}
+
+	float fArray[100] = { 0.f };
+
+	std::cout << "fArray : " << sizeof(fArray) << std::endl;
+
+
+	//문자열 배열
+	char data[6] = { 'H','A','P','P' ,'Y' }; //문자열의끝은 NULL,0으로 표기한다 그래야 컴파일러가 이 배열에 저장된 정보는 문자열이라는것을 알수 있다.
+
+	char data2[6] = "Happy";
+
+	char data3[25] = "안녕하세요"; //한글은 2바이트 영어느 1바이트
+
+	std::cout << data << std::endl;
+	std::cout << data2 << std::endl;
+	std::cout << data3 << std::endl;
+
+	system("cls");
+
+	//로또 프로그램
+	//1~45사이의 숫자중 랜던함 6개의 숫자를 가져온다.
+	//값이 중복되면 안된다.
+	//오름차순,내림차순 
+
+	iSize = 0;
+
+	int iLotto[45] = {};
+
+	iSize = sizeof(iLotto) / sizeof(int);
+
+	for (int i = 0; i < iSize; ++i)
+	{
+		iLotto[i] = i + 1;
+	}
+
+	srand(static_cast<unsigned int>(time(NULL)));
+	
+	int iTemp, idx1, idx2 = 0;
+
+	//Shuffle
+	for (int i = 0; i < 1000; ++i)
+	{
+		idx1 = rand() % 45;
+		idx2 = rand() % 45;
+
+		iTemp = iLotto[idx1];
+		iLotto[idx1] = iLotto[idx2];
+		iLotto[idx2] = iTemp;
+
+	}
+
+	/*for (int i = 0; i < iSize; ++i)
+	{
+		std::cout <<" iLotto[ " << i+1 << "]  " << iLotto[i] << std::endl;
+	}*/
+
+
+	//STL(standard 라이브러리)
+
+	//std::sort(iLotto, iLotto + 6);
+	std::sort(iLotto, iLotto + 6, iCompare);
+
+	//오름차순 내림차순
+	
+	/*for (int i = 0; i < 5; ++i)
+	{
+		for (int j = i + 1; j < 6; ++j)
+		{
+			if (iLotto[i] > iLotto[j])
+			{
+				iTemp = iLotto[i];
+				iLotto[i] = iLotto[j];
+				iLotto[j] = iTemp;
+			}
+		}
+	}*/
+	
+
+
+	
+	for (int i = 0; i < 6; ++i)
+	{
+		std::cout << iLotto[i] << std::endl;
 	}
 
 	//다음시간에 로또게임, 빙고게임 ...
