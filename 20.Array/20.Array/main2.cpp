@@ -20,6 +20,26 @@ enum class AIMODE
 	HARD,
 };
 
+enum class LN_NUMBER
+{
+	LN_W1,
+	LN_W2,
+	LN_W3,
+	LN_W4,
+	LN_W5,
+
+	LN_H1,
+	LN_H2,
+	LN_H3,
+	LN_H4,
+	LN_H5,
+
+	LN_LD,	//왼대
+	LN_RD,	//오대
+
+
+};
+
 void Init()
 {
 	for (int i = 0; i < 25; ++i)
@@ -119,6 +139,146 @@ void BingoEnd()
 	}
 
 
+}
+
+void AICheck()
+{
+	//하드모드
+	int iChecCount = 0;
+	int iSaveCount = 0;
+	int iLine = 0;
+
+	//가줄체크
+	for (int i = 0; i < 5; ++i)
+	{
+		iChecCount = 0;
+		for (int j = 0; j < 5; ++j)
+		{
+			if (iAI[i * 5 + j] == INT_MAX)
+			{
+				++iChecCount;
+			}
+		}//for (int j = 0; j < 5; ++j)
+
+		if (iChecCount < 5 && iSaveCount < iChecCount)
+		{
+			iLine = i;
+			iSaveCount = iChecCount;
+		}
+	}
+
+	//세로줄체크
+	for (int i = 0; i < 5; ++i)
+	{
+		iChecCount = 0;
+		for (int j = 0; j < 5; ++j)
+		{
+			if (iAI[j * 5 + i] == INT_MAX)
+			{
+				++iChecCount;
+			}
+		}//for (int j = 0; j < 5; ++j)
+
+		if (iChecCount < 5 && iSaveCount < iChecCount)
+		{
+			iLine = i + 5;
+			iSaveCount = iChecCount;
+		}
+	}
+
+	iChecCount = 0;
+	//왼대
+
+	for (int i = 0; i < 25; i+= 6)
+	{
+		if (iAI[i] == INT_MAX)
+		{
+			++iChecCount;
+		}
+	}
+
+	if (iChecCount < 5 && iSaveCount < iChecCount)
+	{
+		iLine = (int)LN_NUMBER::LN_LD;
+		iSaveCount = iChecCount;
+	}
+
+	//오대
+	iChecCount = 0;
+
+	for (int i = 4; i <= 20; i += 4)
+	{
+		if (iAI[i] == INT_MAX)
+		{
+			++iChecCount;
+		}
+	}
+
+	if (iChecCount < 5 && iSaveCount < iChecCount)
+	{
+		iLine = (int)LN_NUMBER::LN_RD;
+		iSaveCount = iChecCount;
+	}
+
+
+	//여기까지 온건 가장 체크가 많이 된 라인을 알게 된것이다.
+	if (iLine <= (int)LN_NUMBER::LN_W5)
+	{
+		for (int i = 0; i < 5; ++i)
+		{
+			if (iAI[iLine * 5 + i] != INT_MAX)
+			{
+				iInput = iAI[iLine * 5 + i];
+			}
+		}
+	}
+	
+
+	else if (iLine <= (int)LN_NUMBER::LN_H5)
+	{
+		for (int i = 0; i < 5; ++i)
+		{
+			//5 6 7 8 9 
+			if (iAI[i * 5 +(iLine -5)] != INT_MAX)
+			{
+				iInput = iAI[i * 5 + (iLine - 5)];
+			}
+		}
+	}
+	else if (iLine == (int)LN_NUMBER::LN_LD)
+	{
+		for (int i = 0; i < 25; i += 6)
+		{
+			if (iAI[i] != INT_MAX)
+			{
+				iInput = iAI[i];
+			}
+		}
+	}
+	else if (iLine == (int)LN_NUMBER::LN_RD)
+	{
+		for (int i = 4; i <= 20; i += 4)
+		{
+			if (iAI[i] != INT_MAX)
+			{
+				iInput = iAI[i];
+			}
+		}
+	}
+
+	//플레이어와 AI에게 INT_MAX를 넣어주면 끝
+	for (int i = 0; i < 25; ++i)
+	{
+		if (iAI[i] == iInput)
+		{
+			iAI[i] = INT_MAX;
+		}
+		if (iPlayer[i] == iInput)
+		{
+			iPlayer[i] = INT_MAX;
+		}
+	}
+	
 }
 
 void BingoCheck()
@@ -397,7 +557,10 @@ void GameUpdate()
 			bAcc = InputNumber(bAcc);
 			break;
 		case AIMODE::HARD:
+		
 
+			AICheck();
+		
 			break;
 		default:
 			break;
@@ -413,6 +576,8 @@ void GameUpdate()
 
 		break;
 	}
+
+	BingoCheck();
 }
 
 
@@ -434,7 +599,7 @@ void GameStart()
 
 			int a = 0;
 			//check
-			BingoCheck();
+			
 		}
 		
 
