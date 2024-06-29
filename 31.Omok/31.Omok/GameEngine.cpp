@@ -60,13 +60,15 @@ void GameEngine::GameInit()
 
 	StoneInit();	//µπ √ ±‚»≠
 
+	
+
 }
 
 void GameEngine::StoneInit()
 {
 	for (int i = 0; i < 19; ++i)
 	{
-		for (int j = 0; j < 19; ++j)
+		for (int j = 0; j < 39; ++j)
 		{
 			m_GridType[i][j].m_Type = 0;
 		}
@@ -94,6 +96,8 @@ void GameEngine::GameStart(HANDLE handle, INPUT_RECORD*pRecord, DWORD NumRe)
 
 		
 		m_MSRecord = GameUpdate(handle, pRecord, NumRe);
+
+		int a = 0;
 	}
 }
 
@@ -109,15 +113,16 @@ void GameEngine::GameRender(MOUSE_EVENT_RECORD MSenvet)
 			{
 
 				m_GridType[MSenvet.dwMousePosition.Y][MSenvet.dwMousePosition.X].m_Type = 1;
-				std::cout << "°‹";
-				gotoxy(13, 13);
+				std::cout << "°€";
+				//gotoxy(13, 13);
 				//std::cout << "Mouse Move to ( " << MSenvet.dwMousePosition.X << " , " << MSenvet.dwMousePosition.Y << ")";
 				m_Black = !m_Black;
 			}
 			else if (m_Black == false) //πÈµπ
 			{
 				m_GridType[MSenvet.dwMousePosition.Y][MSenvet.dwMousePosition.X].m_Type = 2;
-				std::cout << "°€";
+
+				std::cout << "°‹";
 				//std::cout << "Mouse Move to ( " << MSenvet.dwMousePosition.X << " , " << MSenvet.dwMousePosition.Y << ")";
 				m_Black = !m_Black;
 			}
@@ -148,11 +153,11 @@ MOUSE_EVENT_RECORD GameEngine::GameUpdate(HANDLE handle, INPUT_RECORD *pRecord, 
 			return pRecord[i].Event.MouseEvent;
 		}
 			
+		return pRecord[i].Event.MouseEvent;
 		
-
 	}
 
-
+	
 	
 	 
 }
@@ -162,7 +167,48 @@ MOUSE_EVENT_RECORD GameEngine::GameUpdate(HANDLE handle, INPUT_RECORD *pRecord, 
 
 void GameEngine::JugMenet()
 {
-		
+	gotoxy(22, 22);
+	for (int i = 0; i < 19; i++)
+	{
+		for(int j=0; j<38; j+=2)
+		{
+			//ºº∑Œ
+			if ((m_GridType[i][j].m_Type == 1)&&
+				(m_GridType[i + 1 ][j].m_Type == 1 )&&
+				(m_GridType[i + 2][j].m_Type == 1)&&
+				(m_GridType[i + 3][j].m_Type == 1)&&
+				(m_GridType[i + 4][j].m_Type == 1))
+			{
+				std::cout << "»Êµπ Ω¬∏Æ";
+			}
+			//∞°∑Œ
+			if ((m_GridType[i][j].m_Type == 1) &&
+				(m_GridType[i][j + 2].m_Type == 1) &&
+				(m_GridType[i][j + 4].m_Type == 1) &&
+				(m_GridType[i][j + 6].m_Type == 1) &&
+				(m_GridType[i][j + 8].m_Type == 1))
+			{
+				std::cout << "»Êµπ Ω¬∏Æ";
+			}
+
+			if ((m_GridType[i][j].m_Type == 1) &&
+				(m_GridType[i+1][j + 2].m_Type == 1) &&
+				(m_GridType[i+2][j + 4].m_Type == 1) &&
+				(m_GridType[i+3][j + 6].m_Type == 1) &&
+				(m_GridType[i+4][j + 8].m_Type == 1))
+			{
+				std::cout << "»Êµπ Ω¬∏Æ";
+			}
+			if ((m_GridType[i][j].m_Type == 1) &&
+				(m_GridType[i - 1][j + 2].m_Type == 1) &&
+				(m_GridType[i - 2][j + 4].m_Type == 1) &&
+				(m_GridType[i - 3][j + 6].m_Type == 1) &&
+				(m_GridType[i - 4][j + 8].m_Type == 1))
+			{
+				std::cout << "»Êµπ Ω¬∏Æ";
+			}
+		}
+	}
 }
 
 

@@ -10,11 +10,11 @@ public:
 	int m_Colum;
 	int m_Row;
 	Om* m_Om;
-	MOUSE_EVENT_RECORD m_MSRecord;
+	MOUSE_EVENT_RECORD	 m_MSRecord;
 	bool m_Black;
 
 public:
-	Stone m_GridType[19][19];
+	Stone m_GridType[19][39];  // yx
 
 
 public:
