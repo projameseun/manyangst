@@ -1,4 +1,5 @@
 #include "Om.h"
+#include "Stone.h"
 
 
 void Om::OmokMap(int colum, int row)
@@ -11,7 +12,7 @@ void Om::OmokMap(int colum, int row)
 
     // std::string a = "¦¦";
 
-
+    
 
 
     for (i = 1; i < 12; i++)
@@ -64,3 +65,5 @@ void Om::OmokMap(int colum, int row)
     printf("\n");
 
 }
+
+

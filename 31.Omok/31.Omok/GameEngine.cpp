@@ -24,6 +24,9 @@ MOUSE_EVENT_RECORD GameEngine::PrcesssMouseEvent(MOUSE_EVENT_RECORD mevent)
 	{
 		if (mevent.dwButtonState & FROM_LEFT_1ST_BUTTON_PRESSED)
 		{
+
+			//타입넣어주기
+		
 			GameRender(mevent);
 			/*std::cout << "Mouse Left Button Pressed" << std::endl; \
 				std::cout << "Mouse Move to ( " << mevent.dwMousePosition.X << " , " << mevent.dwMousePosition.Y << ")" << std::endl;*/
@@ -55,6 +58,19 @@ void GameEngine::GameInit()
 	m_Row = 19;
 	m_Black = true;		//true 흑돌 , false 백돌
 
+	StoneInit();	//돌 초기화
+
+}
+
+void GameEngine::StoneInit()
+{
+	for (int i = 0; i < 19; ++i)
+	{
+		for (int j = 0; j < 19; ++j)
+		{
+			m_GridType[i][j].m_Type = 0;
+		}
+	}
 }
 
 void GameEngine::GameStart(HANDLE handle, INPUT_RECORD*pRecord, DWORD NumRe)
@@ -86,25 +102,35 @@ void GameEngine::GameRender(MOUSE_EVENT_RECORD MSenvet)
 	if (MSenvet.dwMousePosition.X % 2 == 0 || MSenvet.dwMousePosition.X  == 0)
 	{
 		gotoxy(MSenvet.dwMousePosition.X, MSenvet.dwMousePosition.Y);
-		if (m_Black == true) //흑돌
-		{
 
-
-			std::cout << "●";
-			gotoxy(13, 13);
-			//std::cout << "Mouse Move to ( " << MSenvet.dwMousePosition.X << " , " << MSenvet.dwMousePosition.Y << ")";
-			m_Black = !m_Black;
-		}
-		else if (m_Black == false) //백돌
+		if (m_GridType[MSenvet.dwMousePosition.Y][MSenvet.dwMousePosition.X].m_Type == 0)
 		{
-			std::cout << "○";
-			//std::cout << "Mouse Move to ( " << MSenvet.dwMousePosition.X << " , " << MSenvet.dwMousePosition.Y << ")";
-			m_Black = !m_Black;
+			if (m_Black == true) //흑돌
+			{
+
+				m_GridType[MSenvet.dwMousePosition.Y][MSenvet.dwMousePosition.X].m_Type = 1;
+				std::cout << "●";
+				gotoxy(13, 13);
+				//std::cout << "Mouse Move to ( " << MSenvet.dwMousePosition.X << " , " << MSenvet.dwMousePosition.Y << ")";
+				m_Black = !m_Black;
+			}
+			else if (m_Black == false) //백돌
+			{
+				m_GridType[MSenvet.dwMousePosition.Y][MSenvet.dwMousePosition.X].m_Type = 2;
+				std::cout << "○";
+				//std::cout << "Mouse Move to ( " << MSenvet.dwMousePosition.X << " , " << MSenvet.dwMousePosition.Y << ")";
+				m_Black = !m_Black;
+			}
 		}
+
+		
 	}
 	
-	
+	//JugMent
+	JugMenet();
 		
+
+
 }
 
 MOUSE_EVENT_RECORD GameEngine::GameUpdate(HANDLE handle, INPUT_RECORD *pRecord, DWORD NumRe)
@@ -126,8 +152,19 @@ MOUSE_EVENT_RECORD GameEngine::GameUpdate(HANDLE handle, INPUT_RECORD *pRecord, 
 
 	}
 
+
+	
 	 
 }
+
+
+
+
+void GameEngine::JugMenet()
+{
+		
+}
+
 
 
 
