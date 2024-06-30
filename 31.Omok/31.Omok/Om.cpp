@@ -1,5 +1,5 @@
 #include "Om.h"
-#include "Stone.h"
+
 
 
 void Om::OmokMap(int colum, int row)

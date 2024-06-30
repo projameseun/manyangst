@@ -24,18 +24,12 @@
     <ClCompile Include="GameEngine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Stone.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Om.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameEngine.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Stone.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
