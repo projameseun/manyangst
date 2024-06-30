@@ -37,12 +37,12 @@ int main()
 	}
 
 
-	INPUT_RECORD pRecord[128];
-	DWORD NumRe = 0; //얼마만큼읽을지..
+	//INPUT_RECORD pRecord[128];
+	//DWORD NumRe = 0; //얼마만큼읽을지..
 
 	GameEngine GM;
 
-	GM.GameStart(handle, pRecord, NumRe);
+	GM.GameStart();
 		
 
 

@@ -1,20 +1,15 @@
 #include "GameEngine.h"
 
-
-
-
 #define MOUSE_BUTTON 0
-
-
 
 void GameEngine::gotoxy(int x, int y)
 {
 	COORD _pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), _pos);
 
-
-
 }
+
+
 
 MOUSE_EVENT_RECORD GameEngine::PrcesssMouseEvent(MOUSE_EVENT_RECORD mevent)
 {
@@ -57,23 +52,34 @@ void GameEngine::GameInit()
 	m_Colum = 19;
 	m_Row = 19;
 	m_Black = true;		//true Èæµ¹ , false ¹éµ¹
+	NumRe = 0;
 
-
-
-	
-
+	m_GameWin = 0;
+	MouseInit();
+	StoneInit();
 }
 
 
-void GameEngine::GameStart(HANDLE handle, INPUT_RECORD*pRecord, DWORD NumRe)
+void GameEngine::StoneInit()
 {
+	for (int i = 0; i <GridY; ++i)
+	{
+		for (int j = 0; j < GridX; ++j)
+		{
+			m_GridType[i][j].m_Type = 0;
+		}
+	}
 
+	
+}
+
+void GameEngine::GameStart()
+{
+	//HANDLE handle, INPUT_RECORD* pRecord, DWORD NumRe
 	//ÀÔ·Â ÀÌº¥Æ® ÀÐ±â
 	GameInit();
+	
 	m_Om->OmokMap(m_Colum, m_Row);
-
-	
-	
 
 	while (true)
 	{
@@ -84,41 +90,60 @@ void GameEngine::GameStart(HANDLE handle, INPUT_RECORD*pRecord, DWORD NumRe)
 			break;
 		}
 
+		if (m_GameWin == 0)
+		{
+			GameUpdate(handle, pRecord, NumRe);
+		}
+		else if (m_GameWin == 1)
+		{
+			system("pause");
+			Clear();
+		}
 		
-		m_MSRecord = GameUpdate(handle, pRecord, NumRe);
 
 		int a = 0;
 	}
+
+
 }
 
 void GameEngine::GameRender(MOUSE_EVENT_RECORD MSenvet)
 {
-	if (MSenvet.dwMousePosition.X % 2 == 0 || MSenvet.dwMousePosition.X  == 0)
+	if (MSenvet.dwMousePosition.X <= GridX && MSenvet.dwMousePosition.Y <= GridY)
 	{
-		gotoxy(MSenvet.dwMousePosition.X, MSenvet.dwMousePosition.Y);
+		if (MSenvet.dwMousePosition.X % 2 == 0 || MSenvet.dwMousePosition.X == 0)
+		{
+			gotoxy(MSenvet.dwMousePosition.X, MSenvet.dwMousePosition.Y);
 
-		
-			if (m_Black == true) //Èæµ¹
+			if (m_GridType[MSenvet.dwMousePosition.Y][MSenvet.dwMousePosition.X].m_Type == 0)
 			{
+				if (m_Black == true) //Èæµ¹
+				{
 
-			
-				std::cout << "¡Û";
-				//gotoxy(13, 13);
-				//std::cout << "Mouse Move to ( " << MSenvet.dwMousePosition.X << " , " << MSenvet.dwMousePosition.Y << ")";
-				m_Black = !m_Black;
+					m_GridType[MSenvet.dwMousePosition.Y][MSenvet.dwMousePosition.X].m_Type = 1;
+					std::cout << "¡Û";
+					//gotoxy(13, 13);
+					//std::cout << "Mouse Move to ( " << MSenvet.dwMousePosition.X << " , " << MSenvet.dwMousePosition.Y << ")";
+					m_Black = !m_Black;
+				}
+				else if (m_Black == false) //¹éµ¹
+				{
+
+					m_GridType[MSenvet.dwMousePosition.Y][MSenvet.dwMousePosition.X].m_Type = 2;
+					std::cout << "¡Ü";
+					//std::cout << "Mouse Move to ( " << MSenvet.dwMousePosition.X << " , " << MSenvet.dwMousePosition.Y << ")";
+					m_Black = !m_Black;
+				}
 			}
-			else if (m_Black == false) //¹éµ¹
-			{
-			
 
-				std::cout << "¡Ü";
-				//std::cout << "Mouse Move to ( " << MSenvet.dwMousePosition.X << " , " << MSenvet.dwMousePosition.Y << ")";
-				m_Black = !m_Black;
-			}
-		
 
-		
-	}
+
+
+
+		}//if (MSenvet.dwMousePosition.X % 2 == 0 || MSenvet.dwMousePosition.X == 0)
+	}//if (MSenvet.dwMousePosition.X <= GridX && MSenvet.dwMousePosition.Y <= GridY)
+
+	JugMent();
 	
 	//JugMent
 
@@ -148,6 +173,165 @@ MOUSE_EVENT_RECORD GameEngine::GameUpdate(HANDLE handle, INPUT_RECORD *pRecord, 
 	
 	 
 }
+
+void GameEngine::JugMent()
+{
+	gotoxy(22, 22);
+
+	for (int i = 0; i < GridY; ++i)
+	{
+		for (int j = 0; j < GridX; j += 2)
+		{
+			//°¡·Î
+			if ((m_GridType[i][j].m_Type == 1) &&
+				(m_GridType[i][j + 2].m_Type == 1) &&
+				(m_GridType[i][j + 4].m_Type == 1) &&
+				(m_GridType[i][j + 6].m_Type == 1) &&
+				(m_GridType[i][j + 8].m_Type == 1))
+			{
+				std::cout << "Èæµ¹½Â¸®" << std::endl;
+				m_GameWin = 1;
+		
+			}
+
+			//¼¼·Î
+			if ((m_GridType[i][j].m_Type == 1) &&
+				(m_GridType[i + 1][j].m_Type == 1) &&
+				(m_GridType[i + 2][j].m_Type == 1) &&
+				(m_GridType[i + 3][j].m_Type == 1) &&
+				(m_GridType[i + 4][j].m_Type == 1))
+			{
+				std::cout << "Èæµ¹½Â¸®" << std::endl;
+				m_GameWin = 1;
+		
+			}
+
+			//¿Þ´ë
+			if ((m_GridType[i][j].m_Type == 1) &&
+				(m_GridType[i + 1][j + 2].m_Type == 1) &&
+				(m_GridType[i + 2][j + 4].m_Type == 1) &&
+				(m_GridType[i + 3][j + 6].m_Type == 1) &&
+				(m_GridType[i + 4][j + 8].m_Type == 1))
+			{
+				std::cout << "Èæµ¹½Â¸®" << std::endl;
+				m_GameWin = 1;
+				
+			}
+
+			//¿À´ë
+			if (j > 7)
+			{
+				if ((m_GridType[i][j].m_Type == 1) &&
+					(m_GridType[i + 1][j - 2].m_Type == 1) &&
+					(m_GridType[i + 2][j - 4].m_Type == 1) &&
+					(m_GridType[i + 3][j - 6].m_Type == 1) &&
+					(m_GridType[i + 4][j - 8].m_Type == 1))
+				{
+					std::cout << "Èæµ¹½Â¸®" << std::endl;
+					m_GameWin = 1;
+				
+				}
+			}
+			
+
+			//Èò
+
+			//°¡·Î
+			if ((m_GridType[i][j].m_Type == 2) &&
+				(m_GridType[i][j + 2].m_Type == 2) &&
+				(m_GridType[i][j + 4].m_Type == 2) &&
+				(m_GridType[i][j + 6].m_Type == 2) &&
+				(m_GridType[i][j + 8].m_Type == 2))
+			{
+				std::cout << "¹éµ¹½Â¸®" << std::endl;
+				m_GameWin = 1;
+			
+			}
+
+			//¼¼·Î
+			if ((m_GridType[i][j].m_Type == 2) &&
+				(m_GridType[i + 1][j].m_Type == 2) &&
+				(m_GridType[i + 2][j].m_Type == 2) &&
+				(m_GridType[i + 3][j].m_Type == 2) &&
+				(m_GridType[i + 4][j].m_Type == 2))
+			{
+				std::cout << "¹éµ¹½Â¸®" << std::endl;
+				m_GameWin = 1;
+		
+			}
+
+			//¿Þ´ë
+			if ((m_GridType[i][j].m_Type == 2) &&
+				(m_GridType[i + 1][j + 2].m_Type == 2) &&
+				(m_GridType[i + 2][j + 4].m_Type == 2) &&
+				(m_GridType[i + 3][j + 6].m_Type == 2) &&
+				(m_GridType[i + 4][j + 8].m_Type == 2))
+			{
+				std::cout << "¹éµ¹½Â¸®" << std::endl;
+				m_GameWin = 1;
+			
+			}
+
+			//¿À´ë
+			if (j > 7)
+			{
+				if ((m_GridType[i][j].m_Type == 2) &&
+					(m_GridType[i + 1][j - 2].m_Type == 2) &&
+					(m_GridType[i + 2][j - 4].m_Type == 2) &&
+					(m_GridType[i + 3][j - 6].m_Type == 2) &&
+					(m_GridType[i + 4][j - 8].m_Type == 2))
+				{
+					std::cout << "¹éµ¹½Â¸®" << std::endl;
+					m_GameWin = 1;
+			
+				}
+			}
+			
+
+		}
+
+	}
+}
+
+void GameEngine::Clear()
+{
+	system("cls");
+
+	GameInit();
+	m_Om->OmokMap(m_Colum, m_Row);
+	m_GameWin = 0;
+}
+
+void GameEngine::MouseInit()
+{
+	 handle = GetStdHandle(STD_INPUT_HANDLE);
+	DWORD savemode;	//unsigned long
+
+	if (handle == INVALID_HANDLE_VALUE)
+	{
+		DWORD errocode = GetLastError();
+		std::cout << "INVALID_HANDLE_VALUE Error :  " << errocode << std::endl;
+	}
+
+	//ÄÜ¼Ö ¸ðµåÀúÀå
+
+	if (!GetConsoleMode(handle, &savemode))
+	{
+		DWORD errocode = GetLastError();
+		std::cout << "GetConsoleMode Error :  " << errocode << std::endl;
+	}
+
+
+
+	DWORD mMode = ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
+
+	if (!SetConsoleMode(handle, mMode))
+	{
+		DWORD errocode = GetLastError();
+		std::cout << "SetConsoleModeError :  " << errocode << std::endl;
+	}
+}
+
 //ff
 
 
