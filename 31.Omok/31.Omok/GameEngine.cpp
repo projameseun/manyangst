@@ -100,8 +100,6 @@ void GameEngine::GameStart()
 			Clear();
 		}
 		
-
-		int a = 0;
 	}
 
 
