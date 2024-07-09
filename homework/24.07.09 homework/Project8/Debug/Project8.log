@@ -1,3 +1,4 @@
 ﻿  소스.cpp
-C:\Users\ad007\source\repos\Project8\Project8\소스.cpp(60,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-  Project8.vcxproj -> C:\Users\ad007\source\repos\Project8\Debug\Project8.exe
+D:\c++Study\manyangst\homework\24.07.09 homework\Project8\소스.cpp(60,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  LINK : D:\c++Study\manyangst\homework\24.07.09 homework\Debug\Project8.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+  Project8.vcxproj -> D:\c++Study\manyangst\homework\24.07.09 homework\Debug\Project8.exe

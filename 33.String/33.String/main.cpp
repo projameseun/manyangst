@@ -82,6 +82,68 @@ char* StrCat2(char* dest, const char* src)
 	return result;
 }
 
+int wcsCmp(const wchar_t* string1, const wchar_t* string2)
+{
+	//문자열이 같으면 0 
+	//string1이 string2 보다 작은경우 -1
+	//string이 string2보다 큰경우 +1
+
+	size_t strlen = GetLength(string1);
+	size_t strlen2 = GetLength(string2);
+
+
+	size_t iLoop = strlen;
+	size_t iReturn = 0;
+
+	if (strlen < strlen2)
+	{
+		iLoop = strlen;
+		iReturn = -1;
+	}
+
+	else if(strlen > strlen2)
+	{
+		iLoop = strlen2;
+		iReturn = +1;
+	}
+
+	for (int i = 0; i < iLoop; ++i)
+	{
+		if (string1[i] < string2[i])
+		{
+			return -1;
+		}
+		else if (string1[i] > string2[i])
+		{
+			return 1;
+		}
+	}
+
+
+	return iReturn;
+	
+	
+}
+
+int wcsCmp2(const wchar_t* string1, const wchar_t* string2)
+{
+
+	while (*string1 || *string2) //둘중에 하나라도 null이아니라면 반복
+	{
+		if (*string1 != *string2)	//다른경우
+		{
+			return(*string1 > *string2) ? 1 : -1;
+		}
+
+		string1++;
+		string2++;
+	}
+
+	//두 문자열이 같은경우
+	return 0;
+}
+
+
 int main()
 {
 	//c++에서는 문자열은 문자의 배열로 표현이됩니다.
@@ -141,8 +203,17 @@ int main()
 		char cName2[100] = "fff";
 		int Test = strcmp(cName, cName2);
 
-		int a = 0;
+		
 
+	}
+
+	{
+		int iRet = wcscmp(L"abc", L"abcd");
+
+		int iResult = wcsCmp(L"abc", L"abcd");
+
+		
+		
 	}
 
 	
