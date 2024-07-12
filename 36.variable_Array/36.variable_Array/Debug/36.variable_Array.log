@@ -1,0 +1,4 @@
+﻿  main.cpp
+D:\c++Study\manyangst\36.variable_Array\36.variable_Array\main.cpp(8,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\c++Study\manyangst\36.variable_Array\36.variable_Array\main.cpp(26,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  36.variable_Array.vcxproj -> D:\c++Study\manyangst\36.variable_Array\Debug\36.variable_Array.exe
