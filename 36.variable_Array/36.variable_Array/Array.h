@@ -15,3 +15,11 @@
 
  //재할당
  void Reallocate(FArray* pArr);
+
+
+ //삭제 
+ void Destroy(FArray* pArr);
+
+
+ //정렬
+ void SortArr(FArray* pArr,void(*_SortFunc)(int*,int));

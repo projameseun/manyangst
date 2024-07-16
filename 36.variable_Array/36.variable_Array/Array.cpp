@@ -51,3 +51,34 @@ void Reallocate(FArray* pArr)
 
 	pArr->iMaxSize *= 2;
 }
+
+void Destroy(FArray* pArr)
+{
+	if (pArr != nullptr)
+	{
+		delete[] pArr->pInt;
+		pArr->iSize = 0;
+		pArr->iMaxSize = 0;
+	}
+}
+
+void SortArr(FArray* pArr,void(*_SortFunc)(int*, int))
+{
+	/*int iTemp = 0;
+	
+	for (int i = 0; i < pArr->iSize; ++i)
+	{
+		for (int j = i + 1; j < pArr->iSize; ++j)
+		{
+			if (pArr->pInt[i] > pArr->pInt[j])
+			{
+				iTemp = pArr->pInt[i];
+				pArr->pInt[i] = pArr->pInt[j];
+				pArr->pInt[j] = iTemp;
+			}
+		}
+	}*/
+
+	_SortFunc(pArr->pInt, pArr->iSize);
+
+}
