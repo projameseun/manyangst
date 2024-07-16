@@ -20,7 +20,7 @@ int main()
 
 	for (int i = 0; i < 50; ++i)
 	{
-		PushBack(&vArr, rand()%1000);
+		PushBack(&vArr, rand()%100);
 	}
 
 	for (int i = 0; i < vArr.iSize; ++i)
