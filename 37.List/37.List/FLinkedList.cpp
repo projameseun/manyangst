@@ -43,3 +43,48 @@ void PushBack(FLinkedList* _pList, int _data)
 	++_pList->iCount;
 	
 }
+
+//재귀방식
+void Destroy(FNode* _pNode)
+{
+	if (nullptr == _pNode)
+	{
+		return;
+	}
+
+	Destroy(_pNode->pNextNode);
+	free(_pNode);
+}
+
+void DestroyList(FLinkedList* _pList)
+{
+
+	//Destroy(_pList->pHeadNode);
+
+	FNode* pDelNode = _pList->pHeadNode;
+
+	while (pDelNode)
+	{
+		FNode* pNext = pDelNode->pNextNode;
+		delete pDelNode;	//C++방식
+		//free(pDelNode);	//C방식
+		pDelNode = pNext;
+	}
+}
+
+void PushFront(FLinkedList* _pList, int _data)
+{
+	//FNode* pNode = (FNode*)malloc(sizeof(FNode));
+
+	FNode* pNode = new FNode;
+
+	pNode->iData = _data;
+	pNode->pNextNode = _pList->pHeadNode;
+
+	//해당포인터 갱신
+	_pList->pHeadNode = pNode;
+
+	++_pList->iCount;
+	
+
+}

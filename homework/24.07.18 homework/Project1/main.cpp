@@ -64,11 +64,17 @@ int main()
 
 	InitList(&list);
 
-	PushBack(&list, 10);
-	PushBack(&list, 20);
-	PushBack(&list, 30);
-	PushBack(&list, 40);
-	PushBack(&list, 50);
+	//PushBack(&list, 10);
+	//PushBack(&list, 20);
+	//PushBack(&list, 30);
+	//PushBack(&list, 40);
+	//PushBack(&list, 50);
+
+	PushFront(&list, 10);
+	PushFront(&list, 20);
+	PushFront(&list, 30);
+	PushFront(&list, 40);
+	PushFront(&list, 50);
 
 
 	DestroyList(&list);

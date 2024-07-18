@@ -66,14 +66,8 @@ void PushFront(FLinkedList* _pList, int _data)
 	pNode->iData = _data;
 
 	// 기존 헤드 노드가 있는지 확인
-	if (_pList->pHeadNode != nullptr) 
-	{
-		pNode->pNextNode = _pList->pHeadNode;
-	}
-	else
-	{
-		pNode->pNextNode = nullptr;
-	}
+
+	pNode->pNextNode = _pList->pHeadNode;
 
 	// 새로운 노드를 헤드 노드로 설정
 	_pList->pHeadNode = pNode;

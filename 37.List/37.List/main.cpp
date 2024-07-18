@@ -64,13 +64,23 @@ int main()
 
 	InitList(&list);
 
-	PushBack(&list, 10);
-	PushBack(&list, 20);
-	PushBack(&list, 30);
-	PushBack(&list, 40);
-	PushBack(&list, 50);
+	//PushBack(&list, 10);
+	//PushBack(&list, 20);
+	//PushBack(&list, 30);
+	//PushBack(&list, 40);
+	//PushBack(&list, 50);
+	
+	int iNum = 0;
 
+	for (int i = 1; i < 6; ++i)
+	{
+		iNum = i * 10;
+		PushFront(&list, iNum);
 
+		
+	}
+
+	DestroyList(&list);
 
 	
 
