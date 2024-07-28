@@ -36,12 +36,13 @@ void CArray::push_back(int _data)
 
 void CArray::resize(int _size) //크기 늘려주기
 {
-	
+	//m_iMaxCount = 10;
 	//예외처리 
 	if (m_iMaxCount >= _size)
 	{
-		std::cout << "할당할 크기가 MaxCount보다 같거나 작습니다" << std::endl;
-		assert(nullptr);
+		//std::cout << "할당할 크기가 MaxCount보다 같거나 작습니다" << std::endl;
+		//assert(nullptr);
+		throw std::runtime_error("할당할 크기가 MaxCount보다 같거나 작습니다");
 
 		//
 		
@@ -66,14 +67,17 @@ void CArray::resize(int _size) //크기 늘려주기
 
 	
 }
-
-//int CArray::operator[](int _idx)
 //{
 //	return m_pInt[_idx];
 //}
 
 int& CArray::operator[](int _idx) //연산자
 {
+	if (_idx < 0 || _idx >= m_iCount)
+	{
+		throw std::out_of_range("Index out of range");
+	}
+
 	return m_pInt[_idx];
 }
 
@@ -88,18 +92,35 @@ void CArray::OutPut() // 출력하기
 void CArray::Delete(int _size)
 {
 	if (_size < 0 || _size >= m_iCount) {
-		std::cout << "유효하지 않음" << std::endl;
-		return;
+	/*	std::cout << "유효하지 않음" << std::endl;
+		return;*/
+
+		throw std::out_of_range("Index out of Range");
 	}
 
-	for (int i = _size; i < m_iCount - 1; ++i) {
+	int* pTemp = new int[m_iCount - 1];
+
+	int k = 0;
+
+	/*for (int i = _size; i < m_iCount - 1; ++i) {
 		m_pInt[i] = m_pInt[i + 1];
+	}*/
+
+	for (int i = 0; i < m_iCount; ++i)
+	{
+		if (i == _size)continue;
+		pTemp[k++] = m_pInt[i];
 	}
+
+	delete[] m_pInt;
+
+	m_pInt = pTemp;
 
 
 	--m_iCount;
 
 	
 
+	m_iMaxCount = m_iCount;
 	
 }

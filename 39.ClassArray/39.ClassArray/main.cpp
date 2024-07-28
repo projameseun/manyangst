@@ -30,31 +30,43 @@ int main()
 
 	
 
-	arr.push_back(10); //배열에 10을 넣기
-	arr.push_back(20); //동일
-	arr.push_back(30);
+	//arr.push_back(10); //배열에 10을 넣기
+	//arr.push_back(20); //동일
+	//arr.push_back(30);
 
-	arr.resize(10);
-	
-	int iData = arr[1];
-	
-	arr[1] = 100;
+	//arr.resize(10);
+	//
+	//int iData = arr[1];
+	//
+	//arr[1] = 100;
+
+	//arr.OutPut();
+
+	//arr.push_back(40);
+	//arr.push_back(50);
+	//arr.push_back(60);
+	//arr.push_back(70);
 
 	arr.OutPut();
 
+	arr.push_back(10);
+	arr.push_back(20);
+	arr.push_back(30);
 	arr.push_back(40);
 	arr.push_back(50);
-	arr.push_back(60);
-	arr.push_back(70);
+
+	arr.Delete(2);
 
 	arr.OutPut();
 
-	std::vector<int> test;
+	//std::vector<int> test;
 
-	test.push_back(10);
-	test.push_back(20);
-	test.push_back(30);
-	test.push_back(40);
+	//test.push_back(10);
+	//test.push_back(20);
+	//test.push_back(30);
+	//test.push_back(40);
+
+	arr[10] = 100;
 
 
 ;
