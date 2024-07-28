@@ -30,8 +30,8 @@ int main()
 
 	
 
-	arr.push_back(10);
-	arr.push_back(20); 
+	arr.push_back(10); //배열에 10을 넣기
+	arr.push_back(20); //동일
 	arr.push_back(30);
 
 	arr.resize(10);

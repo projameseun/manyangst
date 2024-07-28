@@ -5,7 +5,7 @@
 CArray::CArray()
 	:	m_pInt(nullptr),
 	m_iCount(0),
-	m_iMaxCount(2)
+	m_iMaxCount(2) //maxsize 설정
 {
 	m_pInt = new int[2];
 }
@@ -23,7 +23,7 @@ CArray::~CArray()
 void CArray::push_back(int _data)
 {
 	//예외처리
-	if (m_iMaxCount <= m_iCount)
+	if (m_iMaxCount <= m_iCount) //size가 maxsize보다 커졌을 때 resize 호출
 	{
 		//재할당
 		resize(m_iMaxCount * 2);
@@ -34,7 +34,7 @@ void CArray::push_back(int _data)
 
 }
 
-void CArray::resize(int _size)
+void CArray::resize(int _size) //크기 늘려주기
 {
 	
 	//예외처리 
@@ -72,12 +72,12 @@ void CArray::resize(int _size)
 //	return m_pInt[_idx];
 //}
 
-int& CArray::operator[](int _idx)
+int& CArray::operator[](int _idx) //연산자
 {
 	return m_pInt[_idx];
 }
 
-void CArray::OutPut()
+void CArray::OutPut() // 출력하기
 {
 	for (int i = 0; i < m_iCount; ++i)
 	{
@@ -87,4 +87,19 @@ void CArray::OutPut()
 
 void CArray::Delete(int _size)
 {
+	if (_size < 0 || _size >= m_iCount) {
+		std::cout << "유효하지 않음" << std::endl;
+		return;
+	}
+
+	for (int i = _size; i < m_iCount - 1; ++i) {
+		m_pInt[i] = m_pInt[i + 1];
+	}
+
+
+	--m_iCount;
+
+	
+
+	
 }
