@@ -1,5 +1,6 @@
 #include <iostream>
-
+#include "CArray.h"
+#include <vector>
 #define TEST 10
 
 using namespace std;
@@ -71,10 +72,39 @@ int main()
 
 	//cout << "Hellow " << endl;
 
-	Player py, py2, py3;
+	//Player py, py2, py3;
 
+	CArray<float> arr;
+
+	arr.push_back(10.35);
+	arr.push_back(2.55);
+	arr.push_back(11.545);
+
+	arr.OutPut();
+	
+
+	std::cout << std::endl;
+	CArray<int> arrint;
+
+	
+	arrint.push_back(10);
+	arrint.push_back(20);
+	arrint.push_back(30);
+
+	int test = 300;
+
+	arrint.Delete(1);
+
+
+	arrint[1] = test;
+
+	arrint.OutPut();
+
+
+	
 	
 
 
+	
 	return 0;
 }

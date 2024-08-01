@@ -1,2 +1,23 @@
 ﻿  main.cpp
+D:\c++Study\manyangst\40.Template\40.Template\main.cpp(32,1): warning C4102: 'std': 참조되지 않은 레이블입니다.
+D:\c++Study\manyangst\40.Template\40.Template\main.cpp(66,16): warning C4244: '인수': 'double'에서 'T'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              T=float
+          ]
+D:\c++Study\manyangst\40.Template\40.Template\main.cpp(79,21): warning C4305: '인수': 'double'에서 'const T'(으)로 잘립니다.
+          with
+          [
+              T=float
+          ]
+D:\c++Study\manyangst\40.Template\40.Template\main.cpp(80,20): warning C4305: '인수': 'double'에서 'const T'(으)로 잘립니다.
+          with
+          [
+              T=float
+          ]
+D:\c++Study\manyangst\40.Template\40.Template\main.cpp(81,22): warning C4305: '인수': 'double'에서 'const T'(으)로 잘립니다.
+          with
+          [
+              T=float
+          ]
   40.Template.vcxproj -> D:\c++Study\manyangst\40.Template\Debug\40.Template.exe
