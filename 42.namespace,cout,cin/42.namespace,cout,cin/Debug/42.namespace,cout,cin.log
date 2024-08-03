@@ -1,0 +1,6 @@
+﻿  main.cpp
+D:\c++Study\manyangst\42.namespace,cout,cin\42.namespace,cout,cin\main.cpp(86,12): warning C4477: 'scanf_s' : 서식 문자열 '%s'에 'char *' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'char **'입니다.
+D:\c++Study\manyangst\42.namespace,cout,cin\42.namespace,cout,cin\main.cpp(86,12): message : 이 인수는 변환 지정자에서 사용됩니다.
+D:\c++Study\manyangst\42.namespace,cout,cin\42.namespace,cout,cin\main.cpp(92,12): warning C4477: 'scanf_s' : 서식 문자열 '%s'에 'char *' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'float *'입니다.
+D:\c++Study\manyangst\42.namespace,cout,cin\42.namespace,cout,cin\main.cpp(92,12): message : 이 인수는 변환 지정자에서 사용됩니다.
+  42.namespace,cout,cin.vcxproj -> D:\c++Study\manyangst\42.namespace,cout,cin\Debug\42.namespace,cout,cin.exe

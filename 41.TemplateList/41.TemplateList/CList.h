@@ -59,6 +59,15 @@ template<class T>
  template<class T>
   CList<T>::~CList()
  {
+	  tFNode<T>* pDelNode = m_pHeadNode;
+
+	  while (pDelNode)
+	  {
+		  tFNode<T>* pNextNode = pDelNode->pNextNode;
+		  delete(pDelNode);
+		  pDelNode = pNextNode;
+	  }
+
  }
 
 
@@ -103,7 +112,6 @@ template<class T>
 	 
 	   tFNode<T>* pNewNode = new tFNode<T>(_data, nullptr, nullptr);
 	
-
 	
 
 		//데이터를 추가해야겠지..

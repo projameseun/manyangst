@@ -1,2 +1,3 @@
 ﻿  main.cpp
+D:\c++Study\manyangst\41.TemplateList\41.TemplateList\main.cpp(26,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   41.TemplateList.vcxproj -> D:\c++Study\manyangst\41.TemplateList\Debug\41.TemplateList.exe
