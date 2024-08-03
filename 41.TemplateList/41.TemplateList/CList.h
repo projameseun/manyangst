@@ -100,6 +100,32 @@ template<class T>
   template<class T>
    void CList<T>::PushFront(const T& _data)
   {
+	 
+	   tFNode<T>* pNewNode = new tFNode<T>(_data, nullptr, nullptr);
+	
+
+	
+
+		//데이터를 추가해야겠지..
+		//처음인지 아닌지
+	   if (nullptr == m_pHeadNode)
+	   {
+		   m_pHeadNode = pNewNode;
+		   m_pTailNode = pNewNode;
+	   }
+	   else//데이터가 이미 있다는거 
+	   {
+		   //현재 가장 마지막노드(tail)을 저장하고 있는 노드와
+		   //새로 생성된 노드가 서로 가리키됨
+		   m_pHeadNode->pPrevNode = pNewNode;
+		   pNewNode->pNextNode = m_pHeadNode;
+
+
+		   //list가 마지막 노드의 주소값을 새로 입력된 노드로 갱신
+		   m_pHeadNode = pNewNode;
+	   }
+
+	   m_iCount;
   }
 
 
