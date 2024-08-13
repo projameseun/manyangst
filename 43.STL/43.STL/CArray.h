@@ -159,14 +159,7 @@ T& CArray<T>::operator[](int _idx) //연산자
 	return this->m_pData[_idx];
 }
 
-template<class T>
-typename CArray<T>::iterator CArray<T>::begin()
-{
-	//컨테이너의 시작을 가리키는 iterator를 만들어 반환...
-	
 
-	return iterator();
-}
 
 template<class T>
 void CArray<T>::OutPut() // 출력하기
@@ -216,3 +209,12 @@ void CArray<T>::Delete(int _size)
 }
 
 
+//Iterator
+template<class T>
+typename CArray<T>::iterator CArray<T>::begin()
+{
+	//컨테이너의 시작을 가리키는 iterator를 만들어 반환...
+
+
+	return iterator();
+}

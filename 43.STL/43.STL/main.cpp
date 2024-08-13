@@ -145,7 +145,7 @@ int main()
 
 
 		std::list<int>::iterator iter2;
-	int a = 0;
+		int a = 0;
 
 	}
 
