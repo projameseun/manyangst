@@ -8,7 +8,7 @@ template<class T>
 class CArray
 {
 private:
-	T* m_pData;
+	T*		m_pData;
 	int		m_iCount;
 	int		m_iMaxCount;
 
@@ -47,6 +47,9 @@ public:
 	class iterator;	//전방선언
 	iterator begin();
 	iterator end();
+	iterator erase(iterator& _rIter);
+
+
 
 
 public:
@@ -58,26 +61,36 @@ public:
 		CArray* m_pArr;			//iterator가 가리킬 데이터를 관리하는 가변배열 주소
 		T* m_pData;		//데이터 시작주소
 		int	m_iIdx;			//가리키는 인덱스
+		bool m_bValid;		//유효
 
 	public:
 		iterator() :
 			m_pArr(nullptr),
 			m_pData(nullptr),
-			m_iIdx(-1)
+			m_iIdx(-1),
+			m_bValid(false)
 		{
 
 		}
 		iterator(CArray* _pArr, T* _data, int _idx) :
 			m_pArr(_pArr),
 			m_pData(_data),
-			m_iIdx(_idx)
+			m_iIdx(_idx),
+			m_bValid(false)
+
 		{
+			if (_pArr != nullptr && _idx >= 0)
+			{
+				m_bValid = true;
+			}
 
 		}
 		~iterator()
 		{
 
 		}
+
+		friend class CArray;
 
 	public:
 		//비교 itator가 알고있는 주소와, vector가 알고 있는 주소가 달라진경우(공간을 확장하고 주소가 달라질경우)
@@ -135,20 +148,16 @@ public:
 		//-- ,-- 전위 후위
 		iterator& operator --()
 		{
-			if (m_pData != m_pArr->m_pData || m_iIdx == -1)
+			if (m_pData != m_pArr->m_pData || m_iIdx == -1 || m_iIdx == 0)
 			{
-				std::cout << "can't dereference value-initialized vector iterator" << std::endl;
+				std::cout << "Error" << std::endl;
 				assert(nullptr);
 			}
 
-			if (m_pArr->size() - 1 == this->m_iIdx)
-			{
-				this->m_iIdx = -1;
-			}
-			else
-			{
-				--(m_iIdx);
-			}
+
+
+			--(m_iIdx);
+
 			return *this;
 		}
 
@@ -164,6 +173,32 @@ public:
 			return copy_iter;
 
 		};
+
+
+		//비교연산자 
+		bool operator == (const iterator& _otheriter)
+		{
+			if (m_pData == _otheriter.m_pData && m_iIdx == _otheriter.m_iIdx)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		bool operator != (const iterator& _otheriter)
+		{
+			/*if (m_pData == _otheriter.m_pData && m_iIdx == _otheriter.m_iIdx)
+			{
+				return false;
+			}
+
+			return true;*/
+
+			//줄임
+			return !(*this == _otheriter);
+		}
+		
 	};
 };
 
@@ -334,6 +369,31 @@ typename CArray<T>::iterator CArray<T>::end()
 
 	return iterator(this, m_pData, -1);
 
+}
+
+template<class T>
+typename CArray<T>::iterator CArray<T>::erase(iterator& _rIter)
+{
+	if (_rIter.m_pArr != this || end() == _rIter || _rIter.m_iIdx >= m_iCount)
+	{
+		assert(nullptr);
+	}
+	
+	//iter가 가리키는 데이터를 배열에서 제거한다
+	
+	int iLoop = m_iCount - (_rIter.m_iIdx + 1);
+
+	for (int i = 0; i < iLoop; ++i)
+	{
+		m_pData[i + _rIter.m_iIdx] = m_pData[i + _rIter.m_iIdx + 1];
+	}
+
+	_rIter.m_bValid = false;
+
+	--m_iCount;
+
+
+	return iterator(this ,m_pData,_rIter.m_iIdx);
 }
 
 
