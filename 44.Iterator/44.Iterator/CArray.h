@@ -8,7 +8,7 @@ template<class T>
 class CArray
 {
 private:
-	T*		m_pData;
+	T* m_pData;
 	int		m_iCount;
 	int		m_iMaxCount;
 
@@ -22,12 +22,12 @@ public:
 	{
 		return m_iMaxCount;
 	}
-	
+
 	T* data()
 	{
 		return m_pData;
 	}
-	
+
 
 
 public:
@@ -56,18 +56,18 @@ public:
 	{
 	private:
 		CArray* m_pArr;			//iterator가 가리킬 데이터를 관리하는 가변배열 주소
-		T*		m_pData;		//데이터 시작주소
-		int		m_iIdx;			//가리키는 인덱스
+		T* m_pData;		//데이터 시작주소
+		int	m_iIdx;			//가리키는 인덱스
 
 	public:
-		iterator():
+		iterator() :
 			m_pArr(nullptr),
 			m_pData(nullptr),
 			m_iIdx(-1)
 		{
-			
+
 		}
-		iterator(CArray* _pArr,T* _data, int _idx) :
+		iterator(CArray* _pArr, T* _data, int _idx) :
 			m_pArr(_pArr),
 			m_pData(_data),
 			m_iIdx(_idx)
@@ -128,14 +128,43 @@ public:
 			++(*this);
 
 			return copy_iter;
-		
+
 		}
-		
+
+
 		//-- ,-- 전위 후위
+		iterator& operator --()
+		{
+			if (m_pData != m_pArr->m_pData || m_iIdx == -1)
+			{
+				std::cout << "can't dereference value-initialized vector iterator" << std::endl;
+				assert(nullptr);
+			}
 
-		
+			if (m_pArr->size() - 1 == this->m_iIdx)
+			{
+				this->m_iIdx = -1;
+			}
+			else
+			{
+				--(m_iIdx);
+			}
+			return *this;
+		}
+
+		iterator operator --(int)
+		{
+			//임시객체
+			//복사생성자가 호출된거다
+			//자동으로 만들어진다...
+			iterator copy_iter = *this;
+
+			--(*this);
+
+			return copy_iter;
+
+		};
 	};
-
 };
 
 
@@ -284,17 +313,17 @@ template<class T>
 typename CArray<T>::iterator CArray<T>::begin()
 {
 	//컨테이너의 시작을 가리키는 iterator를 만들어 반환...
-	
+
 	if (m_iCount == 0)
 	{
 		return iterator(this, m_pData, -1);
 	}
 
 	//임시객체
-	return iterator(this,m_pData, 0);
-	
+	return iterator(this, m_pData, 0);
 
-	
+
+
 }
 
 

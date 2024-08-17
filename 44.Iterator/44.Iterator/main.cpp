@@ -82,7 +82,7 @@ int main()
 	
 	
 
-	CArray<int> myVec;
+	/*CArray<int> myVec;
 
 	myVec.push_back(100);
 	myVec.push_back(200);
@@ -97,10 +97,48 @@ int main()
 		myVec.push_back(i);
 	}
 
-	myIter = myVec.begin();
+	myIter = myVec.end();*/
+
+	
+	//CArray<int> myVec;
+
+	//myVec.push_back(10);
+	//myVec.push_back(20);
+	//myVec.push_back(30);
+
+	//CArray<int>::iterator myIter = myVec.begin();
+
+	//
+
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	myVec.push_back(i);
+	//}
+
+	//std::cout << *myIter << std::endl;
+	
 
 	
 
+
+	CArray<int> myVec;
+
+	myVec.push_back(100);
+	myVec.push_back(200);
+	myVec.push_back(300);
+
+	CArray<int>::iterator myIter = myVec.begin();  // begin에서 시작
+
+	std::cout << *myIter << std::endl; // 100이 맞는지 확인
+
+	++myIter; // 200으로 올림
+	std::cout << *myIter << std::endl;//맞는지 확인
+	--myIter; // 100으로 낮춤
+	std::cout << *myIter << std::endl; // 맞는지 확인
+	myIter++; //200
+	std::cout << *myIter << std::endl;
+	myIter--; // 100
+	std::cout << *myIter << std::endl;
 	
 
 	/*++myIter;
