@@ -22,6 +22,10 @@ int main()
 	iter = myList.insert(iter, 30);
 
 	myList.erase(iter); // 30이 사라졌는지 확인
+	
+	iter = myList.begin();
+
+	myList.erase(iter);
 
 	int iTest = *iter;
 
