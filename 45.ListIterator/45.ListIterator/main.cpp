@@ -21,6 +21,8 @@ int main()
 
 	iter = myList.insert(iter, 30);
 
+	myList.erase(iter); // 30이 사라졌는지 확인
+
 	int iTest = *iter;
 
 	int a = 0;
@@ -30,6 +32,7 @@ int main()
 		std::cout << *iter << std::endl;
 	}
 	
+
 	
 
 

@@ -268,7 +268,47 @@ inline typename CList<T>::iterator CList<T>::end()
 template<class T>
 inline typename CList<T>::iterator CList<T>::erase(iterator& _iter)
 {
-	return iterator();
+//	iterator erase(const const_iterator _Where) noexcept /* strengthened */ {
+//#if _ITERATOR_DEBUG_LEVEL == 2
+//		_STL_VERIFY(_Where._Getcont() == _STD addressof(_Mypair._Myval2), "list erase iterator outside range");
+//#endif // _ITERATOR_DEBUG_LEVEL == 2
+//		const auto _Result = _Where._Ptr->_Next;
+//		_Node::_Freenode(_Getal(), _Mypair._Myval2._Unlinknode(_Where._Ptr));
+//		return _Make_iter(_Result);
+//	}
+	if (end() == _iter)
+	{
+		assert(nullptr);
+	}
+
+	tFNode<T>* pNodeToErase = _iter.m_pNode;
+	tFNode<T>* pNextNode = pNodeToErase->pNextNode;
+
+	if (pNodeToErase->pPrevNode)
+	{
+		pNodeToErase->pPrevNode->pNextNode = pNextNode;
+	}
+	else
+	{
+		// 삭제할 노드가 헤드 노드일 경우
+		m_pHeadNode = pNextNode;
+	}
+
+	// 다음 노드가 존재하면 그 노드의 pPrevNode를 현재 노드의 pPrevNode로 설정
+	if (pNextNode)
+	{
+		pNextNode->pPrevNode = pNodeToErase->pPrevNode;
+	}
+	else
+	{
+		// 삭제할 노드가 테일 노드일 경우
+		m_pTailNode = pNodeToErase->pPrevNode;
+	}
+
+
+	
+
+	return iterator(this, pNextNode);
 }
 
 template<class T>
