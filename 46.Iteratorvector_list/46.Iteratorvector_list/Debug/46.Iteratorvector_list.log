@@ -5,19 +5,20 @@ D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\CVector.h(26
           [
               T=int
           ]
-D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\main.cpp(32): message : 컴파일되는 함수 템플릿 인스턴스화 'T &CVector<T>::operator [](int)'에 대한 참조를 확인하세요.
+D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\main.cpp(35): message : 컴파일되는 함수 템플릿 인스턴스화 'T &CVector<T>::operator [](int)'에 대한 참조를 확인하세요.
           with
           [
               T=int
           ]
-D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\main.cpp(11): message : 컴파일되는 클래스 템플릿 인스턴스화 'CVector<int>'에 대한 참조를 확인하세요.
+D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\main.cpp(14): message : 컴파일되는 클래스 템플릿 인스턴스화 'CVector<int>'에 대한 참조를 확인하세요.
 D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\CVector.h(292,67): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
 D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\CVector.h(291): message : 클래스 템플릿 멤버 함수 'CVector<int>::iterator CVector<int>::earse(CVector<int>::iterator &)'을(를) 컴파일하는 중입니다.
-D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\main.cpp(26): message : 컴파일되는 함수 템플릿 인스턴스화 'CVector<int>::iterator CVector<int>::earse(CVector<int>::iterator &)'에 대한 참조를 확인하세요.
+D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\main.cpp(29): message : 컴파일되는 함수 템플릿 인스턴스화 'CVector<int>::iterator CVector<int>::earse(CVector<int>::iterator &)'에 대한 참조를 확인하세요.
 D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\CVector.h(218,18): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
 D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\CVector.h(216): message : 클래스 템플릿 멤버 함수 'void CVector<int>::resize(const int)'을(를) 컴파일하는 중입니다.
 D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\CVector.h(206): message : 컴파일되는 함수 템플릿 인스턴스화 'void CVector<int>::resize(const int)'에 대한 참조를 확인하세요.
 D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\CVector.h(180): message : 클래스 템플릿 멤버 함수 'CVector<int>::CVector(void)'을(를) 컴파일하는 중입니다.
-D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\main.cpp(11): message : 컴파일되는 함수 템플릿 인스턴스화 'CVector<int>::CVector(void)'에 대한 참조를 확인하세요.
+D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\main.cpp(14): message : 컴파일되는 함수 템플릿 인스턴스화 'CVector<int>::CVector(void)'에 대한 참조를 확인하세요.
 D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\CVector.h(125): warning C4172: 지역 변수 또는 임시: copyiter의 주소를 반환하고 있습니다.
+D:\c++Study\manyangst\46.Iteratorvector_list\46.Iteratorvector_list\CList.h(129): warning C4172: 지역 변수 또는 임시: copyiter의 주소를 반환하고 있습니다.
   46.Iteratorvector_list.vcxproj -> D:\c++Study\manyangst\46.Iteratorvector_list\Debug\46.Iteratorvector_list.exe
