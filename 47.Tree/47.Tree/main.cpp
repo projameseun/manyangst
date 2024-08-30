@@ -15,7 +15,7 @@ public:
 	}
 
 	//부모
-	int GetParent(int _pIdx)
+	int GetParent(const int _pIdx)
 	{
 		if (_pIdx == 0)
 		{
@@ -27,23 +27,61 @@ public:
 		}
 	}
 
-	int GetLeft(int _idx)
+	int GetLeft(const int _idx) 
 	{
 		int leftidx = 2 * _idx + 1;
-		return leftidx;
+		return leftidx < m_tree.size() ? leftidx : -1;
 	}
 
-	int GetRight(int _idx)
+	int GetRight(const int _idx)
 	{
 		int rightidx = 2 * _idx + 2;
-		return rightidx;
+
+		return rightidx < m_tree.size() ? rightidx : -1;
 	}
 
 	void TreePrint()
 	{
-		for (int i = 0; i < m_tree.size(); ++i)
+		for (int i = 0; i < m_tree.size() ; ++i)
 		{
-			std::cout << m_tree[i] << std::endl;
+			std::cout << "노드 인덱스 : " << i << ", 값 : " << m_tree[i];
+
+			int pIdx = GetParent(i);
+
+			if (pIdx != -1)
+			{
+				std::cout << ", 부모 값 : " << m_tree[pIdx];
+			}
+			else
+			{
+				std::cout << " , 부모 값 : 없음(루트노드)";
+			}
+
+			int leftidx = GetLeft(i);
+
+			if (leftidx != -1)
+			{
+
+				std::cout << " , 왼쪽 자식 값 : " << m_tree[leftidx];
+			}
+			else
+			{
+				std::cout << " , 왼쪽 자식 값 : 없음";
+			}
+
+			int rightidx = GetRight(i);
+
+			if (rightidx != -1)
+			{
+
+				std::cout << " , 오른쪽 자식 값 : " << m_tree[rightidx];
+			}
+			else
+			{
+				std::cout << " , 오른쪽 자식 값 : 없음";
+			}
+
+			std::cout << std::endl;
 		}
 	}
 
@@ -112,6 +150,11 @@ int main()
 		2.해결해야 되는 데이터크기를 절반으로 줄여가면서 탐색하는 방식이다.
 		3. 모든 노드의 왼쪽 서브트리 해당 노드의 값보다 작은 값들만 가지고
 		   모든 노드의 오른쪽 서브트리는 해당 노드의 값보다 큰값들만 가져야 된다.
+
+		   
+		  
+		  포화 이진트리 - 모든 레벨이 노드로 꽉차 있는 트리이다. 자식이 무조건 2개 
+		  완전 이진트리 - 모든 레벨이 노드로 차있고, 마지막 레벨(leaf노드)에서는 노드가 왼쪽 부터 채워지는 이진트리를 말한다.
 		
 		
 
@@ -120,32 +163,23 @@ int main()
 
 	ComplateBianryTree tree;
 
-	for (int i = 0; i < 100; ++i)
+	tree.NodeInsert(200);
+	tree.NodeInsert(100);
+	tree.NodeInsert(300);
+	tree.NodeInsert(50);
+	tree.NodeInsert(75);
+	tree.NodeInsert(250);
+	tree.NodeInsert(500);
+	tree.NodeInsert(25);
+
+	/*for (int i = 0; i < 100; ++i)
 	{
 		tree.NodeInsert(i);
-	}
+	}*/
 
 	tree.TreePrint();
 
-	for (int i = 0; i < tree.GetSize(); ++i)
-	{
-		int ileft = tree.GetLeft(i);
-		int iright = tree.GetRight(i);
 
-		std::cout << "Node : " << i << "Left : ";
-		
-		if (ileft != -1)
-		{
-			std::cout << ileft;
-		}
-		std::cout << "Right : ";
-		if (iright != -1)
-		{
-			std::cout << iright;
-		}
-
-		std::cout << std::endl;
-	}
 	
 
 	return 0;
