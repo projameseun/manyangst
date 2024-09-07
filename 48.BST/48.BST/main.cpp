@@ -3,6 +3,8 @@
 #include <string>
 #include <map>
 
+#include "CBST.h"
+
 using std::string;
 using std::wstring;
 using std::endl;
@@ -116,7 +118,8 @@ int main()
     //우리가 원하는 문자열을 찾아서 가져올려고하면 string함수를 사용해야 된다.
 
     system("cls");
-
+    
+#pragma region MapBasic
     {
         std::map<wstring, CStdInfo> mapData;
 
@@ -188,6 +191,25 @@ int main()
 
 
     }
+#pragma endregion
+
+
+    CBST<int, int> BstInt;
+
+    FPair<int, int> pair;
+
+    pair.first = 100;
+    BstInt.insert(pair);
+    pair.first = 60;
+    BstInt.insert(pair);
+    pair.first = 25;
+    BstInt.insert(pair);
+    pair.first = 200;
+    BstInt.insert(pair);
+    pair.first = 300;
+    BstInt.insert(pair);
+
+    
 
 
 
