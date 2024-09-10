@@ -137,6 +137,8 @@ int main()
 
         mapiter = mapData.find(L"김우람");
 
+      
+     
         if (mapiter == mapData.end())
         {
             std::wcout << L"아무도 찾지 못했습니다" << std::endl;
@@ -196,22 +198,42 @@ int main()
 
     CBST<int, int> BstInt;
 
-    FPair<int, int> pair;
-
-    pair.first = 100;
-    BstInt.insert(pair);
-    pair.first = 60;
-    BstInt.insert(pair);
-    pair.first = 25;
-    BstInt.insert(pair);
-    pair.first = 200;
-    BstInt.insert(pair);
-    pair.first = 300;
-    BstInt.insert(pair);
-
     
 
+    
+    BstInt.insert(MySTD::make_pair(100,0));
+    
+    BstInt.insert(MySTD::make_pair(50, 0));
 
+    BstInt.insert(MySTD::make_pair(60, 0));
+    
+    BstInt.insert(MySTD::make_pair(25, 0));
+
+    BstInt.insert(MySTD::make_pair(10, 0));
+
+    BstInt.insert(MySTD::make_pair(30, 0));
+    
+    BstInt.insert(MySTD::make_pair(200, 0));
+    BstInt.insert(MySTD::make_pair(150, 0));
+    
+    BstInt.insert(MySTD::make_pair(300, 0));
+
+    CBST<int, int>::iterator iter = BstInt.begin();
+
+    iter = BstInt.find(100);
+  
+    
+
+ 
+    std::cout << (*iter).first << std::endl;
+
+    for (iter = BstInt.begin(); iter != BstInt.end(); ++iter)
+    {
+        std::cout << iter->first << std::endl;
+    }
+    
+
+    
 
     return 0;
 }
