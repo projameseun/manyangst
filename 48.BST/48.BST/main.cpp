@@ -137,7 +137,7 @@ int main()
 
         mapiter = mapData.find(L"김우람");
 
-      
+        
      
         if (mapiter == mapData.end())
         {
@@ -201,17 +201,17 @@ int main()
     
 
     
-    BstInt.insert(MySTD::make_pair(100,0));
+    BstInt.insert(MySTD::make_pair(100,0));         //                              150
     
-    BstInt.insert(MySTD::make_pair(50, 0));
+    BstInt.insert(MySTD::make_pair(50, 0));        //                    50                  200
 
-    BstInt.insert(MySTD::make_pair(60, 0));
+    BstInt.insert(MySTD::make_pair(70, 0));        //                 25      70               300
     
-    BstInt.insert(MySTD::make_pair(25, 0));
+    BstInt.insert(MySTD::make_pair(25, 0));         //                     65     80
 
-    BstInt.insert(MySTD::make_pair(10, 0));
+    BstInt.insert(MySTD::make_pair(80, 0));
 
-    BstInt.insert(MySTD::make_pair(30, 0));
+    BstInt.insert(MySTD::make_pair(65, 0));
     
     BstInt.insert(MySTD::make_pair(200, 0));
     BstInt.insert(MySTD::make_pair(150, 0));
@@ -221,17 +221,23 @@ int main()
     CBST<int, int>::iterator iter = BstInt.begin();
 
     iter = BstInt.find(100);
+    iter = BstInt.erase(iter);
   
     
 
  
-    std::cout << (*iter).first << std::endl;
+   /* std::cout << (*iter).first << std::endl;
 
     for (iter = BstInt.begin(); iter != BstInt.end(); ++iter)
     {
         std::cout << iter->first << std::endl;
-    }
+    }*/
     
+    //삭제...
+    //1. 삭제할 노드가 단말 노드(leafNode)의 경우
+    //2. 삭제할 노드가 자식노드를 한개 가진경우(자식이 부모로 연결해준다)
+    //3. 삭제할 노드가 2개의 자식을 가진경우
+
   
     
 
