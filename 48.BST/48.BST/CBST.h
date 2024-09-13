@@ -60,7 +60,14 @@ public:
 		}
 		return false;
 	}
-
+	bool IsRightChild()
+	{
+		if (ArrNode[(int)NODE_TYPE::PARENT]->ArrNode[(int)NODE_TYPE::RCHILD] == this)
+		{
+			return true;
+		}
+		return false;
+	}
 	
 
 public:
@@ -344,9 +351,52 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::GetInorderSuccesor(FBSTNode<T1, T2>* _pNo
 	return pSuccesor;
 }
 
+ //선행자
 template<class T1, class T2>
 inline FBSTNode<T1, T2>* CBST<T1, T2>::GetInorderPredecessor(FBSTNode<T1, T2>* _pNode)
 {
+	FBSTNode<T1, T2>* pSuccesor = nullptr;
+
+	//1.오른쪽 자식이 있는경우에 오른쪽 자식으로가서, 왼쪽 자식이 없을때 까지 내려감
+	if (_pNode->ArrNode[(int)NODE_TYPE::LCHILD] != nullptr)
+	{
+		pSuccesor = _pNode->ArrNode[(int)NODE_TYPE::LCHILD];
+
+		while (pSuccesor->ArrNode[(int)NODE_TYPE::RCHILD])
+		{
+			pSuccesor = pSuccesor->ArrNode[(int)NODE_TYPE::RCHILD];
+		}
+
+	}
+
+	//2.오른쪽 자식이 없으면 부모로 부터 왼쪽 자식일때까지 위로 올라간다.
+	//그때 부모가 후속자 
+	else
+	{
+		pSuccesor = _pNode;
+
+		while (pSuccesor != nullptr)
+		{
+			if (pSuccesor->IsRoot())
+			{
+				return nullptr;
+			}
+			else
+			{
+				//현재노드가 현재노드부모의 왼쪽 자식이랑 같을경우  현재노드 부모가 후속자 
+				if (pSuccesor->IsRightChild())
+				{
+					pSuccesor = GetParent(pSuccesor);
+					break;
+				}
+				else
+				{
+					pSuccesor = GetParent(pSuccesor);
+				}
+			}
+
+		}
+	}
 	return nullptr;
 }
 
