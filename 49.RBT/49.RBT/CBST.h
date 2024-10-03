@@ -92,6 +92,8 @@ public:
 		return false;
 	}
 
+	
+
 	NODE_COLOR GetRedColor()
 	{
 		return NODE_COLOR::RED;
@@ -120,6 +122,13 @@ public:
 	{
 
 	}
+	FBSTNode(FBSTNode* _pParent, FBSTNode* _pLChild, FBSTNode* _pRChild) :
+		pair(make_mypair(0,0)),
+		NodePosition{ _pParent, _pLChild, _pRChild },
+		NodeColor(NODE_COLOR::Default)
+	{
+
+	}
 
 };
 
@@ -130,6 +139,7 @@ class CBST
 {
 private:
 	FBSTNode<T1,T2>*	m_pRoot;		//root
+	FBSTNode<T1, T2>*	m_pNill;
 	int					m_iCount;		//데이터개수
 
 
@@ -138,8 +148,12 @@ public:
 	CBST() :
 		m_pRoot(nullptr),
 		m_iCount(0)
+		
 	{
-
+	
+	
+	
+		
 	}
 
 public:
@@ -213,7 +227,7 @@ public:
 		//++ 중위순회 
 		iterator& operator --()
 		{
-			//중위후속자를 찾는다
+			//중위선행자를 찾는다
 			//m_pBST->GetInorderSuccessor(m_pNode);
 			m_pNode = m_pBST->GetInOrderPredecessor(m_pNode);
 			return *this;
@@ -244,6 +258,7 @@ template<typename T1, typename T2>
 {
 	 FBSTNode<T1, T2>* pNewNode = new FBSTNode < T1, T2>(_pair,nullptr,nullptr,nullptr);
 
+
 	//insert는 기본적으로 red칼라를 넣어준다
 	 NODE_COLOR nodeColor = pNewNode->GetRedColor();
 	
@@ -251,9 +266,19 @@ template<typename T1, typename T2>
 	//rootnode
 	if (nullptr == m_pRoot)
 	{
+		//NillNode Init
+		FBSTNode<T1, T2>* pNewNillNode = new FBSTNode < T1, T2>(nullptr, nullptr, nullptr);
+		m_pNill = pNewNillNode;
+		m_pNill->NodeColor = m_pNill->GetBlackColor();
+
 		nodeColor = pNewNode->GetBlackColor();
 		pNewNode->NodeColor = nodeColor;
 		m_pRoot = pNewNode;
+
+		m_pRoot->NodePosition[(int)NODE_ROLE::PARENT] = m_pNill;
+
+		m_pRoot->NodePosition[(int)NODE_ROLE::LCHILD] = m_pNill;
+		m_pRoot->NodePosition[(int)NODE_ROLE::RCHILD] = m_pNill;
 		
 	}
 	else
@@ -292,7 +317,7 @@ template<typename T1, typename T2>
 			}
 			
 			//여기야
-			if (nullptr == pNode->NodePosition[(int)nodeType])
+			if (pNode->NodePosition[(int)nodeType]->IsLeafNode())
 			{
 
 				pNode->NodePosition[(int)nodeType] = pNewNode;
@@ -313,6 +338,13 @@ template<typename T1, typename T2>
 		
 
 		}
+
+		if (pNewNode->IsLeafNode())
+		{
+			pNewNode->NodePosition[(int)NODE_ROLE::LCHILD] = m_pNill;
+			pNewNode->NodePosition[(int)NODE_ROLE::RCHILD] = m_pNill;
+		}
+	
 		
 		//case에 이제 해당이 된다면 Rot
 		// red가 두번연속으로 일어낫다
