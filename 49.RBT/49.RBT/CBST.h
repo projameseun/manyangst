@@ -350,6 +350,16 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 		// red가 두번연속으로 일어낫다
 		//자가균형 함수를 발동시킨다 
 
+		if (pNewNode->NodePosition[(int)NODE_ROLE::PARENT]->NodeColor == nodeColor)
+		{
+			std::cout << "Case 발생!" << std::endl;
+			//CASE 1 
+
+			//CASE 2
+
+			//CASE 3
+		}
+
 	}
 
 	++m_iCount;
