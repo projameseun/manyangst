@@ -1,6 +1,6 @@
 #pragma once
 #include <assert.h>
-
+#include <iostream>
 enum class NODE_ROLE
 {
 	PARENT,
@@ -176,11 +176,16 @@ private:
 	FBSTNode<T1, T2>* DeleteNode(FBSTNode<T1, T2>* _pDelNode);
 
 public:
+	void swap(CBST<T1, T2>& other);
+	void bRedCheck(FBSTNode <T1, T2>* node);
+
+public:
 	class iterator
 	{
 	private:
 		CBST<T1, T2>*		m_pBST;		//bst본체를 알고잇기 
 		FBSTNode<T1, T2>*	m_pNode;	///특정 노드를 알기 
+
 
 			//이터레이터 비교연산자
 	public:
@@ -346,7 +351,7 @@ template<typename T1, typename T2>
 		}
 	
 		
-		//case에 이제 해당이 된다면 Rot
+		//case에 이제 해당이 된다면 Root
 		// red가 두번연속으로 일어낫다
 		//자가균형 함수를 발동시킨다 
 		
@@ -675,3 +680,68 @@ template<typename T1, typename T2>
 
 		return pSuccessor;
  }
+
+ template<typename T1, typename T2>
+ void CBST<T1, T2>::swap(CBST<T1, T2>& other)
+ {
+	 //왼쪽으로 돌리기 (반시계)
+	 /* A를 기준으로 B를 가져오기
+	    A                B
+	     \              / \
+		  B   =>       A   C
+		 / \
+	    C   D
+*/
+
+
+
+	 //오른쪽으로 돌리기 (시계)
+	/* D를 기준으로 C를 가져오기    
+	       D               C
+		  /               / \
+		 C   =>          A   D
+		/ \
+       A   B
+ */
+
+
+	 /*
+	 --첫번째 케이스)
+1)삽입된 노드의 부모가 레드
+2)삼촌도 레드 라면 
+부모와 삼촌을 black바꾸고 할아버지를 red로 바꾼대 할아버지에서 다시 확인을 시작 
+
+★해당 노드 부모노드 두개다 빨강색인데 꺾여있을때 (할아버지 , 부모가 같은 방향을 다른방향을킬때(왼쪽,오른쪽)
+--두번째 케이스)
+1) 삽입된 노드의 부모가 빨간색이이면
+2)삼촌은 블랙이라면
+부모를 기준으로 왼쪽으로 회전한뒤 첫번째 케이스 방식으로 해결 
+
+--세번째 케이스)
+★해당 노드 부모 두개다 빨강색인데 한쪽으로 편향될때 (할아버지 , 부모가 같은 방향을 가리킬때(왼쪽,오른쪽)
+1)삽인된 노드의 부모가 빨간색이라면 
+2)그 노드의 삼촌이 black이라면 
+ 부모와 할아버지의 색을 바꾼후 할아버지 기준으로 회전한다
+	 */
+	 
+	 //먼저 레드가 두번 오면 안된다
+	 void bRedCheck(FBSTNode <T1, T2>* node)
+	 {
+		 if (node == nullptr) // node가 nullptr까지 가면 리턴 해주기
+			 return;
+
+		 if (node->NodeColor == NODE_COLOR::RED) //노드 컬러가 레드인데
+		 {
+			 FBSTNode<T1, T2>* GetInOrderPredecessor = m_pBST->GetInOrderPredecessor(node); //중위선행자로 내려가서
+			 if (GetInOrderPredecessor != nullptr && GetInOrderPredecessor->NodeColor == NODE_COLOR::RED) // nullpur이 아니고 RED면
+			 {
+				 std::cout << "red two!! dangerous!!" << std::endl;
+			 }
+		 }
+		 
+		 bRedCheck(node->NodePosition[(int)NODE_ROLE::LCHILD]); // 왼쪽자식 방문
+
+		 bRedCheck(node->NodePosition[(int)NODE_ROLE::RCHILD]); // 오른쪽 자식 방문
+	 }
+ }
+ 

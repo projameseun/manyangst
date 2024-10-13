@@ -17,8 +17,8 @@ int main()
 	MyInt.insert(make_mypair(50, 0));
 	MyInt.insert(make_mypair(25, 0));
 	MyInt.insert(make_mypair(200, 0));
-
-
+	
+	
 	
 	return 0;
 }
