@@ -1,0 +1,2 @@
+﻿  소스.cpp
+C:\github\manyangst\homework\Project14\Project14\CBST.h(728,2): error C2760: 구문 오류: 'void'을(는) 예기치 않은 토큰입니다. 필요한 토큰은 '선언'입니다.

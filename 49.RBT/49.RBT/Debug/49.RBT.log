@@ -1,4 +1,2 @@
 ﻿  main.cpp
-C:\github\manyangst\49.RBT\49.RBT\CBST.h(179,33): error C2061: 구문 오류: 식별자 'bRedCheck'
-C:\github\manyangst\49.RBT\49.RBT\CBST.h(258): message : 컴파일되는 클래스 템플릿 인스턴스화 'CBST<T1,T2>'에 대한 참조를 확인하세요.
-C:\github\manyangst\49.RBT\49.RBT\CBST.h(727,3): error C2760: 구문 오류: 'void'을(는) 예기치 않은 토큰입니다. 필요한 토큰은 '선언'입니다.
+  49.RBT.vcxproj -> C:\github\manyangst\49.RBT\Debug\49.RBT.exe
