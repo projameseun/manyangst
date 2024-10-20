@@ -55,7 +55,7 @@ public:
 
 	bool IsLeftChild()
 	{
-		if (NodePosition[(int)NODE_ROLE::PARENT]->ArrNode[(int)NODE_ROLE::LCHILD] == this)
+		if (NodePosition[(int)NODE_ROLE::PARENT]->NodePosition[(int)NODE_ROLE::LCHILD] == this)
 		{
 			return true;
 		}
@@ -64,7 +64,7 @@ public:
 
 	bool IsRightChild()
 	{
-		if (NodePosition[(int)NODE_ROLE::PARENT]->ArrNode[(int)NODE_ROLE::RCHILD] == this)
+		if (NodePosition[(int)NODE_ROLE::PARENT]->NodePosition[(int)NODE_ROLE::RCHILD] == this)
 		{
 			return true;
 		}
@@ -92,6 +92,13 @@ public:
 		return false;
 	}
 
+	void  Getpairfirst()
+	{
+		return pair.first;
+	}
+
+
+
 
 
 	NODE_COLOR GetRedColor()
@@ -107,6 +114,7 @@ public:
 
 
 public:
+	//Default 생성자
 	FBSTNode() :
 		pair(),
 		NodePosition{},
@@ -115,6 +123,7 @@ public:
 
 	}
 
+	//초기화 생성자
 	FBSTNode(const FPair<T1, T2>& _pair, FBSTNode* _pParent, FBSTNode* _pLChild, FBSTNode* _pRChild) :
 		pair(_pair),
 		NodePosition{ _pParent, _pLChild, _pRChild },
@@ -122,6 +131,7 @@ public:
 	{
 
 	}
+	//Nil노드 생성자
 	FBSTNode(FBSTNode* _pParent, FBSTNode* _pLChild, FBSTNode* _pRChild) :
 		pair(make_mypair(0, 0)),
 		NodePosition{ _pParent, _pLChild, _pRChild },
@@ -138,8 +148,8 @@ template <typename T1, typename T2>
 class CBST
 {
 private:
-	FBSTNode<T1, T2>* m_pRoot;		//root
-	FBSTNode<T1, T2>* m_pNill;
+	FBSTNode<T1, T2>*	m_pRoot;		//root
+	FBSTNode<T1, T2>*	m_pNill;
 	int					m_iCount;		//데이터개수
 
 
@@ -163,6 +173,7 @@ public:
 
 
 	FBSTNode<T1, T2>* GetParent(FBSTNode<T1, T2>* _pNode);
+	
 
 
 	class iterator;
@@ -281,7 +292,7 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 		m_pRoot->NodePosition[(int)NODE_ROLE::RCHILD] = m_pNill;
 
 	}
-	else
+	else 
 	{
 		//2번째로 올때 root 노드 안에 pair.first에서 비교를 해야될거다 
 		//root에서 시작해서 leaf노드가 될때까지 비교하면서 내려가야 될것이다 결국 반복문 사용...
@@ -353,11 +364,69 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 		if (pNewNode->NodePosition[(int)NODE_ROLE::PARENT]->NodeColor == nodeColor)
 		{
 			std::cout << "Case 발생!" << std::endl;
+			
+			
+			
+			NODE_ROLE CheckPosition = NODE_ROLE::START;
+			NODE_ROLE CheckPosition2 = NODE_ROLE::START;
+
+			FBSTNode<T1, T2>* pNewNodeParent = pNewNode->NodePosition[(int)NODE_ROLE::PARENT];
+
+			//NewNode와 NewNode의 부모의 값을 둘이 비교해서 어느방향인지 찾아낸다
+			if (pNewNode->IsLeftChild())
+			{
+				std::cout << "New자식 부모의 왼쪽이 같다" << std::endl;
+				CheckPosition = NODE_ROLE::LCHILD;
+
+
+			}
+			else if (pNewNode->IsRightChild())
+			{
+				std::cout << "New자식 부모의 오른쪽이 같다" << std::endl;
+				CheckPosition = NODE_ROLE::RCHILD;
+			}
+			else
+			{
+				std::cout << "다르다" << std::endl;
+			}
+
+
+			//pNewNodeParent와 pNewNodeParent의 부모(NewNodeㅇ할아버지)의 값을 둘이 비교해서 어느방향인지 찾아낸다
+			if (pNewNodeParent->IsLeftChild())
+			{
+				std::cout << "New부모와 할아버지 왼쪽이 같다" << std::endl;
+				CheckPosition2 = NODE_ROLE::LCHILD;
+
+
+			}
+			else if (pNewNodeParent->IsRightChild())
+			{
+				std::cout << "New부모와 할아버지 오른쪽이 같다" << std::endl;
+				CheckPosition2 = NODE_ROLE::RCHILD;
+			}
+			else
+			{
+				std::cout << "다르다" << std::endl;
+			}
+
 			//CASE 1 
 
 			//CASE 2
 
+			//단방향
 			//CASE 3
+			if (CheckPosition == CheckPosition2)
+			{
+				std::cout << "단방향 입니다 case3이 발생 하였습니다" << std::endl;
+			}
+			else
+			{
+				std::cout << "꺾였습니다" << std::endl;
+			}
+
+
+
+
 		}
 
 	}
@@ -480,6 +549,8 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::GetParent(FBSTNode<T1, T2>* _pNode)
 {
 	return _pNode->NodePosition[(int)NODE_ROLE::PARENT];
 }
+
+
 
 //반환타입이 본인 타입 이너클래스면 typename 적어줘야됨
 template<typename T1, typename T2>
