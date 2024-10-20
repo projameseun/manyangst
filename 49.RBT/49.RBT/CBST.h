@@ -53,6 +53,7 @@ public:
 		return false;
 	}
 
+
 	bool IsLeftChild()
 	{
 		if (NodePosition[(int)NODE_ROLE::PARENT]->NodePosition[(int)NODE_ROLE::LCHILD] == this)
@@ -92,7 +93,7 @@ public:
 		return false;
 	}
 
-	void  Getpairfirst()
+	int  Getpairfirst()
 	{
 		return pair.first;
 	}
@@ -182,6 +183,7 @@ public:
 	iterator end();
 	iterator find(const T1& _find);
 	iterator erase(const iterator& _iter);
+	iterator insert(const iterator& _iter, const FPair<T1, T2>& _pair);
 
 private:
 	FBSTNode<T1, T2>* DeleteNode(FBSTNode<T1, T2>* _pDelNode);
@@ -259,6 +261,8 @@ public:
 
 		}
 
+		
+
 		friend class CBST<T1, T2>;
 	};
 
@@ -296,7 +300,7 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 	{
 		//2번째로 올때 root 노드 안에 pair.first에서 비교를 해야될거다 
 		//root에서 시작해서 leaf노드가 될때까지 비교하면서 내려가야 될것이다 결국 반복문 사용...
-
+		
 		FBSTNode<T1, T2>* pNode = m_pRoot;
 		NODE_ROLE nodeType = NODE_ROLE::START;
 
@@ -372,14 +376,24 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 
 			FBSTNode<T1, T2>* pNewNodeParent = pNewNode->NodePosition[(int)NODE_ROLE::PARENT];
 
+			
+
 			//NewNode와 NewNode의 부모의 값을 둘이 비교해서 어느방향인지 찾아낸다
-			if (pNewNode->IsLeftChild())
+		
+		/*	if (pNewNode->pair.first == pNewNodeParent->NodePosition[(int)nodeType]->Getpairfirst())
 			{
 				std::cout << "New자식 부모의 왼쪽이 같다" << std::endl;
 				CheckPosition = NODE_ROLE::LCHILD;
 
 
+			}*/
+			
+			if (pNewNode->IsLeftChild())
+			{
+				std::cout << "New자식 부모의 왼쪽이 같다" << std::endl;
+				CheckPosition = NODE_ROLE::LCHILD;
 			}
+		
 			else if (pNewNode->IsRightChild())
 			{
 				std::cout << "New자식 부모의 오른쪽이 같다" << std::endl;
@@ -425,7 +439,7 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 			}
 
 
-
+			//회전
 
 		}
 
@@ -442,7 +456,7 @@ FBSTNode<T1, T2>* CBST<T1, T2>::GetInOrderSuccessor(FBSTNode<T1, T2>* _pNode)
 	FBSTNode<T1, T2>* pSuccesor = nullptr;
 
 	//1.오른쪽 자식이 있는 경우 오른쪽 자식으로가서, 왼쪽 자식이 없을때 까지 내려감 
-	if (_pNode->NodePosition[(int)NODE_ROLE::RCHILD] != nullptr)
+	if (_pNode->NodePosition[(int)NODE_ROLE::RCHILD] != m_pNill)
 	{
 		pSuccesor = _pNode->NodePosition[(int)NODE_ROLE::RCHILD];
 
@@ -458,7 +472,7 @@ FBSTNode<T1, T2>* CBST<T1, T2>::GetInOrderSuccessor(FBSTNode<T1, T2>* _pNode)
 	{
 		pSuccesor = _pNode;
 
-		while (pSuccesor != nullptr)	//true를 하지않는이유 무한루프를돌수잇는걸 방지하기 위해서
+		while (pSuccesor != m_pNill)	//true를 하지않는이유 무한루프를돌수잇는걸 방지하기 위해서
 		{
 
 			if (pSuccesor->IsRoot())
@@ -497,7 +511,7 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::GetInOrderPredecessor(FBSTNode<T1, T2>* _
 	FBSTNode<T1, T2>* pPredecessor = nullptr;
 
 	//1.왼쪽 자식이 있는 경우 왼쪽 자식으로가서, 오른쪽 자식이 없을때 까지 내려감 
-	if (_pNode->NodePosition[(int)NODE_ROLE::LCHILD] != nullptr)
+	if (_pNode->NodePosition[(int)NODE_ROLE::LCHILD] != m_pNill)
 	{
 		pPredecessor = _pNode->NodePosition[(int)NODE_ROLE::LCHILD];
 
@@ -513,7 +527,7 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::GetInOrderPredecessor(FBSTNode<T1, T2>* _
 	{
 		pPredecessor = _pNode;
 
-		while (pPredecessor != nullptr)
+		while (pPredecessor != m_pNill)
 		{
 
 			if (pPredecessor->IsRoot())
@@ -559,11 +573,14 @@ inline typename CBST<T1, T2>::iterator CBST<T1, T2>::begin()
 	//바이너리 탐색 이진트리에서는 중위순회가 가장중요하고 그곳이 첫번째가 될 것이다.
 	FBSTNode<T1, T2>* pNode = m_pRoot;
 
-	while (pNode->NodePosition[(int)NODE_ROLE::LCHILD])
+	while (pNode->NodePosition[(int)NODE_ROLE::LCHILD] != m_pNill)
 	{
 		pNode = pNode->NodePosition[(int)NODE_ROLE::LCHILD];
+		
+		
 	}
-	return iterator(this, pNode);
+	return iterator(this,pNode);
+
 }
 
 template<typename T1, typename T2>
@@ -659,6 +676,105 @@ typename CBST<T1, T2>::iterator CBST<T1, T2>::erase(const iterator& _iter)
 
 
 	return iterator(this, pSuccessor);
+}
+
+template<typename T1, typename T2>
+typename CBST<T1, T2>::iterator CBST<T1, T2>::insert(const iterator& _iter, const FPair<T1, T2>& _pair)
+{
+
+
+	FBSTNode<T1, T2>* pNewNode = new FBSTNode < T1, T2>(_pair, nullptr, nullptr, nullptr);
+
+
+	//insert는 기본적으로 red칼라를 넣어준다
+	NODE_COLOR nodeColor = pNewNode->GetRedColor();
+
+
+	//rootnode
+	if (nullptr == m_pRoot)
+	{
+		//NillNode Init
+		FBSTNode<T1, T2>* pNewNillNode = new FBSTNode < T1, T2>(nullptr, nullptr, nullptr);
+		m_pNill = pNewNillNode;
+		m_pNill->NodeColor = m_pNill->GetBlackColor();
+
+		nodeColor = pNewNode->GetBlackColor();
+		pNewNode->NodeColor = nodeColor;
+		m_pRoot = pNewNode;
+
+		m_pRoot->NodePosition[(int)NODE_ROLE::PARENT] = m_pNill;
+
+		m_pRoot->NodePosition[(int)NODE_ROLE::LCHILD] = m_pNill;
+		m_pRoot->NodePosition[(int)NODE_ROLE::RCHILD] = m_pNill;
+
+	}
+	else
+	{
+		//2번째로 올때 root 노드 안에 pair.first에서 비교를 해야될거다 
+		//root에서 시작해서 leaf노드가 될때까지 비교하면서 내려가야 될것이다 결국 반복문 사용...
+
+		FBSTNode<T1, T2>* pNode = m_pRoot;
+		NODE_ROLE nodeType = NODE_ROLE::START;
+
+		//root 보다 new가 커서 만약에 오른쪽으로 계속 내려가다가
+		//new랑 이미들어잇는 데이터가 같을때는 어떡해야되나?
+		//map같은경우에는 중복을 허용하지 않는다 그래서 항상 find함수를 사용해서 이미 동일한 key값을 예외처리를 내가 해줘야된다.
+		// 근데 multmap은 허용을하고 새로운공간 옆에 계속 추가된다 근데 만약에 이런식으로 만들어지면 이진탐색트리에 효율이 떨어진다.
+
+		while (true)
+		{
+
+
+			//오른쪽
+			if (pNode->pair.first < pNewNode->pair.first)
+			{
+				nodeType = NODE_ROLE::RCHILD;
+
+			}
+
+			else if (pNode->pair.first > pNewNode->pair.first)
+			{
+				nodeType = NODE_ROLE::LCHILD;
+			}
+
+			//같다
+			else
+			{
+				return  iterator(nullptr, nullptr);
+			}
+
+			//여기야
+			if (pNode->NodePosition[(int)nodeType]->IsLeafNode())
+			{
+
+				pNode->NodePosition[(int)nodeType] = pNewNode;
+				//pNode->NodeColor[(int)nodeColor] = pNewNode;
+				pNewNode->NodePosition[(int)NODE_ROLE::PARENT] = pNode;
+				pNewNode->NodeColor = nodeColor;
+
+				break;
+
+			}
+
+			else
+			{
+				pNode = pNode->NodePosition[(int)nodeType];
+
+			}
+
+
+
+		}
+
+		if (pNewNode->IsLeafNode())
+		{
+			pNewNode->NodePosition[(int)NODE_ROLE::LCHILD] = m_pNill;
+			pNewNode->NodePosition[(int)NODE_ROLE::RCHILD] = m_pNill;
+		}
+
+
+		return iterator(this,pNewNode);
+	}
 }
 
 template<typename T1, typename T2>
