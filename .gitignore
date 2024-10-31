@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+#flolders
+.vs/
+.Debug/
+.Release/
+x64/
+**/Debug/
+**/Release/
+**/x64/
+

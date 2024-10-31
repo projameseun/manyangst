@@ -160,7 +160,6 @@ public:
 	CBST() :
 		m_pRoot(nullptr),
 		m_iCount(0)
-
 	{
 
 
@@ -177,8 +176,9 @@ public:
 	FBSTNode<T1, T2>* GetParent(FBSTNode<T1, T2>* _pNode);
 	FBSTNode<T1, T2>* GetGrandParent(FBSTNode<T1, T2>* _pNode);
 	FBSTNode<T1, T2>* GetUncle(FBSTNode<T1, T2>* _pNode);
+	FBSTNode<T1, T2>* GetSibling(FBSTNode<T1, T2>* _pNode);
 	
-
+	NODE_POS ChangeNodePos(FBSTNode<T1, T2>* _pNode, NODE_POS _pos);
 
 	class iterator;
 public:
@@ -193,6 +193,8 @@ private:
 	FBSTNode<T1, T2>* CASEONE(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos);
 	FBSTNode<T1, T2>* CASETWO(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos);
 	FBSTNode<T1, T2>* CASETHREE(FBSTNode<T1, T2>* _pNewNode, NODE_POS _role);
+
+	FBSTNode<T1, T2>* Rotation(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos, int _iNumber);
 
 private:
 	FBSTNode<T1, T2>* DeleteNode(FBSTNode<T1, T2>* _pDelNode);
@@ -370,9 +372,15 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 		}
 
 
-		//case에 이제 해당이 된다면 Rot
-		// red가 두번연속으로 일어낫다
-		//자가균형 함수를 발동시킨다 
+		//RBT 조건 유형
+	//1.노드는 red 또는 black이여야 한다.
+	//2. root노드는 black이여야 된다.
+	//3. 모든 리프노드(NIL)노드는 블랙이다.
+	//4. 레드가 연속적으로 일어날수 없다. 
+	//5. 어떤 노드로부터 시작이 되어 그에 속한 하위 리프노드에 도달 하는경우 모든 경로에는 자기자신을 제외하고 블랙의 수는 항상같다.
+
+
+	
 
 		//RED 두개로 4번속성위반 
 		if (pNewNode->NodePosition[(int)NODE_POS::PARENT]->NodeColor == nodeColor)
@@ -381,24 +389,32 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 		}
 
 	}
+	
+		//모든 root노드는 다시 black으로 변경해준다.
+		if (m_pRoot->NodeColor != NODE_COLOR::BLACK)
+		{
+			m_pRoot->NodeColor = NODE_COLOR::BLACK;
+		}
 
 	++m_iCount;
 	return true;
 }
 
 template<typename T1, typename T2>
-inline typename FBSTNode<T1, T2>* CBST<T1, T2>::CASE(FBSTNode<T1, T2>* _pNewNode)
+ typename FBSTNode<T1, T2>* CBST<T1, T2>::CASE(FBSTNode<T1, T2>* _pNewNode)
 {
 
 	std::cout << "Case 발생!" << std::endl;
 
+	
+	if (_pNewNode == nullptr) return nullptr;
 
 
 	NODE_POS CheckPosition = NODE_POS::START;
 	NODE_POS CheckPosition2 = NODE_POS::START;
 
 	FBSTNode<T1, T2>* pNewNodeParent = GetParent(_pNewNode);
-	FBSTNode<T1, T2>* pNewGradParent = GetGrandParent(_pNewNode);
+	FBSTNode<T1, T2>* pNewNodeGradParent = GetGrandParent(_pNewNode);
 	FBSTNode<T1, T2>* pNewUncle = GetUncle(_pNewNode);
 
 
@@ -416,86 +432,65 @@ inline typename FBSTNode<T1, T2>* CBST<T1, T2>::CASE(FBSTNode<T1, T2>* _pNewNode
 		CheckPosition = NODE_ROLE::RCHILD;
 	}*/
 
-	//단방향인지 역방향인지
-	if (_pNewNode->IsLeftChild())
-	{
-		std::cout << "New자식 부모의 왼쪽이 같다" << std::endl;
-		CheckPosition = NODE_POS::LCHILD;
-	}
 
-	else if (_pNewNode->IsRightChild())
+	if (pNewNodeParent == nullptr || pNewNodeGradParent == nullptr)
 	{
-		std::cout << "New자식 부모의 오른쪽이 같다" << std::endl;
-		CheckPosition = NODE_POS::RCHILD;
-	}
-	else
-	{
-		std::cout << "다르다" << std::endl;
+		return _pNewNode;
 	}
 
 
-	//pNewNodeParent와 pNewNodeParent의 부모(NewNodeㅇ할아버지)의 값을 둘이 비교해서 어느방향인지 찾아낸다
-	if (pNewNodeParent->IsLeftChild())
+	//단방향인지 역방향인지 체크해주는 함수를 만든다.
+
+	CheckPosition = ChangeNodePos(_pNewNode, CheckPosition);
+	CheckPosition2 = ChangeNodePos(pNewNodeParent, CheckPosition2);
+
+	if (CheckPosition == NODE_POS::START || CheckPosition2 == NODE_POS::START)
 	{
-		std::cout << "New부모와 할아버지 왼쪽이 같다" << std::endl;
-		CheckPosition2 = NODE_POS::LCHILD;
+		return _pNewNode;
+	}
 
 
-	}
-	else if (pNewNodeParent->IsRightChild())
-	{
-		std::cout << "New부모와 할아버지 오른쪽이 같다" << std::endl;
-		CheckPosition2 = NODE_POS::RCHILD;
-	}
-	else
-	{
-		std::cout << "다르다" << std::endl;
-	}
 
 	//CASE 1 
+	//부모,삼춘이 레드라면 black으로 변경한다 그리고 할아버지를 레드로 변경하고 
+	//할아버지에서 반드시 체크를 한다.
 	if (pNewNodeParent->NodeColor == NODE_COLOR::RED && pNewUncle->NodeColor == NODE_COLOR::RED)
 	{
 		CASEONE(_pNewNode, CheckPosition);
+
+		if (m_pRoot->NodeColor != NODE_COLOR::BLACK)
+		{
+			m_pRoot->NodeColor = NODE_COLOR::BLACK;
+		}
+		//할아버지에서 다시 확인한다.
+		return CASE(pNewNodeGradParent);
+		
 	}
 
 	//CASE 2
-
-	//단방향
-	//CASE 3
-	if (CheckPosition == CheckPosition2)
+	//역방향이고 삼촌이 블랙이라면 발생한다.
+	//그렇다면 해당 부모의 기준으로 회전을 해서 CASE3번으로 만들어 준다.
+	else if (CheckPosition != CheckPosition2 && pNewUncle->NodeColor == NODE_COLOR::BLACK)
 	{
-		std::cout << "단방향 입니다 case3이 발생 하였습니다" << std::endl;
+		CASETWO(_pNewNode, CheckPosition);
 
-		//삼촌노드가 블랙이라면 회전
-		if (pNewUncle->NodeColor == NODE_COLOR::BLACK)
-		{
+		//회전
+		Rotation(_pNewNode, CheckPosition2, 2);
 
-
-			CASETHREE(_pNewNode,CheckPosition);
-
-		}
+		return CASE(_pNewNode);
 	}
-	else
-	{
-		std::cout << "꺾였습니다" << std::endl;
-	}
-
 	
 
-	//2.할아버지 기준으로 해당 포지션쪽으로 회전한다.
-
-	if (CheckPosition == NODE_POS::LCHILD)
+	//자식과 부모가 단방향이고 삼촌이 블랙일때 3번케이스 발생
+	// 부모와 할아버지의 색을 변경한후 할아버지 기준으로 회전을 한다.
+	//CASE 3
+	if (CheckPosition == CheckPosition2 && pNewUncle->NodeColor == NODE_COLOR::BLACK)
 	{
-		//checkpos = 왼쪽
-		//오른쪽 회전
 
+		CASETHREE(_pNewNode,CheckPosition);
+		
 	}
-	else
-	{
-		//checpos = 오른쪽
-		//왼쪽 회전
-	}
-
+	
 
 	if (m_pRoot->NodeColor != NODE_COLOR::BLACK)
 	{
@@ -518,7 +513,7 @@ inline typename FBSTNode<T1, T2>* CBST<T1, T2>::CASEONE(FBSTNode<T1, T2>* _pNewN
 	pNewNodeParent->NodeColor = NODE_COLOR::BLACK;
 	pNewUncle->NodeColor = NODE_COLOR::BLACK;
 	
-	//할아버지에서 다시 시작한다
+	
 
 	return _pNewNode;
 }
@@ -550,6 +545,87 @@ inline typename FBSTNode<T1, T2>* CBST<T1, T2>::CASETHREE(FBSTNode<T1, T2>* _pNe
 
 	//2.할아버지 기준으로 회전
 
+
+	return _pNewNode;
+}
+
+template<typename T1, typename T2>
+typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos, int _iCase)
+{
+
+	FBSTNode<T1, T2>* pNewNodeParent = GetParent(_pNewNode);
+	FBSTNode<T1, T2>* pNewNodeGradParent = GetGrandParent(_pNewNode);
+	FBSTNode<T1, T2>* pNewUncle = GetUncle(_pNewNode);
+	FBSTNode<T1, T2>* pNewSibling = GetSibling(_pNewNode);
+
+	NODE_POS CheckPosition = NODE_POS::START;
+
+
+	FBSTNode<T1, T2>* TempNode = nullptr;
+	
+	
+	if (pNewNodeParent == nullptr || pNewNodeGradParent == nullptr || pNewSibling == nullptr)
+	{
+		return _pNewNode;
+	}
+
+	
+	if (_iCase == 2)
+	{
+
+		//회전을 부모기준으로 오른쪽으로 할지 왼쪽으로 할지를 정해줘야 된다.
+		
+		//1.부모를 tmep저장
+		//2.부모자리에 자식이 들어간다
+		//3.형제 자리에 부모가 간다.
+		
+		//부모의 자식이 왼쪽
+		if (_pos == NODE_POS::LCHILD)
+		{
+			// = pNewNodeParent;
+			
+			//pNewNodeParent = _pNewNode;
+
+			//pNewSibling = _pNewNode->NodePosition[(int)NODE_POS::RCHILD];
+
+			_pNewNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
+			_pNewNode->NodePosition[(int)NODE_POS::LCHILD] = pNewNodeParent;
+			
+			pNewNodeGradParent->NodePosition[(int)::NODE_POS::LCHILD] = _pNewNode;
+			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = _pNewNode;
+
+			pNewNodeParent->NodePosition[(int)::NODE_POS::RCHILD] = m_pNil;
+			
+			//pNewNodeParent->NodePosition[(int)NODE_POS::LCHILD] = pNewSibling;
+
+			//pNewSibling->NodePosition[(int)NODE_POS::PARENT] = pNewNodeParent;
+			
+			
+	
+
+
+			
+		}
+		//부모의 자식이 오른쪽
+		else if(_pos == NODE_POS::RCHILD)
+		{
+			_pNewNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
+			_pNewNode->NodePosition[(int)NODE_POS::RCHILD] = pNewNodeParent;
+
+			pNewNodeGradParent->NodePosition[(int)::NODE_POS::RCHILD] = _pNewNode;
+			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = _pNewNode;
+
+			pNewNodeParent->NodePosition[(int)::NODE_POS::LCHILD] = m_pNil;
+		}
+
+
+
+
+	}
+	else if (_iCase == 3)
+	{
+
+	}
 
 	return _pNewNode;
 }
@@ -684,6 +760,12 @@ typename FBSTNode<T1, T2>* CBST<T1, T2>::GetUncle(FBSTNode<T1, T2>* _pNode)
 	FBSTNode<T1, T2>* pNodeParent = _pNode->NodePosition[(int)NODE_POS::PARENT];
 	FBSTNode<T1, T2>* pNodeGrandParent = pNodeParent->NodePosition[(int)NODE_POS::PARENT];
 	
+
+	if (pNodeParent == nullptr || pNodeGrandParent == nullptr)
+	{
+		return nullptr;
+	}
+
 	
 	NODE_POS UnclePos = NODE_POS::START;
 
@@ -700,6 +782,64 @@ typename FBSTNode<T1, T2>* CBST<T1, T2>::GetUncle(FBSTNode<T1, T2>* _pNode)
 
 	
 	return pNodeGrandParent->NodePosition[(int)UnclePos];
+}
+
+template<typename T1, typename T2>
+typename FBSTNode<T1, T2>* CBST<T1, T2>::GetSibling(FBSTNode<T1, T2>* _pNode)
+{
+	FBSTNode<T1, T2>* pNodeParent = _pNode->NodePosition[(int)NODE_POS::PARENT];
+
+	FBSTNode<T1, T2>* pNodeSibling = nullptr;
+	if (pNodeParent == nullptr)
+	{
+		return nullptr;
+	}
+
+	//왼쪽자식
+	if (_pNode->IsLeftChild())
+	{
+		
+		pNodeParent->NodePosition[(int)NODE_POS::RCHILD];
+		return pNodeSibling;
+	}
+	//오르쪽자식
+	if(_pNode->IsRightChild())
+	{
+		pNodeSibling = pNodeParent->NodePosition[(int)NODE_POS::LCHILD];
+		return pNodeSibling;
+	}
+	
+
+
+	
+}
+
+
+
+template<typename T1, typename T2>
+typename NODE_POS CBST<T1, T2>::ChangeNodePos(FBSTNode<T1, T2>* _pNode, NODE_POS _pos)
+{
+
+	//단방향인지 역방향인지
+	if (_pNode->IsLeftChild())
+	{
+		std::cout << "New자식 부모의 왼쪽이 같다" << std::endl;
+		_pos = NODE_POS::LCHILD;
+	}
+
+	else if (_pNode->IsRightChild())
+	{
+		std::cout << "New자식 부모의 오른쪽이 같다" << std::endl;
+		_pos = NODE_POS::RCHILD;
+	}
+	else
+	{
+		std::cout << "다르다" << std::endl;
+	}
+
+
+
+	return _pos;
 }
 
 
@@ -910,11 +1050,7 @@ typename CBST<T1, T2>::iterator CBST<T1, T2>::insert(const iterator& _iter, cons
 			pNewNode->NodePosition[(int)NODE_POS::RCHILD] = m_pNill;
 		}
 
-		if (pNewNode->NodePosition[(int)NODE_POS::PARENT]->NodeColor == nodeColor)
-		{
-
-		}
-		pNewNode = CASE(pNewNode, nodeColor);
+	
 
 
 		return iterator(this,pNewNode);
