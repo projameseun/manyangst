@@ -33,14 +33,29 @@ int main()
 
 	MyInt.insert(make_mypair(100, 0));
 	MyInt.insert(make_mypair(50, 0));
-	MyInt.insert(make_mypair(25, 0));
-	MyInt.insert(make_mypair(200, 0));
+	MyInt.insert(make_mypair(60, 0));
+	MyInt.insert(make_mypair(80, 0));
+	MyInt.insert(make_mypair(150, 0));
+	MyInt.insert(make_mypair(180, 0));
+	MyInt.insert(make_mypair(75, 0));
+	MyInt.insert(make_mypair(90, 0));
+	MyInt.insert(make_mypair(77, 0));
+	//MyInt.insert(make_mypair(200, 0));
 	
 	
-	//iter2 = MyInt.begin();
+	iter2 = MyInt.begin();
 	//++iter2;
 
-	//iter2 = MyInt.insert(iter2, make_mypair(500, 0));
+	int iCount = 0;
+
+	
+	for (iter2; iter2 != MyInt.end() && iter2 != MyInt.GetNilNode(); ++iter2)
+	{
+		iCount++;
+		std::cout << (*iter2).first << std::endl;
+		
+	}
+	std::cout << iCount << std::endl;
 	
 	int b = 0;
 	
