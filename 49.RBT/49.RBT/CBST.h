@@ -20,7 +20,7 @@ template<typename T1, typename T2>
 struct FPair
 {
 	T1		first;		//키값
-	T1		second;		//밸류
+	T2		second;		//밸류
 };
 
 
@@ -136,7 +136,7 @@ public:
 	}
 	//Nil노드 생성자
 	FBSTNode(FBSTNode* _pParent, FBSTNode* _pLChild, FBSTNode* _pRChild) :
-		pair(make_mypair(0, 0)),
+		pair(),
 		NodePosition{ _pParent, _pLChild, _pRChild },
 		NodeColor(NODE_COLOR::Default)
 	{
@@ -297,7 +297,7 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 		//NillNode Init
 		FBSTNode<T1, T2>* pNewNillNode = new FBSTNode < T1, T2>(nullptr, nullptr, nullptr);
 		m_pNil = pNewNillNode;
-		m_pNil->NodeColor = m_pNil->GetBlackColor();
+		m_pNil->NodeColor = NODE_COLOR::BLACK;
 
 		nodeColor = pNewNode->GetBlackColor();
 		pNewNode->NodeColor = nodeColor;
@@ -396,6 +396,7 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 		if (m_pRoot->NodeColor != NODE_COLOR::BLACK)
 		{
 			m_pRoot->NodeColor = NODE_COLOR::BLACK;
+			m_pRoot->NodePosition[(int)NODE_POS::PARENT] = m_pNil;
 		}
 
 	++m_iCount;
@@ -609,11 +610,19 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = _pNewNode;
 
 			pNewNodeParent->NodePosition[(int)::NODE_POS::RCHILD] = pNewChildNode;
-			pNewChildNode->NodePosition[(int)::NODE_POS::PARENT] = pNewNodeParent;
+
+
+			if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
+			{
+				pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeParent;
+
+			}
+
+			else
+			{
+				pNewChildNode = m_pNil;
+			}
 		
-			
-			
-	
 
 
 			
@@ -630,7 +639,17 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = _pNewNode;
 
 			pNewNodeParent->NodePosition[(int)::NODE_POS::LCHILD] = pNewChildNode;
-			pNewChildNode->NodePosition[(int)::NODE_POS::PARENT] = pNewNodeParent;
+
+			if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
+			{
+				pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeParent;
+
+			}
+			else
+			{
+				pNewChildNode = m_pNil;
+			}
+			
 		}
 
 		return pNewNodeParent;
@@ -647,6 +666,7 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 		if (pNewNodeGradParent == m_pRoot)
 		{
 			m_pRoot = pNewNodeParent;
+			
 		}
 
 
@@ -670,6 +690,16 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 			pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
 
 
+			if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
+			{
+				pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
+
+			}
+			else
+			{
+				pNewChildNode = m_pNil;
+			}
+
 		}
 		else if (_pos == NODE_POS::RCHILD)
 		{
@@ -689,7 +719,16 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 			pNewNodeGradParent->NodePosition[(int)NODE_POS::PARENT] = pNewNodeParent;
 
 			pNewNodeGradParent->NodePosition[(int)NODE_POS::LCHILD] = pNewChildNode;
-			pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
+
+			if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
+			{
+				pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
+
+			}
+			else
+			{
+				pNewChildNode = m_pNil;
+			}
 
 
 		}
