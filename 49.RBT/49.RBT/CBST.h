@@ -591,44 +591,37 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 		return _pNewNode;
 	}
 
-	
 	if (_iCase == 2)
 	{
 
 		//회전을 부모기준으로 오른쪽으로 할지 왼쪽으로 할지를 정해줘야 된다.
-		
-		
+
+		//1.부모를 tmep저장
+		//2.부모자리에 자식이 들어간다
+		//3.형제 자리에 부모가 간다.
+
 		//부모의 자식이 왼쪽
 		if (_pos == NODE_POS::LCHILD)
 		{
+
+
 			pNewChildNode = _pNewNode->NodePosition[(int)NODE_POS::LCHILD];
 
 			_pNewNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
 			_pNewNode->NodePosition[(int)NODE_POS::LCHILD] = pNewNodeParent;
-			
+
 			pNewNodeGradParent->NodePosition[(int)::NODE_POS::LCHILD] = _pNewNode;
 			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = _pNewNode;
 
 			pNewNodeParent->NodePosition[(int)::NODE_POS::RCHILD] = pNewChildNode;
 
 
-			if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
-			{
-				pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeParent;
-
-			}
-
-			else
-			{
-				pNewChildNode = m_pNil;
-			}
-		
-
-
 			
+
+
 		}
 		//부모의 자식이 오른쪽
-		else if(_pos == NODE_POS::RCHILD)
+		else if (_pos == NODE_POS::RCHILD)
 		{
 			pNewChildNode = _pNewNode->NodePosition[(int)NODE_POS::RCHILD];
 
@@ -640,70 +633,60 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 
 			pNewNodeParent->NodePosition[(int)::NODE_POS::LCHILD] = pNewChildNode;
 
-			if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
-			{
-				pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeParent;
-
-			}
-			else
-			{
-				pNewChildNode = m_pNil;
-			}
 			
 		}
 
+
+		if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
+
+		{
+			pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeParent;
+
+		}
+
+
 		return pNewNodeParent;
-		
 
 	}
-
-	//할아버지 기준으로 회전을 한다
 	else if (_iCase == 3)
 	{
-
-		
 
 		if (pNewNodeGradParent == m_pRoot)
 		{
 			m_pRoot = pNewNodeParent;
-			
 		}
 
 
 		if (_pos == NODE_POS::LCHILD)
 		{
-		
+
 			pNewChildNode = pNewNodeParent->NodePosition[(int)NODE_POS::LCHILD];
 			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = pNewGGParent;
-			
+
 
 			CheckPosition = ChangeNodePos(pNewNodeGradParent, CheckPosition);
-			
-			pNewGGParent->NodePosition[(int)CheckPosition] = pNewNodeParent;
-			
+
+			if (pNewGGParent != m_pNil || nullptr)
+			{
+				pNewGGParent->NodePosition[(int)CheckPosition] = pNewNodeParent;
+
+			}
+
 			pNewNodeParent->NodePosition[(int)NODE_POS::LCHILD] = pNewNodeGradParent;
 
-			
+
+
 			pNewNodeGradParent->NodePosition[(int)NODE_POS::PARENT] = pNewNodeParent;
 
 			pNewNodeGradParent->NodePosition[(int)NODE_POS::RCHILD] = pNewChildNode;
-			pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
+			
+			
 
-
-			if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
-			{
-				pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
-
-			}
-			else
-			{
-				pNewChildNode = m_pNil;
-			}
 
 		}
 		else if (_pos == NODE_POS::RCHILD)
 		{
-		
+
 			pNewChildNode = pNewNodeParent->NodePosition[(int)NODE_POS::RCHILD];
 
 			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = pNewGGParent;
@@ -711,35 +694,36 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 
 			CheckPosition = ChangeNodePos(pNewNodeGradParent, CheckPosition);
 
-			pNewGGParent->NodePosition[(int)CheckPosition] = pNewNodeParent;
+			if (pNewGGParent != m_pNil || nullptr)
+			{
+				pNewGGParent->NodePosition[(int)CheckPosition] = pNewNodeParent;
+
+			}
 
 			pNewNodeParent->NodePosition[(int)NODE_POS::RCHILD] = pNewNodeGradParent;
+
 
 
 			pNewNodeGradParent->NodePosition[(int)NODE_POS::PARENT] = pNewNodeParent;
 
 			pNewNodeGradParent->NodePosition[(int)NODE_POS::LCHILD] = pNewChildNode;
 
-			if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
-			{
-				pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
-
-			}
-			else
-			{
-				pNewChildNode = m_pNil;
-			}
-
 
 		}
 
-		
-		return _pNewNode = pNewNodeGradParent;
-		
-	}
-	
 
-	
+		if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
+
+		{
+			pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
+
+		}
+
+
+		_pNewNode = pNewNodeGradParent;
+	}
+
+	return _pNewNode;
 }
 
 
