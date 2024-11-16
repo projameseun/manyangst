@@ -637,7 +637,7 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 		}
 
 
-		if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
+		if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr )
 
 		{
 			pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeParent;
@@ -712,7 +712,7 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 		}
 
 
-		if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr)
+		if (pNewChildNode->NodePosition[(int)NODE_POS::PARENT] != nullptr )
 
 		{
 			pNewChildNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;

@@ -37,21 +37,21 @@ int main()
 	
 	CBST<int, int>::iterator iter2;
 	
-	CBST<string, int> MyStr;
+	//CBST<string, int> MyStr;
 
-	MyStr.insert(make_mypair(static_cast<string>("은진수"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("박만냥"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("김민지"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("이태훈"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("정진모"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("하인태"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("자두림"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("박상철"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("은진수"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("박만냥"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("김민지"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("이태훈"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("정진모"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("하인태"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("자두림"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("박상철"), 0));
 	
 
 	CBST<string, int>::iterator iterstr;
 
-	iterstr = MyStr.begin();
+	//iterstr = MyStr.begin();
 
 	//MyInt.insert(make_mypair(100, 0));
 	//MyInt.insert(make_mypair(50, 0));
@@ -64,6 +64,8 @@ int main()
 	//MyInt.insert(make_mypair(77, 0));
 	//MyInt.insert(make_mypair(65, 0));
 	//MyInt.insert(make_mypair(200, 0));
+	
+	MyInt.insert(make_mypair(1, 0));
 	
 
 	
@@ -84,19 +86,19 @@ int main()
 	//int b = 0;
 
 	//정수
-	//for (iterstring; iterstring != MyStr.end() && iterstring != MyStr.GetNilNode(); ++iterstring)
-	//{
-	//	//iCount++;
-	//	std::cout << (*iterstring).first << std::endl;
-
-	//}
-
-	//문자열
-	for (iterstr; iterstr != MyStr.end() && iterstr != MyStr.GetNilNode(); ++iterstr)
+	for (iterstring; iterstring != MyStr.end() && iterstring != MyStr.GetNilNode(); ++iterstring)
 	{
 		//iCount++;
-		std::cout << (*iterstr).first << std::endl;
+		std::cout << (*iterstring).first << std::endl;
 
 	}
+
+	//문자열
+	//for (iterstr; iterstr != MyStr.end() && iterstr != MyStr.GetNilNode(); ++iterstr)
+	//{
+	//	//iCount++;
+	//	std::cout << (*iterstr).first << std::endl;
+
+	//}
 	return 0;
 }
