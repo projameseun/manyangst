@@ -33,6 +33,7 @@ FPair<T1, T2> make_mypair(const T1& _first, const T2& _second)
 	return FPair<T1, T2>{_first, _second};
 }
 
+
 template<typename T1, typename T2>
 struct FBSTNode
 {
@@ -41,8 +42,7 @@ struct FBSTNode
 	//같은노드가 있기때문에 배열로 만들어서 관리하면 좋다 
 	FBSTNode*	NodePosition[(int)NODE_POS::START];		//부모 자식둘을 관리하는 노드메모리
 	NODE_COLOR	NodeColor;
-	int			iExtraBlack;		//extrablack 있는지 없는지 체크
-
+	int			iExtraBlack = 0;		//extrablack 있는지 없는지 체크  1.이면 부여된거고 0이면 부여안된거 
 
 public:
 	bool IsRoot()
@@ -101,7 +101,7 @@ public:
 	}
 
 
-
+public:
 
 
 	NODE_COLOR GetRedColor()
@@ -122,8 +122,7 @@ public:
 	FBSTNode() :
 		pair(),
 		NodePosition{},
-		NodeColor{},
-		iExtraBlack(0)
+		NodeColor{}
 	{
 		//int a = 0;
 	}
@@ -132,8 +131,7 @@ public:
 	FBSTNode(const FPair<T1, T2>& _pair, FBSTNode* _pParent, FBSTNode* _pLChild, FBSTNode* _pRChild) :
 		pair(_pair),
 		NodePosition{ _pParent, _pLChild, _pRChild },
-		NodeColor(NODE_COLOR::Default),
-		iExtraBlack(0)
+		NodeColor(NODE_COLOR::Default)
 	{
 
 		int a = 0;
@@ -142,10 +140,9 @@ public:
 	FBSTNode(FBSTNode* _pParent, FBSTNode* _pLChild, FBSTNode* _pRChild) :
 		pair(),
 		NodePosition{ _pParent, _pLChild, _pRChild },
-		NodeColor(NODE_COLOR::Default),
-		iExtraBlack(0)
+		NodeColor(NODE_COLOR::Default)
 	{
-		int a = 0;
+	
 	}
 
 };
@@ -157,9 +154,8 @@ class CBST
 {
 private:
 	FBSTNode<T1, T2>*	m_pRoot;		//root
-	FBSTNode<T1, T2>*	m_pNil;
 	int					m_iCount;		//데이터개수
-
+	FBSTNode<T1, T2>*	m_pNil;
 
 
 public:
@@ -287,7 +283,7 @@ public:
 		
 
 		friend class CBST<T1, T2>;
-	
+		
 		
 	};
 
@@ -1273,4 +1269,3 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 
 	return pSuccessor;
 }
-

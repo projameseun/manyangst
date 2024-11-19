@@ -56,9 +56,7 @@ int main()
 	MyInt.insert(make_mypair(100, 0));
 	MyInt.insert(make_mypair(50, 0));
 	MyInt.insert(make_mypair(60, 0));
-	MyInt.insert(make_mypair(20, 0));
-	MyInt.insert(make_mypair(200, 0));
-	MyInt.insert(make_mypair(150, 0));
+
 
 	
 	iter2 = MyInt.find(60);
