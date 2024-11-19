@@ -16,6 +16,8 @@ enum class NODE_COLOR
 	Default,
 };
 
+
+
 template<typename T1, typename T2>
 struct FPair
 {
@@ -37,9 +39,9 @@ struct FBSTNode
 	FPair<T1, T2>		pair;					//data	map에서는 pair로 불른다.
 
 	//같은노드가 있기때문에 배열로 만들어서 관리하면 좋다 
-	FBSTNode* NodePosition[(int)NODE_POS::START];		//부모 자식둘을 관리하는 노드메모리
-	NODE_COLOR NodeColor;
-
+	FBSTNode*	NodePosition[(int)NODE_POS::START];		//부모 자식둘을 관리하는 노드메모리
+	NODE_COLOR	NodeColor;
+	int			iExtraBlack;		//extrablack 있는지 없는지 체크
 
 
 public:
@@ -120,16 +122,18 @@ public:
 	FBSTNode() :
 		pair(),
 		NodePosition{},
-		NodeColor{}
+		NodeColor{},
+		iExtraBlack(0)
 	{
-		int a = 0;
+		//int a = 0;
 	}
 
 	//초기화 생성자
 	FBSTNode(const FPair<T1, T2>& _pair, FBSTNode* _pParent, FBSTNode* _pLChild, FBSTNode* _pRChild) :
 		pair(_pair),
 		NodePosition{ _pParent, _pLChild, _pRChild },
-		NodeColor(NODE_COLOR::Default)
+		NodeColor(NODE_COLOR::Default),
+		iExtraBlack(0)
 	{
 
 		int a = 0;
@@ -138,7 +142,8 @@ public:
 	FBSTNode(FBSTNode* _pParent, FBSTNode* _pLChild, FBSTNode* _pRChild) :
 		pair(),
 		NodePosition{ _pParent, _pLChild, _pRChild },
-		NodeColor(NODE_COLOR::Default)
+		NodeColor(NODE_COLOR::Default),
+		iExtraBlack(0)
 	{
 		int a = 0;
 	}
@@ -180,6 +185,11 @@ public:
 	FBSTNode<T1, T2>* GetSibling(FBSTNode<T1, T2>* _pNode);
 	
 	NODE_POS ChangeNodePos(FBSTNode<T1, T2>* _pNode, NODE_POS _pos);
+
+	FBSTNode<T1, T2>* GetNILNODE()
+	{
+		return m_pNil;
+	}
 
 	class iterator;
 public:
@@ -277,6 +287,8 @@ public:
 		
 
 		friend class CBST<T1, T2>;
+	
+		
 	};
 
 };
@@ -1004,7 +1016,7 @@ typename CBST<T1, T2>::iterator CBST<T1, T2>::find(const T1& _find)
 		}
 
 		//찾지 못함
-		if (nullptr == pNode->NodePosition[(int)nodeType])
+		if (m_pNil == pNode->NodePosition[(int)nodeType])
 		{
 			pNode = nullptr;
 			break;
@@ -1039,24 +1051,7 @@ typename CBST<T1, T2>::iterator CBST<T1, T2>::erase(const iterator& _iter)
 
 	FBSTNode<T1, T2>* pSuccessor = DeleteNode(_iter.m_pNode);
 
-	////1.삭제할 노드가 단말노드의 경우
-	//if (_iter.m_pNode->IsLeafNode())
-	//{
-	   // //부모가 삭제 되는 자식의 노드의 주소를 null로 만들어 준다.
-	   // if (_iter.m_pNode->IsLeftChild())
-	   // {
-	   //	 _iter.m_pNode->ArrNode[(int)NODE_TYPE::PARENT]->ArrNode[(int)NODE_TYPE::LCHILD] = nullptr;
-	   // }
-	   // else
-	   // {
-	   //	 _iter.m_pNode->ArrNode[(int)NODE_TYPE::PARENT]->ArrNode[(int)NODE_TYPE::RCHILD] = nullptr;
-	   // }
-
-	   // delete _iter.m_pNode;
-	   // 
-	//}
-
-
+	
 
 
 	return iterator(this, pSuccessor);
@@ -1171,8 +1166,11 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 
 	FBSTNode<T1, T2>* pSuccessor = GetInOrderSuccessor(_pDelNode);
 
+	//삭제되는 색 
+	NODE_COLOR DeleteNodeColor = NODE_COLOR::Default;
+
 	//1.삭제할 노드가 단말노드의 경우
-	if (_pDelNode->IsLeafNode())
+	if (_pDelNode->NodePosition[(int)NODE_POS::LCHILD] == m_pNil && _pDelNode->NodePosition[(int)NODE_POS::RCHILD] == m_pNil)
 	{
 		pSuccessor = GetInOrderSuccessor(_pDelNode);
 
@@ -1187,15 +1185,20 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 			//부모가 삭제 되는 자식의 노드의 주소를 null로 만들어 준다.
 			if (_pDelNode->IsLeftChild())
 			{
-				_pDelNode->NodePosition[(int)NODE_POS::PARENT]->ArrNode[(int)NODE_POS::LCHILD] = nullptr;
+				_pDelNode->NodePosition[(int)NODE_POS::PARENT]->NodePosition[(int)NODE_POS::LCHILD] = m_pNil;
 			}
 			else
 			{
-				_pDelNode->NodePosition[(int)NODE_POS::PARENT]->ArrNode[(int)NODE_POS::RCHILD] = nullptr;
+				_pDelNode->NodePosition[(int)NODE_POS::PARENT]->NodePosition[(int)NODE_POS::RCHILD] = m_pNil;
 			}
 		}
 
 		--m_iCount;
+
+		
+		DeleteNodeColor = _pDelNode->NodeColor;
+
+
 
 		delete _pDelNode;
 
@@ -1215,6 +1218,9 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 		//삭제할 노드가 중위후속자가 된다.
 		pSuccessor = _pDelNode;
 
+
+		DeleteNodeColor = pSuccessor->NodeColor;
+
 	}
 	//2.삭제할 노드가 자식노드를 한개 가진경우 (자식이 부모로 연결해준다 )
 	else
@@ -1232,29 +1238,36 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 		{
 			//왼쪽 자식인지 오른쪾 자신인지 알아야됨 
 			m_pRoot = _pDelNode->NodePosition[(int)nodetype];
-			_pDelNode->NodePosition[(int)nodetype]->ArrNode[(int)NODE_POS::PARENT] = nullptr;
+			_pDelNode->NodePosition[(int)nodetype]->NodePosition[(int)NODE_POS::PARENT] = m_pNil;
 		}
 		else
 		{
 			//삭제될 노드의 부모와 삭제될 노드의 자식을 연결
 			if (_pDelNode->IsLeftChild())
 			{
-				_pDelNode->NodePosition[(int)NODE_POS::PARENT]->ArrNode[(int)NODE_POS::LCHILD] = _pDelNode->NodePosition[(int)nodetype];
+				_pDelNode->NodePosition[(int)NODE_POS::PARENT]->NodePosition[(int)NODE_POS::LCHILD] = _pDelNode->NodePosition[(int)nodetype];
 			}
 			else
 			{
-				_pDelNode->NodePosition[(int)NODE_POS::PARENT]->ArrNode[(int)NODE_POS::RCHILD] = _pDelNode->NodePosition[(int)nodetype];
+				_pDelNode->NodePosition[(int)NODE_POS::PARENT]->NodePosition[(int)NODE_POS::RCHILD] = _pDelNode->NodePosition[(int)nodetype];
 			}
 
-			_pDelNode->NodePosition[(int)nodetype]->ArrNode[(int)NODE_POS::PARENT] = _pDelNode->NodePosition[(int)NODE_POS::PARENT];
+			_pDelNode->NodePosition[(int)nodetype]->NodePosition[(int)NODE_POS::PARENT] = _pDelNode->NodePosition[(int)NODE_POS::PARENT];
 
 
 		}
 
 		--m_iCount;
 
+
+		DeleteNodeColor = _pDelNode->NodeColor;
+
 		delete _pDelNode;
 	}
+
+
+	//삭제되는색을 알려주고 더블블랙을 해당 노드에 삽입한다.
+
 
 	//--m_iCount;
 
