@@ -14,17 +14,17 @@ int main()
 	
 	
 
-	mapint.insert(std::make_pair(100, 100));
+	/*mapint.insert(std::make_pair(100, 100));
 	mapint.insert(std::make_pair(50, 100));
 	mapint.insert(std::make_pair(25, 100));
 	mapint.insert(std::make_pair(200, 100));
 	mapint.insert(std::make_pair(300, 100));
-	
+	*/
 	std::map<int, int>::iterator iter = mapint.begin();
 
-	iter++;
+	//iter++;
 
-	iter = mapint.insert(iter, std::make_pair(400, 300));
+	//iter = mapint.insert(iter, std::make_pair(400, 300));
 	
 	int a = 0;
 
@@ -37,7 +37,7 @@ int main()
 	
 	CBST<int, int>::iterator iter2;
 	
-	/*CBST<string, int> MyStr;
+	CBST<string, int> MyStr;
 
 	MyStr.insert(make_mypair(static_cast<string>("은진수"), 0));
 	MyStr.insert(make_mypair(static_cast<string>("박만냥"), 0));
@@ -49,7 +49,7 @@ int main()
 	MyStr.insert(make_mypair(static_cast<string>("박상철"), 0));
 	
 
-	CBST<string, int>::iterator iterstr;*/
+	CBST<string, int>::iterator iterstr;
 
 	//iterstr = MyStr.begin();
 
@@ -59,24 +59,32 @@ int main()
 
 
 	
-	iter2 = MyInt.find(60);
+	/*iter2 = MyInt.find(60);
 
 	
 	iter2 = MyInt.erase(iter2);
 
-	iter2 = MyInt.begin();
+	iter2 = MyInt.begin();*/
 	
+	iterstr = MyStr.begin();
 
 	
 	//
 	//정수
-	for (iter2; iter2 != MyInt.end() && iter2 != MyInt.GetNilNode(); ++iter2)
+	//for (iter2; iter2 != MyInt.end() && iter2 != MyInt.GetNilNode(); ++iter2)
+	//{
+	//	//iCount++;
+	//	std::cout << (*iter2).first << std::endl;
+	//	
+	//}
+	//std::cout << iCount << std::endl;
+
+	for (iterstr; iterstr != MyStr.end() && iterstr != MyStr.GetNilNode(); ++iterstr)
 	{
 		//iCount++;
-		std::cout << (*iter2).first << std::endl;
-		
+		std::cout << (*iterstr).first << std::endl;
+
 	}
-	//std::cout << iCount << std::endl;
 
 	return 0;
 }
