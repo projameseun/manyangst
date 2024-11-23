@@ -1374,7 +1374,7 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 				{
 					pNode->NodeColor = NODE_COLOR::BLACK;
 					//부모기준으로회전 
-					DeleteRotation(pNode, CheckPosition, 4);
+					InsertRotation(pNewSibling, CheckPosition, 2);
 				}
 				
 

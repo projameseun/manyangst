@@ -69,7 +69,7 @@ int main()
 	//MyInt.insert(make_mypair(60, 0));
 
 
-	/*
+	
 	iter2 = MyInt.find(77);
 	iter2 = MyInt.erase(iter2);
 	iter2 = MyInt.find(300);
@@ -78,7 +78,7 @@ int main()
 	MyInt.insert(make_mypair(80, 0));
 
 	iter2 = MyInt.find(200);
-	iter2 = MyInt.erase(iter2);*/
+	iter2 = MyInt.erase(iter2);
 
 	iter2 = MyInt.begin();
 	
