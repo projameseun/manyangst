@@ -37,54 +37,71 @@ int main()
 	
 	CBST<int, int>::iterator iter2;
 	
-	CBST<string, int> MyStr;
+	//CBST<string, int> MyStr;
 
-	MyStr.insert(make_mypair(static_cast<string>("은진수"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("박만냥"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("김민지"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("이태훈"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("정진모"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("하인태"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("자두림"), 0));
-	MyStr.insert(make_mypair(static_cast<string>("박상철"), 0));
+	//int
+	MyInt.insert(make_mypair(100, 0));					//				 100
+	MyInt.insert(make_mypair(60, 0));					//           
+	MyInt.insert(make_mypair(25, 0));
+	MyInt.insert(make_mypair(200, 0));
+	MyInt.insert(make_mypair(250, 0));
+	MyInt.insert(make_mypair(300, 0));
+	MyInt.insert(make_mypair(77, 0));
+
+
+	//스트링
+	//MyStr.insert(make_mypair(static_cast<string>("은진수"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("박만냥"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("김민지"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("이태훈"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("정진모"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("하인태"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("자두림"), 0));
+	//MyStr.insert(make_mypair(static_cast<string>("박상철"), 0));
 	
 
-	CBST<string, int>::iterator iterstr;
+	//CBST<string, int>::iterator iterstr;
 
 	//iterstr = MyStr.begin();
 
-	MyInt.insert(make_mypair(100, 0));
-	MyInt.insert(make_mypair(50, 0));
-	MyInt.insert(make_mypair(60, 0));
+	//MyInt.insert(make_mypair(100, 0));
+	//MyInt.insert(make_mypair(50, 0));
+	//MyInt.insert(make_mypair(60, 0));
 
 
-	
-	/*iter2 = MyInt.find(60);
-
-	
+	/*
+	iter2 = MyInt.find(77);
 	iter2 = MyInt.erase(iter2);
-
-	iter2 = MyInt.begin();*/
+	iter2 = MyInt.find(300);
+	iter2 = MyInt.erase(iter2);
 	
-	iterstr = MyStr.begin();
+	MyInt.insert(make_mypair(80, 0));
 
+	iter2 = MyInt.find(200);
+	iter2 = MyInt.erase(iter2);*/
+
+	iter2 = MyInt.begin();
+	
+	
 	
 	//
 	//정수
-	//for (iter2; iter2 != MyInt.end() && iter2 != MyInt.GetNilNode(); ++iter2)
-	//{
-	//	//iCount++;
-	//	std::cout << (*iter2).first << std::endl;
-	//	
-	//}
-	//std::cout << iCount << std::endl;
-
-	for (iterstr; iterstr != MyStr.end() && iterstr != MyStr.GetNilNode(); ++iterstr)
+	for (iter2; iter2 != MyInt.end() && iter2 != MyInt.GetNilNode(); ++iter2)
 	{
 		//iCount++;
-		std::cout << (*iterstr).first << std::endl;
-
+		std::cout << (*iter2).first << std::endl;
+		
 	}
+	//std::cout << iCount << std::endl;
+
+
+	//스트링
+	//for (iterstr; iterstr != MyStr.end() && iterstr != MyStr.GetNilNode(); ++iterstr)
+	//{
+	//	//iCount++;
+	//	std::cout << (*iterstr).first << std::endl;
+
+	//}
 
 	return 0;
 }

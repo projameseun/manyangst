@@ -197,12 +197,22 @@ public:
 	iterator insert(const iterator& _iter, const FPair<T1, T2>& _pair);
 
 private:
+	
+	//insertcase
 	FBSTNode<T1, T2>* CASE(FBSTNode<T1, T2>*_pNewNode);
 	FBSTNode<T1, T2>* CASEONE(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos);
 	FBSTNode<T1, T2>* CASETWO(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos);
 	FBSTNode<T1, T2>* CASETHREE(FBSTNode<T1, T2>* _pNewNode, NODE_POS _role);
 
-	FBSTNode<T1, T2>* Rotation(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos, int _iNumber);
+	//삭제case
+	FBSTNode<T1, T2>* DeleteCASE(FBSTNode<T1, T2>* _pNewNode);
+	FBSTNode<T1, T2>* DeleteCASEONE(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos);
+	FBSTNode<T1, T2>* DeleteCASETWO(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos);
+	FBSTNode<T1, T2>* DeleteCASETHREE(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos);
+	FBSTNode<T1, T2>* DeleteCASEFOUR(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos);
+
+	FBSTNode<T1, T2>* InsertRotation(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos, int _iNumber);
+	FBSTNode<T1, T2>* DeleteRotation(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos, int _iNumber);
 
 private:
 	FBSTNode<T1, T2>* DeleteNode(FBSTNode<T1, T2>* _pDelNode);
@@ -486,7 +496,7 @@ template<typename T1, typename T2>
 		CASETWO(_pNewNode, CheckPosition);
 
 		//회전
-		_pNewNode = Rotation(_pNewNode, CheckPosition2, 2);
+		_pNewNode = InsertRotation(_pNewNode, CheckPosition2, 2);
 
 		return CASE(_pNewNode);
 	}
@@ -515,7 +525,7 @@ template<typename T1, typename T2>
 		}
 
 
-		 _pNewNode = Rotation(_pNewNode, CheckPosition2, 3);
+		 _pNewNode = InsertRotation(_pNewNode, CheckPosition2, 3);
 		
 		
 	}
@@ -577,7 +587,37 @@ inline typename FBSTNode<T1, T2>* CBST<T1, T2>::CASETHREE(FBSTNode<T1, T2>* _pNe
 }
 
 template<typename T1, typename T2>
-typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos, int _iCase)
+ typename FBSTNode<T1, T2>* CBST<T1, T2>::DeleteCASE(FBSTNode<T1, T2>* _pNewNode)
+{
+	return nullptr;
+}
+
+template<typename T1, typename T2>
+typename FBSTNode<T1, T2>* CBST<T1, T2>::DeleteCASEONE(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos)
+{
+	return nullptr;
+}
+
+template<typename T1, typename T2>
+typename FBSTNode<T1, T2>* CBST<T1, T2>::DeleteCASETWO(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos)
+{
+	return nullptr;
+}
+
+template<typename T1, typename T2>
+typename FBSTNode<T1, T2>* CBST<T1, T2>::DeleteCASETHREE(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos)
+{
+	return nullptr;
+}
+
+template<typename T1, typename T2>
+typename FBSTNode<T1, T2>* CBST<T1, T2>::DeleteCASEFOUR(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos)
+{
+	return nullptr;
+}
+
+template<typename T1, typename T2>
+typename  FBSTNode<T1, T2>* CBST<T1, T2>::InsertRotation(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos, int _iCase)
 {
 
 	FBSTNode<T1, T2>* pNewNodeParent = GetParent(_pNewNode);
@@ -585,8 +625,11 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 	FBSTNode<T1, T2>* pNewUncle = GetUncle(_pNewNode);
 	//FBSTNode<T1, T2>* pNewSibling = GetSibling(_pNewNode);
 
+
 	//할아버지의 할아버지 조상
 	FBSTNode<T1, T2>* pNewGGParent = GetParent(pNewNodeGradParent);
+
+	
 
 	NODE_POS CheckPosition = NODE_POS::START;
 
@@ -734,6 +777,12 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::Rotation(FBSTNode<T1, T2>* _pNewNode, 
 	return _pNewNode;
 }
 
+template<typename T1, typename T2>
+typename  FBSTNode<T1, T2>* CBST<T1, T2>::DeleteRotation(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos, int _iNumber)
+{
+	return nullptr;
+}
+
 
 
 //중위 후속자
@@ -849,6 +898,11 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::GetInOrderPredecessor(FBSTNode<T1, T2>* _
 template<typename T1, typename T2>
 inline typename FBSTNode<T1, T2>* CBST<T1, T2>::GetParent(FBSTNode<T1, T2>* _pNode)
 {
+	
+	if (_pNode == m_pNil)
+	{
+		return _pNode;
+	}
 	return _pNode->NodePosition[(int)NODE_POS::PARENT];
 }
 
@@ -905,7 +959,7 @@ typename FBSTNode<T1, T2>* CBST<T1, T2>::GetSibling(FBSTNode<T1, T2>* _pNode)
 	if (_pNode->IsLeftChild())
 	{
 		
-		pNodeParent->NodePosition[(int)NODE_POS::RCHILD];
+		pNodeSibling = pNodeParent->NodePosition[(int)NODE_POS::RCHILD];
 		return pNodeSibling;
 	}
 	//오르쪽자식
@@ -926,6 +980,10 @@ template<typename T1, typename T2>
 typename NODE_POS CBST<T1, T2>::ChangeNodePos(FBSTNode<T1, T2>* _pNode, NODE_POS _pos)
 {
 
+	if (_pNode == m_pNil)
+	{
+		return _pos;
+	}
 	//단방향인지 역방향인지
 	if (_pNode->IsLeftChild())
 	{
@@ -1162,12 +1220,33 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 
 	FBSTNode<T1, T2>* pSuccessor = GetInOrderSuccessor(_pDelNode);
 
+	FBSTNode<T1, T2>* pNode = nullptr;
+	FBSTNode<T1, T2>* pNewSibling = GetSibling(_pDelNode);
+
+
+	NODE_POS CheckPosition = NODE_POS::START;
+	NODE_POS CheckPosition2 = NODE_POS::START;
+	CheckPosition = ChangeNodePos(_pDelNode, CheckPosition);
+	CheckPosition2 = ChangeNodePos(pNewSibling, CheckPosition2);
+
+
+
+
+	if (pNewSibling == nullptr)
+	{
+		return _pDelNode;
+	}
+
+
 	//삭제되는 색 
 	NODE_COLOR DeleteNodeColor = NODE_COLOR::Default;
 
 	//1.삭제할 노드가 단말노드의 경우
 	if (_pDelNode->NodePosition[(int)NODE_POS::LCHILD] == m_pNil && _pDelNode->NodePosition[(int)NODE_POS::RCHILD] == m_pNil)
 	{
+		
+		pNode = _pDelNode->NodePosition[(int)NODE_POS::PARENT];
+		
 		pSuccessor = GetInOrderSuccessor(_pDelNode);
 
 
@@ -1192,6 +1271,10 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 		--m_iCount;
 
 		
+		
+		/*1)삭제하려는 노드의 자녀가 없거나 하나라면
+		★삭제되는 색 = 삭제되는 노드의색
+			nil노드는 해당되지 않는다*/
 		DeleteNodeColor = _pDelNode->NodeColor;
 
 
@@ -1206,6 +1289,7 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 		//삭제를 할 자리에 중위 후속자의 값을 복사 시킨다.
 		_pDelNode->pair = pSuccessor->pair;
 
+		pNode = _pDelNode;
 
 		//중위 후속자 노드를 삭제 한다.
 		DeleteNode(pSuccessor);
@@ -1215,7 +1299,10 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 		pSuccessor = _pDelNode;
 
 
+
 		DeleteNodeColor = pSuccessor->NodeColor;
+		
+		
 
 	}
 	//2.삭제할 노드가 자식노드를 한개 가진경우 (자식이 부모로 연결해준다 )
@@ -1256,13 +1343,53 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 		--m_iCount;
 
 
+		/*1)삭제하려는 노드의 자녀가 없거나 하나라면	
+		★삭제되는 색 = 삭제되는 노드의색
+		nil노드는 해당되지 않는다*/
 		DeleteNodeColor = _pDelNode->NodeColor;
 
 		delete _pDelNode;
 	}
 
 
-	//삭제되는색을 알려주고 더블블랙을 해당 노드에 삽입한다.
+	//삭제되는색이 검은색이라면 여기서 상황발생 
+	if (DeleteNodeColor == NODE_COLOR::BLACK)
+	{
+		
+		//해당노드는 이미 삭제가 되었기때문에 후속자를 넘긴다 
+		std::cout << "블랙이 삭제되었습니다" << std::endl;
+		
+			
+			//더블블랙 왼쪽 형제가 블랙
+			//그 형제의 왼쪽 자녀가 red일때 
+			if (pNode->NodePosition[(int)CheckPosition] == m_pNil)
+			{
+				std::cout << "NIL노드 입니다" << std::endl;
+				
+				//extrablack 부여
+				m_pNil->iExtraBlack = 1;
+
+				if (pNewSibling->NodeColor == NODE_COLOR::BLACK && 
+					pNewSibling->NodePosition[(int)CheckPosition2]->NodeColor == NODE_COLOR::RED)
+				{
+					pNode->NodeColor = NODE_COLOR::BLACK;
+					//부모기준으로회전 
+					DeleteRotation(pNode, CheckPosition, 4);
+				}
+				
+
+				m_pNil->iExtraBlack = 0;
+
+			}
+		
+		
+	
+
+		
+
+
+	}
+
 
 
 	//--m_iCount;
