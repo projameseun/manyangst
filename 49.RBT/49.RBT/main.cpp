@@ -45,8 +45,7 @@ int main()
 	MyInt.insert(make_mypair(25, 0));
 	MyInt.insert(make_mypair(200, 0));
 	MyInt.insert(make_mypair(250, 0));
-	MyInt.insert(make_mypair(300, 0));
-	MyInt.insert(make_mypair(77, 0));
+
 
 
 	//½ºÆ®¸µ
@@ -69,14 +68,10 @@ int main()
 	//MyInt.insert(make_mypair(60, 0));
 
 
-	
-	iter2 = MyInt.find(77);
-	iter2 = MyInt.erase(iter2);
-	iter2 = MyInt.find(300);
-	iter2 = MyInt.erase(iter2);
+
 	
 	MyInt.insert(make_mypair(80, 0));
-
+	MyInt.insert(make_mypair(300, 0));
 	iter2 = MyInt.find(200);
 	iter2 = MyInt.erase(iter2);
 

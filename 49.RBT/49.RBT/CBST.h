@@ -87,8 +87,9 @@ public:
 	}
 	bool IsFullNode()	//자식을 다가진 상태
 	{
-		if (NodePosition[(int)NODE_POS::LCHILD] && NodePosition[(int)NODE_POS::RCHILD])
+		if (NodePosition[(int)NODE_POS::LCHILD] && NodePosition[(int)NODE_POS::RCHILD]  )
 		{
+			
 			return true;
 		}
 
@@ -1220,7 +1221,8 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 
 	FBSTNode<T1, T2>* pSuccessor = GetInOrderSuccessor(_pDelNode);
 
-	FBSTNode<T1, T2>* pNode = nullptr;
+	//삭제되는색의 대체가 되는 노드(extrablack이 부여될ㄷ노드)
+	FBSTNode<T1, T2>* pExNode = nullptr;
 	FBSTNode<T1, T2>* pNewSibling = GetSibling(_pDelNode);
 
 
@@ -1245,7 +1247,7 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 	if (_pDelNode->NodePosition[(int)NODE_POS::LCHILD] == m_pNil && _pDelNode->NodePosition[(int)NODE_POS::RCHILD] == m_pNil)
 	{
 		
-		pNode = _pDelNode->NodePosition[(int)NODE_POS::PARENT];
+		pExNode = _pDelNode->NodePosition[(int)NODE_POS::PARENT];
 		
 		pSuccessor = GetInOrderSuccessor(_pDelNode);
 
@@ -1275,7 +1277,7 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 		/*1)삭제하려는 노드의 자녀가 없거나 하나라면
 		★삭제되는 색 = 삭제되는 노드의색
 			nil노드는 해당되지 않는다*/
-		DeleteNodeColor = _pDelNode->NodeColor;
+		DeleteNodeColor = NODE_COLOR::BLACK;
 
 
 
@@ -1283,13 +1285,14 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 
 	}
 	//3.삭제할 노드가 2개의 자식을 가진경우 (중위 선행자 ,중위 후속자가 와야된다 중요)
-	else if (_pDelNode->IsFullNode())
+	else if (_pDelNode->NodePosition[(int)NODE_POS::LCHILD] != m_pNil && _pDelNode->NodePosition[(int)NODE_POS::RCHILD] != m_pNil &&
+		_pDelNode->NodePosition[(int)NODE_POS::LCHILD] != nullptr && _pDelNode->NodePosition[(int)NODE_POS::RCHILD] != nullptr)
 	{
 
 		//삭제를 할 자리에 중위 후속자의 값을 복사 시킨다.
 		_pDelNode->pair = pSuccessor->pair;
 
-		pNode = _pDelNode;
+		pExNode = _pDelNode;
 
 		//중위 후속자 노드를 삭제 한다.
 		DeleteNode(pSuccessor);
@@ -1308,7 +1311,11 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 	//2.삭제할 노드가 자식노드를 한개 가진경우 (자식이 부모로 연결해준다 )
 	else
 	{
+
+
 		pSuccessor = GetInOrderSuccessor(_pDelNode); //후속자노드 미리찾기
+
+		pExNode = pSuccessor;
 
 		NODE_POS nodetype = NODE_POS::LCHILD;
 		if (_pDelNode->NodePosition[(int)NODE_POS::RCHILD])
@@ -1359,31 +1366,72 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 		//해당노드는 이미 삭제가 되었기때문에 후속자를 넘긴다 
 		std::cout << "블랙이 삭제되었습니다" << std::endl;
 		
-			
+			//case4
 			//더블블랙 왼쪽 형제가 블랙
 			//그 형제의 왼쪽 자녀가 red일때 
-			if (pNode->NodePosition[(int)CheckPosition] == m_pNil)
+
+			 //extrablack을 부여하는데 삭제되는 색의 대체되는색에 extrblaack부여한다 
+				
+			pExNode->iExtraBlack = 1;
+			
+			if (pExNode->NodeColor == NODE_COLOR::RED)
 			{
-				std::cout << "NIL노드 입니다" << std::endl;
-				
-				//extrablack 부여
-				m_pNil->iExtraBlack = 1;
-
-				if (pNewSibling->NodeColor == NODE_COLOR::BLACK && 
-					pNewSibling->NodePosition[(int)CheckPosition2]->NodeColor == NODE_COLOR::RED)
-				{
-					pNode->NodeColor = NODE_COLOR::BLACK;
-					//부모기준으로회전 
-					InsertRotation(pNewSibling, CheckPosition, 2);
-				}
-				
-
-				m_pNil->iExtraBlack = 0;
+				pExNode->NodeColor = NODE_COLOR::BLACK;
 
 			}
+			else if(pExNode->NodeColor == NODE_COLOR::BLACK)
+			{
+
+			}
+			
+
+			//if (pExNode->NodePosition[(int)CheckPosition] == m_pNil)
+			//{
+			//	
+			//	
+			//	//extrablack 부여
+			//	m_pNil->iExtraBlack = 1;
+
+			//	if (pNewSibling->NodeColor == NODE_COLOR::BLACK &&
+			//		pNewSibling->NodePosition[(int)CheckPosition2]->NodeColor == NODE_COLOR::RED)
+			//	{
+			//		//왼쪽 형제는 부모의 색 
+			//		//왼쪽 형제의 왼쪽자녀는 black
+			//		pNewSibling->NodeColor = pNewSibling->NodePosition[(int)NODE_POS::PARENT]->NodeColor;
+			//		pNewSibling->NodePosition[(int)CheckPosition2]->NodeColor = NODE_COLOR::BLACK;
+			//		pExNode->NodeColor = NODE_COLOR::BLACK;
+
+			//		//부모기준으로회전 
+			//		InsertRotation(pNewSibling, CheckPosition, 2);
+			//	}
+			//	
+
+			//	m_pNil->iExtraBlack = 0;
+
+			//}
+			//else
+			//{
+			//	pExNode->NodePosition[(int)CheckPosition]->iExtraBlack = 1;
+
+			//	if (pNewSibling->NodeColor == NODE_COLOR::BLACK &&
+			//		pNewSibling->NodePosition[(int)CheckPosition2]->NodeColor == NODE_COLOR::RED)
+			//	{
+			//		//왼쪽 형제는 부모의 색 
+			//		//왼쪽 형제의 왼쪽자녀는 black
+			//		pNewSibling->NodeColor = pNewSibling->NodePosition[(int)NODE_POS::PARENT]->NodeColor;
+			//		pNewSibling->NodePosition[(int)CheckPosition2]->NodeColor = NODE_COLOR::BLACK;
+			//		pExNode->NodeColor = NODE_COLOR::BLACK;
+
+			//		//부모기준으로회전 
+			//		InsertRotation(pNewSibling, CheckPosition, 2);
+			//	}
+
+			//	pExNode->NodePosition[(int)CheckPosition]->iExtraBlack = 0;
+			//	
+			//}
 		
 		
-	
+			
 
 		
 
