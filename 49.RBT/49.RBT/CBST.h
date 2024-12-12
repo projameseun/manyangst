@@ -332,7 +332,7 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 		nodeColor = pNewNode->GetBlackColor();
 		pNewNode->NodeColor = nodeColor;
 		m_pRoot = pNewNode;
-
+		
 		m_pRoot->NodePosition[(int)NODE_POS::PARENT] = m_pNil;
 
 		m_pRoot->NodePosition[(int)NODE_POS::LCHILD] = m_pNil;
@@ -382,6 +382,7 @@ bool CBST<T1, T2>::insert(const FPair<T1, T2>& _pair)
 				//pNode->NodeColor[(int)nodeColor] = pNewNode;
 				pNewNode->NodePosition[(int)NODE_POS::PARENT] = pNode;
 				pNewNode->NodeColor = nodeColor;
+			
 
 				break;
 
@@ -633,12 +634,15 @@ template<typename T1, typename T2>
 		 std::cout << "ExCase1 발생" << std::endl;
 		 DeleteCASEONE(_pSibling, CheckPosition);
 
-		//회전을 해준다
+			//회전을 해준다
 		  _pSibling = DeleteRotation(_pSibling, CheckPosition);
+
+		  DeleteCASE(_pSibling, pExNode, CheckPosition, CheckPosition2);
 
 	 }
 
 
+	 pExNode->iExtraBlack = 0;
 
 
 
@@ -854,9 +858,9 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::DeleteRotation(FBSTNode<T1, T2>* _pNew
 
 
 	NODE_POS CheckPosition = NODE_POS::START;
-	NODE_POS SiblingPos = NODE_POS::START;
+	NODE_POS GrandParentPos= NODE_POS::START;	//할아버지와 부모의 연결되는 위치
 
-	SiblingPos = ChangeNodePos(pNewNodeParent, CheckPosition);
+	GrandParentPos = ChangeNodePos(pNewNodeParent, CheckPosition);
 
 	//원래 있었던 노드에서 짤려서 새로운 노드에 자식이 입히는 노드
 	FBSTNode<T1, T2>* pNewChildNode = nullptr;
@@ -885,7 +889,7 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::DeleteRotation(FBSTNode<T1, T2>* _pNew
 			_pNewNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
 			_pNewNode->NodePosition[(int)NODE_POS::LCHILD] = pNewNodeParent;
 
-			pNewNodeGradParent->NodePosition[(int)SiblingPos] = _pNewNode;
+			pNewNodeGradParent->NodePosition[(int)GrandParentPos] = _pNewNode;
 			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = _pNewNode;
 
 			pNewNodeParent->NodePosition[(int)::NODE_POS::RCHILD] = pNewChildNode;
@@ -903,7 +907,8 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::DeleteRotation(FBSTNode<T1, T2>* _pNew
 			_pNewNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
 			_pNewNode->NodePosition[(int)NODE_POS::RCHILD] = pNewNodeParent;
 
-			pNewNodeGradParent->NodePosition[(int)::NODE_POS::RCHILD] = _pNewNode;
+			pNewNodeGradParent->NodePosition[(int)GrandParentPos] = _pNewNode;
+			//pNewNodeGradParent->NodePosition[(int)::NODE_POS::RCHILD] = _pNewNode;
 			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = _pNewNode;
 
 			pNewNodeParent->NodePosition[(int)::NODE_POS::LCHILD] = pNewChildNode;
@@ -925,7 +930,6 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::DeleteRotation(FBSTNode<T1, T2>* _pNew
 	
 
 
-	return _pNewNode;
 }
 
 template<typename T1, typename T2>
@@ -1428,7 +1432,7 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 
 
 	//해당 노드의 자식에 닐노드가 어느쪽에 있는지에 따라서 선행자,후속자가 결정난다.
-	if (_pDelNode->NodeColor[(int)NODE_POS::LCHILD] == m_pNil)
+	if (_pDelNode->NodePosition[(int)NODE_POS::LCHILD] == m_pNil)
 	{
 		pSuccessor = GetInOrderSuccessor(_pDelNode);
 
@@ -1470,7 +1474,7 @@ inline FBSTNode<T1, T2>* CBST<T1, T2>::DeleteNode(FBSTNode<T1, T2>* _pDelNode)
 
 		--m_iCount;
 
-		DeleteNodeColor = NODE_COLOR::BLACK;
+		DeleteNodeColor = _pDelNode->NodeColor;
 
 		delete _pDelNode;
 
