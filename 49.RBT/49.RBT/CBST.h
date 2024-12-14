@@ -617,6 +617,7 @@ template<typename T1, typename T2>
 
 	 
 	 FBSTNode<T1, T2>* pNewNodeParent = GetParent(_pSibling);
+	
 
 	 if (pNewNodeParent == nullptr)
 	 {
@@ -640,6 +641,81 @@ template<typename T1, typename T2>
 		  DeleteCASE(_pSibling, pExNode, CheckPosition, CheckPosition2);
 
 	 }
+	 //case2
+	 //1. 형제가 블랙
+	 //2.그 형제의 자녀모두 black일때 
+	 //기존 ectrablack과 그 형제의 블랙을 모아서 부모에게 전달해준다(부모한테 extrablack을부여한다)
+	 //형제는 red로 변경한다
+	 //그리고 부모에서 extra black을 본다
+	
+	 else if (_pSibling->NodeColor == NODE_COLOR::BLACK && pExNode->NodeColor == NODE_COLOR::BLACK&&
+		 _pSibling->NodePosition[(int)NODE_POS::LCHILD]->NodeColor == NODE_COLOR::BLACK && _pSibling->NodePosition[(int)NODE_POS::RCHILD]->NodeColor == NODE_COLOR::BLACK)
+	 {
+		 std::cout << "excase 2번케이스 발생" << std::endl;
+		 DeleteCASETWO(_pSibling, CheckPosition);
+		 pExNode->iExtraBlack = 0;	//기존 엑스트라는 없애 준다
+
+
+		 pExNode = _pSibling->NodePosition[(int)NODE_POS::PARENT];	//끌어모아서 부모에게 전달
+		 pExNode->iExtraBlack = 1;
+
+		 //부모가 해당노드가 되면서 형제가 변경된다.
+		 _pSibling = GetSibling(pExNode);
+
+		 //레드라면
+		 if (pExNode->NodeColor == NODE_COLOR::RED)
+		 {
+			 pExNode->NodeColor = NODE_COLOR::BLACK;
+		 }
+		 //블랙이라면
+		 else if (pExNode->NodeColor == NODE_COLOR::BLACK)
+		 {
+
+			 /*if (_pSibling->NodePosition[(int)NODE_POS::PARENT] == m_pRoot)
+			{
+				_pSibling->NodePosition[(int)NODE_POS::PARENT]->NodeColor = NODE_COLOR::BLACK;
+			}*/
+			 if (pExNode == m_pRoot)
+			 {
+				 pExNode->iExtraBlack = 0;
+				 return pExNode;
+			 }
+			 else
+			 {
+				 DeleteCASE(_pSibling, pExNode, CheckPosition, CheckPosition2);
+
+			 }
+		 }
+	 }
+		 //case3.
+		 //1.오른쪽(왼쪽) 형제가 balck
+		 //2.그해당 형제의 왼쪽(오른쪽) 자녀가 red
+		 //3.그해당 형제의 오른쪽(왼쪽) 자녀가 black
+		 //형제의 오른쪽(왼쪽) 자녀를 red가 되게 만들어서 case4번으로 다시본다.
+		 else if (_pSibling->NodeColor == NODE_COLOR::BLACK && _pSibling->NodePosition[(int)CheckPosition]->NodeColor == NODE_COLOR::RED &&
+			 _pSibling->NodePosition[(int)CheckPosition2]->NodeColor == NODE_COLOR::BLACK)
+		 {
+			 std::cout << "excase3 번 발생" << std::endl;
+			 DeleteCASETHREE(_pSibling, CheckPosition);
+
+			 _pSibling = DeleteRotation(_pSibling->NodePosition[(int)CheckPosition], CheckPosition2);
+
+			 DeleteCASE(_pSibling->NodePosition[(int)NODE_POS::PARENT], pExNode, CheckPosition, CheckPosition2);
+		 }
+		 //case4.
+		 //1.오른쪽(왼쪽) 형제가 black
+		 //2.오른쪽(왼쪽) 형제의 자녀가 red
+		 else if (_pSibling->NodeColor == NODE_COLOR::BLACK && _pSibling->NodePosition[(int)CheckPosition2]->NodeColor == NODE_COLOR::RED)
+		 {
+			 std::cout << "excase4 번 발생" << std::endl;
+
+			 DeleteCASEFOUR(_pSibling, CheckPosition2);
+
+			 DeleteRotation(_pSibling, CheckPosition);
+		 }
+
+	 
+	 //
 
 
 	 pExNode->iExtraBlack = 0;
@@ -669,19 +745,34 @@ typename FBSTNode<T1, T2>* CBST<T1, T2>::DeleteCASEONE(FBSTNode<T1, T2>* _pSibli
 template<typename T1, typename T2>
 typename FBSTNode<T1, T2>* CBST<T1, T2>::DeleteCASETWO(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos)
 {
-	return nullptr;
+	_pNewNode->NodeColor = NODE_COLOR::RED;
+	return _pNewNode;
 }
 
 template<typename T1, typename T2>
 typename FBSTNode<T1, T2>* CBST<T1, T2>::DeleteCASETHREE(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos)
 {
-	return nullptr;
+	NODE_COLOR color = NODE_COLOR::Default;
+
+	color = _pNewNode->NodeColor;
+	_pNewNode->NodeColor = _pNewNode->NodePosition[(int)_pos]->NodeColor;
+	_pNewNode->NodePosition[(int)_pos]->NodeColor = color;
+
+	return _pNewNode;
 }
 
 template<typename T1, typename T2>
 typename FBSTNode<T1, T2>* CBST<T1, T2>::DeleteCASEFOUR(FBSTNode<T1, T2>* _pNewNode, NODE_POS _pos)
 {
-	return nullptr;
+	FBSTNode<T1, T2>* pNewNodeParent = GetParent(_pNewNode);
+
+
+	_pNewNode->NodeColor = pNewNodeParent->NodeColor;
+	_pNewNode->NodePosition[(int)_pos]->NodeColor = NODE_COLOR::BLACK;
+	pNewNodeParent->NodeColor = NODE_COLOR::BLACK;
+
+
+	return _pNewNode;
 }
 
 template<typename T1, typename T2>
@@ -858,9 +949,9 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::DeleteRotation(FBSTNode<T1, T2>* _pNew
 
 
 	NODE_POS CheckPosition = NODE_POS::START;
-	NODE_POS GrandParentPos= NODE_POS::START;	//할아버지와 부모의 연결되는 위치
+	NODE_POS GrandparentToParentPos= NODE_POS::START;	//할아버지와 부모의 연결되는 위치
 
-	GrandParentPos = ChangeNodePos(pNewNodeParent, CheckPosition);
+	GrandparentToParentPos = ChangeNodePos(pNewNodeParent, CheckPosition);
 
 	//원래 있었던 노드에서 짤려서 새로운 노드에 자식이 입히는 노드
 	FBSTNode<T1, T2>* pNewChildNode = nullptr;
@@ -889,7 +980,7 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::DeleteRotation(FBSTNode<T1, T2>* _pNew
 			_pNewNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
 			_pNewNode->NodePosition[(int)NODE_POS::LCHILD] = pNewNodeParent;
 
-			pNewNodeGradParent->NodePosition[(int)GrandParentPos] = _pNewNode;
+			pNewNodeGradParent->NodePosition[(int)GrandparentToParentPos] = _pNewNode;
 			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = _pNewNode;
 
 			pNewNodeParent->NodePosition[(int)::NODE_POS::RCHILD] = pNewChildNode;
@@ -907,7 +998,7 @@ typename  FBSTNode<T1, T2>* CBST<T1, T2>::DeleteRotation(FBSTNode<T1, T2>* _pNew
 			_pNewNode->NodePosition[(int)NODE_POS::PARENT] = pNewNodeGradParent;
 			_pNewNode->NodePosition[(int)NODE_POS::RCHILD] = pNewNodeParent;
 
-			pNewNodeGradParent->NodePosition[(int)GrandParentPos] = _pNewNode;
+			pNewNodeGradParent->NodePosition[(int)GrandparentToParentPos] = _pNewNode;
 			//pNewNodeGradParent->NodePosition[(int)::NODE_POS::RCHILD] = _pNewNode;
 			pNewNodeParent->NodePosition[(int)NODE_POS::PARENT] = _pNewNode;
 
