@@ -79,9 +79,15 @@ int main()
 	skills[(int)SkillEnum::IceArrow]->Cast();
 	skills[(int)SkillEnum::Heal]->Cast();
 
-	for (Skill* skill : skills)
+	//c++11 이상에 도입 범위기반 for문
+	//for (Skill* skill : skills)
+	//{
+	//	UseSkill(skill);
+	//}
+
+	for (size_t i = 0; i < skills.size(); ++i)
 	{
-		UseSkill(skill);
+		UseSkill(skills[i]);
 	}
 
 
