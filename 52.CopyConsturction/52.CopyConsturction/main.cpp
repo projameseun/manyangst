@@ -47,11 +47,25 @@ public:
 	{
 		std::cout << "Player 얕은복사" << std::endl;
 	}
+	//DeepCopy
+	CPlayer(const CPlayer& _player , bool _copy) :
+		m_Name(_player.m_Name), m_iHp(_player.m_iHp), m_iMp(_player.m_iMp), m_fSpeed(_player.m_fSpeed)
+	
+	{
+		if (_copy)
+		{
+			m_Item = new CItem(*_player.m_Item);
+		}
+		else
+		{
+			m_Item = _player.m_Item;
+		}
+	}
 	//desconstructor
 	~CPlayer()
 	{
 		
-		//delete m_Item;
+		delete m_Item;
 		std::cout << "Player 소멸자 " << std::endl;
 	}
 
@@ -72,6 +86,11 @@ public:
 		m_Name = _str;
 	}
 
+	void SetItemString(string _str)
+	{
+		m_Item->m_Name = _str;
+	}
+
 	void Delete(CItem* _item)
 	{
 		delete _item;
@@ -90,12 +109,27 @@ int main()
 	//복사생성자 
 	CPlayer player("힐바드세여", 100, 100, 100, "하프", 1);		//캐릭터생성
 
-	player.PlayerInfo();
+	//player.PlayerInfo();
 	
 
 	//얕은복사 
 	//포인터 주소만 복사해서 두객체가 동일한 공간을 참조
-	CPlayer player2 = player;
+	//CPlayer player2 = player;
+
+
+
+	//깊은복사
+	CPlayer player2(player, true);
+
+	player2.SetItemString("장검");
+
+	player.PlayerInfo();
+	std::cout << std::endl;
+	player2.PlayerInfo();
+
+//	system("cls");
+
+
 
 	//댕글링포인터 
 	//더이상 유효하지 않은 메모리 주소를 가리키는 포인터를 말한다.
