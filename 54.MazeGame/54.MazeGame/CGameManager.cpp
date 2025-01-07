@@ -1,0 +1,41 @@
+#include "CGameManager.h"
+#include "CMazeManager.h"
+
+CGameManager* CGameManager::m_pInst = nullptr;
+
+CGameManager::CGameManager()
+{
+}
+
+CGameManager::~CGameManager()
+{
+	//여러가지 게임요소들을 삭제해주는 곳
+	CMazeManager::DestroyInst();
+}
+
+// 게임의 요소들을 초기화 하는곳
+bool CGameManager::Start()
+{
+	memset(m_RenderBuffer, 0, RENDER_BUFFER_HEIGHT * RENDER_BUFFER_WIDTH);
+
+	
+	//미로 초기화 
+	if (!CMazeManager::GetInst()->Start())
+	{
+		return false;
+	}
+
+	//플레이어초기화
+
+	//아이템 초기화
+
+
+	return true;
+}
+
+//게임에 요소들을 업데이트 하는곳
+void CGameManager::Update()
+{
+
+}
+
