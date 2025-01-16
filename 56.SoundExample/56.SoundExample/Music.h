@@ -32,6 +32,12 @@ public:
 
 public:
 	void InitRecordName();
+	void InitRecordPath(vector<LPCWSTR> _reName);
+	
+	void MusicMenuPrint();
+	WORD InitMusiceDevic(LPCWSTR& _rePath);
+
+	void MusicUpdate(int _num);
 
 
 };
