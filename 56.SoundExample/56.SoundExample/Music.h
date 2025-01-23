@@ -18,7 +18,7 @@ private:
 
 	vector<LPCWSTR>			m_RecordName;		//음악이름
 	vector<LPCWSTR>			m_RecordPath;		//경로
-
+	//f
 public:
 	const vector<LPCWSTR>& GetRecordName() const
 	{
