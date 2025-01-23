@@ -115,9 +115,13 @@ void Music::MusicUpdate(int _num)
 	LPCWSTR selectedMusicPath = m_RecordPath[_num - 1];
 
 	// 선택된 음악 장치 초기화
-	InitMusiceDevic(selectedMusicPath);
+	//InitMusiceDevic(selectedMusicPath);
 
-	switch (_num)
+	int iSelect = 0;
+
+	std::cin >> iSelect;
+
+	switch (iSelect)
 	{
 	case 1: // 재생
 		// 음악 재생

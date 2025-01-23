@@ -73,7 +73,7 @@ int main()
 		}
 
 		//노래시작 
-		mic.MusicUpdate(iSelect);
+		mic.UpdateMusic(iSelect);
 	}
 
 	return 0;

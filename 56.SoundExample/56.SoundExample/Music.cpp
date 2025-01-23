@@ -94,6 +94,8 @@ WORD Music::InitMusiceDevic(LPCWSTR& _rePath)
 	//정상이면 0 아니면 나머지값
 	m_Result = mciSendCommand(m_MciOpen.wDeviceID, MCI_OPEN, MCI_OPEN_TYPE | MCI_OPEN_ELEMENT, (DWORD_PTR)(LPVOID)&m_MciOpen);
 
+	m_iDeiveID = m_MciOpen.wDeviceID;
+
 	if (m_Result == 0)
 	{
 		return m_Result;
@@ -108,10 +110,101 @@ WORD Music::InitMusiceDevic(LPCWSTR& _rePath)
 	return 0;
 }
 
-void Music::MusicUpdate(int _num)
+void Music::UpdateMusic(int _ReNum)
 {
+
+	int iReNumber = 0;
+	iReNumber = _ReNum;
+
+	m_Result = mciSendCommand(iReNumber, MCI_PLAY,MCI_DGV_PLAY_REPEAT, (DWORD_PTR)(LPVOID)&m_MciOpen);
+
+	if (m_Result == 0)
+	{
+		bMusic = true;
+	}
+	
+	while (bMusic)
+	{
+		system("cls");
+		MusicMenuPrint();
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);		//Yellow
+		std::wcout << m_RecordName[iReNumber - 1] << "실행 중입니다" << std::endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE );
+
+
+		std::cout << "다른 노래를 재생할려면 번호를 입력해주세요" << std::endl;
+		std::cout << "프로그램을 종료 할려면 99를 입력해주세요 " << std::endl;
+		std::cout << "일시정지하고 다시 키실려면 11을 눌러주세요 " << std::endl;
+
+		int iSelect = 0;
+
+		std::cin >> iSelect;
+
+
+		
+		 if (iSelect == 99)
+		{
+			DestroyMusic();
+			bMusic = false;
+		}
+
+		else if (iSelect == 11)
+		{
+			bFlag = !bFlag;
+			if (bFlag == false)
+			{
+				PauseMusic(iReNumber);
+			}
+			else
+			{
+				PlayMusic(iReNumber);
+			}
+
+			continue;
+		}
+
+		else if (iSelect < 1 || iSelect > 10)
+		{
+			std::cout << "선택을 잘못 하였습니다 다시 선택해주세요" << std::endl;
+			Sleep(500);
+			continue;
+		}
+
+		ResetMusic(_ReNum);
+		UpdateMusic(iSelect);
+		
+		
+
+	}//	while (bMusic)
 
 	//1.재생 
 	//2.멈춤
 	//3.다시재생
+}
+
+void Music::DestroyMusic()
+{
+	if (m_iDeiveID > 0)
+	{
+		for (int i = 0; i < 20; ++i)
+		{
+			mciSendCommand(i, MCI_CLOSE, 0, (DWORD_PTR)(LPVOID)NULL);
+		}
+	}
+}
+
+void Music::PauseMusic(int _ReNum)
+{
+	mciSendCommand(_ReNum, MCI_PAUSE, MCI_SEEK_TO_START, (DWORD_PTR)(LPVOID)NULL);
+}
+
+void Music::PlayMusic(int _ReNum)
+{
+	mciSendCommand(_ReNum, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD_PTR)(LPVOID)&m_MciOpen);
+}
+
+void Music::ResetMusic(int _ReNum)
+{
+	mciSendCommand(_ReNum, MCI_SEEK, MCI_SEEK_TO_START, (DWORD_PTR)(LPVOID)NULL);
+	
 }

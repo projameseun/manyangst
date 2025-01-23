@@ -37,7 +37,11 @@ public:
 	void MusicMenuPrint();
 	WORD InitMusiceDevic(LPCWSTR& _rePath);
 
-	void MusicUpdate(int _num);
+	void UpdateMusic(int _ReNum);
+	void DestroyMusic();
+	void PauseMusic(int _ReNum);
+	void PlayMusic(int _ReNum);
+	void ResetMusic(int _ReNum);
 
 
 };
