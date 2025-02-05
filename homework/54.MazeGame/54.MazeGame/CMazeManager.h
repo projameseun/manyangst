@@ -5,6 +5,7 @@ class CMazeManager
 {
 private:
 	static CMazeManager* m_pInst;
+	int Height = 0;
 
 public:
 	static CMazeManager* GetInst()

@@ -54,7 +54,7 @@ bool CMazeManager::Start()
 
 		int Width = 0;
 		int Height = 0;
-		int iLength = 0;  // 각 줄의 길이를 너비로 설정
+		iLength = 0;  // 각 줄의 길이를 너비로 설정
 		char maze[100][100];
 
 
@@ -78,6 +78,7 @@ bool CMazeManager::Start()
 
 void CMazeManager::Update(int _idx, char* pBuffer)
 {
+	int Height = 0;
 		// 미로 그리기
 	for (int i = 0; i < Height; ++i)
 	{
