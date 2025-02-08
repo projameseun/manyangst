@@ -55,5 +55,11 @@
     <Text Include="Maze1.txt">
       <Filter>02.Maze\01.File</Filter>
     </Text>
+    <Text Include="Maze2.txt">
+      <Filter>02.Maze\01.File</Filter>
+    </Text>
+    <Text Include="MazeList.txt">
+      <Filter>02.Maze\01.File</Filter>
+    </Text>
   </ItemGroup>
 </Project>
