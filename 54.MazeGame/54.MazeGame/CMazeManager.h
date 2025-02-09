@@ -5,6 +5,11 @@ class CMazeManager
 {
 private:
 	static CMazeManager* m_pInst;
+	bool	m_bStart;
+
+	LARGE_INTEGER	m_fSecond;	//초
+	LARGE_INTEGER	m_fPrevTime;	//이전시간
+	
 
 public:
 	static CMazeManager* GetInst()
@@ -30,6 +35,13 @@ public:
 
 	}
 
+	int GetMazeCount() const
+	{
+		return m_MazeArray.size();
+	}
+
+
+
 private:
 	CMazeManager();
 	~CMazeManager();
@@ -41,6 +53,8 @@ private:
 public:
 	bool Start();
 	void Update(int _idx, char* pBuffer);
+	
+	int	MazeMainMenu();
 	
 	
 };

@@ -36,6 +36,21 @@ bool CGameManager::Start()
 //게임에 요소들을 업데이트 하는곳
 void CGameManager::Update()
 {
+	while (true)
+	{
+		size_t iMenu = CMazeManager::GetInst()->MazeMainMenu();
 
+		if (iMenu == CMazeManager::GetInst()->GetMazeCount() + 1)
+		{
+			return;
+		}
+		else if (iMenu == 0)
+		{
+			continue;
+		}
+
+		//맵을 업데이트하는곳
+		CMazeManager::GetInst()->Update(iMenu - 1, m_RenderBuffer);
+	}
 }
 

@@ -14,8 +14,8 @@ private:
 	int		m_iWidth;
 	int		m_iHeight;
 
-	//COORD	m_tStatrtPos;
-	//COORD	m_tExitPos;
+	COORD	m_tStatrtPos;
+	COORD	m_tExitPos;
 
 public:
 	int GetWidth() const
@@ -30,6 +30,22 @@ public:
 	const char* GetName() const
 	{
 		return m_strName;
+	}
+
+	COORD GetStartPos() const
+	{
+		return m_tStatrtPos;
+	}
+
+	COORD GetExitPos() const
+	{
+		return m_tExitPos;
+	}
+
+
+	void clear()
+	{
+
 	}
 
 public:
