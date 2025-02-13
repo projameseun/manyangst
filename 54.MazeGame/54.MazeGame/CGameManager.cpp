@@ -1,5 +1,6 @@
 #include "CGameManager.h"
 #include "CMazeManager.h"
+#include "CObjectManager.h"
 
 CGameManager* CGameManager::m_pInst = nullptr;
 
@@ -19,15 +20,17 @@ bool CGameManager::Start()
 	memset(m_RenderBuffer, 0, RENDER_BUFFER_HEIGHT * RENDER_BUFFER_WIDTH);
 
 	
+	//오브젝트 초기화ㅣ
+	if (!CObjectManager::GetInst()->Start())
+	{
+		return false;
+	}
+
 	//미로 초기화 
 	if (!CMazeManager::GetInst()->Start())
 	{
 		return false;
 	}
-
-	//플레이어초기화
-
-	//아이템 초기화
 
 
 	return true;

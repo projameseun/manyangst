@@ -9,7 +9,10 @@ private:
 
 	LARGE_INTEGER	m_fSecond;	//초
 	LARGE_INTEGER	m_fPrevTime;	//이전시간
-	
+
+	vector<class CMaze*>	m_MazeArray;
+	class CMaze*			m_pCurrentMaze;
+
 
 public:
 	static CMazeManager* GetInst()
@@ -40,15 +43,21 @@ public:
 		return m_MazeArray.size();
 	}
 
+	void Exit()
+	{
+		m_bStart = false;
+	}
 
+public:
+	class CMaze* GetCurrentMaze() const
+	{
+		return m_pCurrentMaze;
+	}
 
 private:
 	CMazeManager();
 	~CMazeManager();
 
-private:
-	vector<class CMaze*>	m_MazeArray;
-	class CMaze*			m_pCurrentMaze;
 
 public:
 	bool Start();

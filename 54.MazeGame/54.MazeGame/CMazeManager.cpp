@@ -1,5 +1,7 @@
 #include "CMazeManager.h"
 #include "CMaze.h"
+#include "CPlayer.h"
+#include "CObjectManager.h"
 
 CMazeManager* CMazeManager::m_pInst = nullptr;
 
@@ -128,13 +130,17 @@ void CMazeManager::Update(int _idx, char* pBuffer)
 
 	//미로의 시작위치를 플레이어의 위치로지정
 	//숙제플레이어를 띄우기 여유가되면 움직이고 나가는거까지 
+	CPlayer* pPlayer = CObjectManager::GetInst()->GetPlayer(); 
+
+	pPlayer->SetPos(tStartPos);
+	pPlayer->clear();
 
 	m_pCurrentMaze->clear();
 	
 
-	system("cls");
-
 	m_bStart = true;
+
+	system("cls");
 
 
 	//초기 시간 기록
@@ -152,19 +158,37 @@ void CMazeManager::Update(int _idx, char* pBuffer)
 
 		//이전시간을 현재시간으로 갱신
 		m_fPrevTime = fCurrentTime;
+
+		//맵처음 위치초기화
+		COORD fPos = {};
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), fPos);
 		
+		//ObjectManager Update
+		CObjectManager::GetInst()->Update(fDeltaTime);
+
 		//MazeRender
 		m_pCurrentMaze->Render(pBuffer);
 
+		//ObjectManager Render
+		CObjectManager::GetInst()->Render(pBuffer);
+
 		std::cout << pBuffer << std::endl;
 
-		//키를 누를때까지 기다림
-		while (_getch() != '\r')
+		if (m_bStart == false)
 		{
-			char test = _getch();
-			int a = 0;
+			memset(pBuffer, 0, 256);
+			std::cout << pBuffer << std::endl;
 		}
+		
 	
+	}
+
+	std::cout << "게임을 종료할려면 ENTER를 눌러주세요";
+	//키를 누를때까지 기다림
+	while (_getch() != '\r')
+	{
+		char test = _getch();
+		int a = 0;
 	}
 
 

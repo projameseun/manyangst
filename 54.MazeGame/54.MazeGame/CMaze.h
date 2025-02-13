@@ -42,6 +42,11 @@ public:
 		return m_tExitPos;
 	}
 
+	BLOCK GetBlock(const COORD& _pos) const
+	{
+		return (BLOCK)m_pBlock[_pos.Y][_pos.X];
+	}
+
 
 	void clear()
 	{

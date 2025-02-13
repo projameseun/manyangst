@@ -22,6 +22,12 @@
     <Filter Include="02.Maze\01.File">
       <UniqueIdentifier>{57091316-ecd5-444c-8541-cb253c276e1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Object">
+      <UniqueIdentifier>{5867ada0-850e-403b-ab9e-52c32ffee776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Object\01.Player">
+      <UniqueIdentifier>{9c909e4d-1a58-47e5-b93f-7e2207474d9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,6 +42,15 @@
     <ClCompile Include="CMaze.cpp">
       <Filter>02.Maze</Filter>
     </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjectManager.cpp">
+      <Filter>03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>03.Object\01.Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGameManager.h">
@@ -49,6 +64,15 @@
     </ClInclude>
     <ClInclude Include="CMaze.h">
       <Filter>02.Maze</Filter>
+    </ClInclude>
+    <ClInclude Include="CObject.h">
+      <Filter>03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectManager.h">
+      <Filter>03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>03.Object\01.Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

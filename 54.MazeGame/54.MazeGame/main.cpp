@@ -19,6 +19,10 @@ int main()
 
 	CGameManager::DestroyInst();
 
+	//숙제 폭탄만들기
+	//1.폭탄세기 
+	//2.폭탄설치 
+	//3.폭탄이 시간이지나서 폭파되면 벽을 부시기 
 
 	return 0;
 }

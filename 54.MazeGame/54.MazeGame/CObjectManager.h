@@ -1,0 +1,52 @@
+#pragma once
+#include "GameInfo.h"
+
+
+class CObjectManager
+{
+private:
+	static CObjectManager*	m_pInst;
+	class CPlayer*			m_pPlayer;
+	vector<class CObject*>	m_ObjArray;
+
+public:
+	class CPlayer* GetPlayer() 
+	{
+		return m_pPlayer;
+	}
+
+public:
+	static CObjectManager* GetInst()
+	{
+		if (!m_pInst)
+		{
+			m_pInst = new CObjectManager;
+		}
+		return m_pInst;
+	}
+
+	static void DestroyInst()
+	{
+		if (m_pInst)
+		{
+			delete m_pInst;
+			m_pInst = nullptr;
+		}
+	}	
+
+public:
+	CObjectManager();
+	~CObjectManager();
+
+
+public:
+	virtual bool Start();
+	virtual void Update(float _fDeltaTime);
+	virtual void Render(char* _pBuffer);
+
+	void ClearObj();
+	
+
+	
+};
+

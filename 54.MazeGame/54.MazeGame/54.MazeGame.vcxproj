@@ -130,13 +130,19 @@
     <ClCompile Include="CGameManager.cpp" />
     <ClCompile Include="CMaze.cpp" />
     <ClCompile Include="CMazeManager.cpp" />
+    <ClCompile Include="CObjectManager.cpp" />
+    <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="CObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGameManager.h" />
     <ClInclude Include="CMaze.h" />
     <ClInclude Include="CMazeManager.h" />
+    <ClInclude Include="CObjectManager.h" />
+    <ClInclude Include="CPlayer.h" />
     <ClInclude Include="GameInfo.h" />
+    <ClInclude Include="CObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Maze1.txt" />
