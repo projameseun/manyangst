@@ -28,6 +28,9 @@
     <Filter Include="03.Object\01.Player">
       <UniqueIdentifier>{9c909e4d-1a58-47e5-b93f-7e2207474d9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Object\02.Bomb">
+      <UniqueIdentifier>{f152eb2d-c704-4dd9-ac8a-9eaacbed12b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +54,9 @@
     <ClCompile Include="CPlayer.cpp">
       <Filter>03.Object\01.Player</Filter>
     </ClCompile>
+    <ClCompile Include="CBomb.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGameManager.h">
@@ -73,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="CPlayer.h">
       <Filter>03.Object\01.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CBomb.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

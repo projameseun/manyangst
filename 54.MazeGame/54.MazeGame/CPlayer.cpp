@@ -2,6 +2,7 @@
 #include "CMaze.h"
 #include "CMazeManager.h"
 #include "CObjectManager.h"
+#include "CBomb.h"
 
 CPlayer::CPlayer() :
 	m_fSpeed(10.f)
@@ -12,6 +13,7 @@ CPlayer::CPlayer() :
 
 CPlayer::~CPlayer()
 {
+	//f
 }
 
 bool CPlayer::Start()
@@ -145,7 +147,15 @@ void CPlayer::Update(float _fDeltaTime)
 		CMazeManager::GetInst()->Exit();
 	}
 	
-	int a = 0;
+	//∆¯≈∫√ﬂ∞° 
+
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		
+		//CBomb* pBomb = CObjectManager::GetInst()->CreateObject<CBomb>(m_tPos);
+
+		//pBomb->SetBombCallBack(this, &CPlayer::BombCallBack);
+	}
 
 }
 
@@ -158,4 +168,10 @@ void CPlayer::Render(char* _pBuffer)
 
 	memcpy(&_pBuffer[idx], "¿ø", 2);
 	
+}
+
+void CPlayer::BombCallBack(CBomb* _pBomb)
+{
+	//∆¯≈∫¿Ã≈Õ†∫¥Ÿ 
+
 }

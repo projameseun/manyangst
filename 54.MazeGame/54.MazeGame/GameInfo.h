@@ -5,6 +5,8 @@
 #include <vector>
 #include <time.h>
 #include <conio.h>
+#include <functional>
+#include <string>
 
 using namespace std;
 
