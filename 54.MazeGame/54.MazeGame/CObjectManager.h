@@ -46,6 +46,25 @@ public:
 
 	void ClearObj();
 	
+public:
+	template<typename T>
+	T* CreateObjcet(const COORD& _pos = {})
+	{
+		T* pObj = new T;
+		if (!pObj->Start())
+		{
+			delete pObj;
+			return nullptr;
+		}
+
+		pObj.SetPos(_pos);
+
+		m_ObjArray.push_back(pObj);
+
+		return pObj;
+
+	}
+
 
 	
 };

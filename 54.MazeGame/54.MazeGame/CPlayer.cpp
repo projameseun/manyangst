@@ -153,7 +153,8 @@ void CPlayer::Update(float _fDeltaTime)
 	{
 		
 		//CBomb* pBomb = CObjectManager::GetInst()->CreateObject<CBomb>(m_tPos);
-
+		CBomb* pBomb = CObjectManager::GetInst()->CreateObjcet<CBomb>(m_tPos);
+		
 		//pBomb->SetBombCallBack(this, &CPlayer::BombCallBack);
 	}
 
