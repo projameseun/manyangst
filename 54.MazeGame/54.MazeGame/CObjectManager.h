@@ -57,7 +57,7 @@ public:
 			return nullptr;
 		}
 
-		pObj.SetPos(_pos);
+		pObj->SetPos(_pos);
 
 		m_ObjArray.push_back(pObj);
 

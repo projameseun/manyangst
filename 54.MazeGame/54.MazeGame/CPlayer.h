@@ -10,6 +10,9 @@ private:
 	float	m_fSpeed;
 	float	m_fX;
 	float	m_fY;
+	int		m_iBombCount;
+	int		m_iPower;
+	int		m_iMaxBombCount;
 	//ÆøÅº¼³Ä¡ÇÑ´Ù¸é ÆøÅºÄ«¿îÆ®,ÆøÅºÀÇÆÄ¿ö
 
 public:

@@ -47,6 +47,11 @@ public:
 		return (BLOCK)m_pBlock[_pos.Y][_pos.X];
 	}
 
+	void SetBlock(const COORD& _pos, BLOCK _block)
+	{
+		m_pBlock[_pos.Y][_pos.X] = (char)_block;
+	}
+
 
 	void clear()
 	{

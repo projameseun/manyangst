@@ -48,5 +48,11 @@ public:
 		//m_pFunc = static_cast<void(CObject::*)(CBomb)>(_pFunc);
 
 	}
+
+	void SetPower(int _power)
+	{
+		m_iPower = _power;
+	}
+	
 };
 

@@ -16,6 +16,15 @@ enum class BLOCK
 	WALL = '1',
 	START = '2',
 	EXIT = '3',
+	BOMB = '4',
+};
+
+enum class DIR
+{
+	UP = 0,
+	DOWN,
+	LEFT,
+	RIGHT,
 };
 
 #define RENDER_BUFFER_WIDTH	60

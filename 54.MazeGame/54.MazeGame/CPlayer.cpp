@@ -8,6 +8,9 @@ CPlayer::CPlayer() :
 	m_fSpeed(10.f)
 	, m_fX(0.f)
 	, m_fY(0.f)
+	,m_iBombCount(0)
+	,m_iPower(3)
+	,m_iMaxBombCount(3)
 {
 }
 
@@ -151,9 +154,25 @@ void CPlayer::Update(float _fDeltaTime)
 
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
+	
+		if (m_iBombCount < m_iMaxBombCount && pMaze->GetBlock(m_tPos) != BLOCK::BOMB)
+		{
+			++m_iBombCount;
+			//CBomb* pBomb = CObjectManager::GetInst()->CreateObject<CBomb>(m_tPos);
+			CBomb* pBomb = CObjectManager::GetInst()->CreateObjcet<CBomb>(m_tPos);
+
+			pBomb->SetPower(m_iPower);
+
+			pMaze->SetBlock(m_tPos, BLOCK::BOMB);
+
+			pBomb->SetBombCallBack(this, &CPlayer::BombCallBack);
+			
 		
-		//CBomb* pBomb = CObjectManager::GetInst()->CreateObject<CBomb>(m_tPos);
-		CBomb* pBomb = CObjectManager::GetInst()->CreateObjcet<CBomb>(m_tPos);
+		}
+		
+		
+	
+		
 		
 		//pBomb->SetBombCallBack(this, &CPlayer::BombCallBack);
 	}
@@ -173,6 +192,6 @@ void CPlayer::Render(char* _pBuffer)
 
 void CPlayer::BombCallBack(CBomb* _pBomb)
 {
-	//∆¯≈∫¿Ã≈Õ†∫¥Ÿ 
+	--m_iBombCount;
 
 }
